@@ -14,7 +14,7 @@
         <TargetCommonOption>
           <Device>STM32F103ZE</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F1xx_DFP.2.0.0</PackID>
+          <PackID>Keil.STM32F1xx_DFP.1.0.5</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IROM(0x08000000,0x80000) IRAM(0x20000000,0x10000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -147,13 +147,13 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>11</TargetSelection>
+          <TargetSelection>6</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
-            <InitializationFile></InitializationFile>
+            <InitializationFile>..\debug.ini</InitializationFile>
           </SimDlls>
           <TargetDlls>
             <CpuDll></CpuDll>
@@ -161,7 +161,7 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile></InitializationFile>
-            <Driver>STLink\ST-LINKIII-KEIL_SWO.dll</Driver>
+            <Driver>Segger\JL2CM3.dll</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
@@ -347,7 +347,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>3</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>0</OneElfS>
@@ -497,54 +497,6 @@
               <FilePath>..\HARDWARE\DCMotor\DCMotor.c</FilePath>
             </File>
             <File>
-              <FileName>NTCResitor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\NTCResister\NTCResitor.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds>
-                  <Cads>
-                    <interw>2</interw>
-                    <Optim>0</Optim>
-                    <oTime>2</oTime>
-                    <SplitLS>2</SplitLS>
-                    <OneElfS>2</OneElfS>
-                    <Strict>2</Strict>
-                    <EnumInt>2</EnumInt>
-                    <PlainCh>2</PlainCh>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <wLevel>2</wLevel>
-                    <uThumb>2</uThumb>
-                    <uSurpInc>2</uSurpInc>
-                    <uC99>2</uC99>
-                    <useXO>2</useXO>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Cads>
-                </FileArmAds>
-              </FileOption>
-            </File>
-            <File>
               <FileName>PhSensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\PhotoelectricSensor\PhSensor.c</FilePath>
@@ -577,7 +529,12 @@
             <File>
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\HARDWARE\NTCResister\adc.c</FilePath>
+              <FilePath>..\HARDWARE\NTCResistor\adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>NTCResistor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\NTCResistor\NTCResistor.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -658,6 +615,11 @@
               <FileName>stm32f10x_iwdg.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\FWLIB\STM32F10x_FWLib\src\stm32f10x_iwdg.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\FWLIB\STM32F10x_FWLib\src\stm32f10x_dma.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -783,11 +745,6 @@
           <GroupName>Logic</GroupName>
           <Files>
             <File>
-              <FileName>calibration.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Logic\calibration.c</FilePath>
-            </File>
-            <File>
               <FileName>managerment.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Logic\managerment.c</FilePath>
@@ -797,80 +754,50 @@
               <FileType>1</FileType>
               <FilePath>..\Logic\project.c</FilePath>
             </File>
-            <File>
-              <FileName>purge.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Logic\purge.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>UILogic</GroupName>
           <Files>
             <File>
-              <FileName>actionPage.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\UILogic\actionPage.c</FilePath>
-            </File>
-            <File>
-              <FileName>backflowPage.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\UILogic\backflowPage.c</FilePath>
-            </File>
-            <File>
-              <FileName>calibrationPage.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\UILogic\calibrationPage.c</FilePath>
-            </File>
-            <File>
-              <FileName>informationPage.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\UILogic\informationPage.c</FilePath>
-            </File>
-            <File>
               <FileName>mainPage.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\UILogic\mainPage.c</FilePath>
             </File>
             <File>
-              <FileName>pausePage.c</FileName>
+              <FileName>manualPage.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\UILogic\pausePage.c</FilePath>
+              <FilePath>..\UILogic\manualPage.c</FilePath>
             </File>
             <File>
-              <FileName>projectEditPage.c</FileName>
+              <FileName>parameterPage.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\UILogic\projectEditPage.c</FilePath>
+              <FilePath>..\UILogic\parameterPage.c</FilePath>
             </File>
             <File>
-              <FileName>projectPage.c</FileName>
+              <FileName>inputPage.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\UILogic\projectPage.c</FilePath>
+              <FilePath>..\UILogic\inputPage.c</FilePath>
             </File>
             <File>
-              <FileName>purgePage.c</FileName>
+              <FileName>temperaturePage.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\UILogic\purgePage.c</FilePath>
+              <FilePath>..\UILogic\temperaturePage.c</FilePath>
             </File>
             <File>
-              <FileName>runningPage.c</FileName>
+              <FileName>testPage.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\UILogic\runningPage.c</FilePath>
+              <FilePath>..\UILogic\testPage.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>PID</GroupName>
+          <Files>
             <File>
-              <FileName>selectPumpPage.c</FileName>
+              <FileName>PID.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\UILogic\selectPumpPage.c</FilePath>
-            </File>
-            <File>
-              <FileName>tips1Page.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\UILogic\tips1Page.c</FilePath>
-            </File>
-            <File>
-              <FileName>tips2Page.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\UILogic\tips2Page.c</FilePath>
+              <FilePath>..\PID\PID.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -6,766 +6,891 @@ extern "C" {
 #include "managerment.h"
 #include "CPrintf.h"
 #include "stdio.h"
-
+#include "stdint.h"
+	
 #include "../HARDWARE/DCMotor/DCMotor.h"
 #include "../HARDWARE/StepMotor/StepMotor.h"
 #include "../HARDWARE/Beep/beep.h"
-
+#include "../HARDWARE/NTCResistor/NTCResistor.h"
+#include "../RelayMOS/RelayMOS.h"
+#include "LED/led.h"
+	
+/* Scheduler includes. */
 #include "FreeRTOS.h"
 #include "task.h"
+#include "timers.h"
 
-#include "main.h"
-    
-/************************************************************************/
-/* 校准页面下拉列表字符串                                             */
-/************************************************************************/
-const char caliPumpMenuText[8][3] = {
-	"1",
-	"2",
-	"3",
-	"4",
-	"5",
-	"6",
-	"7",
-	"8",
-};
-
-/************************************************************************/
-/* 动作编辑页面下拉列表字符串                                             */
-/************************************************************************/
-const char actionPumpMenuText[9][3] = {
-	"1",
-	"2",
-	"3",
-	"4",
-	"5",
-	"6",
-	"7",
-	"8",
-	"0",
-};
-
-const char actionTipsMenuText[3][9] = {
-	"None",
-	"Sample",
-	"Membrane",
-};
-const char actionTipsMenuTextCh[3][5] = {
-	"无",
-	"样本",
-	"膜条",
-};
-
-const char actionVoiceMenuText[4][7] = {
-	"None",
-	"Short",
-	"Middle",
-	"Long",
-};
-const char actionVoiceMenuTextCh[4][3] = {
-	"无",
-	"短",
-	"中",
-	"长",
-};
-
-const char actionSpeedMenuText[3][7] = {
-	"Slow",
-	"Middle",
-	"Fast",
-};
-const char actionSpeedMenuTextCh[3][5] = {
-	"慢速",
-	"中速",
-	"快速",
-};
-
-//char actSpeedMenuTextCh[3][5] = {
-//	"慢速",
-//	"中速",
-//	"快速",
-//};
-
-/************************************************************************/
-/* 信息页面下拉列表字符串                                             */
-/************************************************************************/
-const char langMenuText[2][8] = {
-	"English",
-	"Chinese",
-};
-const char langMenuTextCh[2][5] = {
-	"英文",
-	"中文",
-};
-
-
-//定义12个项目
-//Project_TypeDef project[PROJECT_COUNT];
-Project_TypeDef project[1];
-
-
-
-/******************************************************************************************************/
-
-//灌注管道
-void fillTube(void)
+//夹紧
+//action : 0,夹紧松开; !=0,夹紧
+//stopFlag : 0,继续动作; !=0,主动退出动作
+void Clamp(uint8_t action, uint8_t *pStopFlag)
 {
-	uint16 i = 0;
-	uint8_t relCoord;
-
-	//提示是否灌注管道
-	pProjectMan->tipsButton = TIPS_NONE;
-	SetScreen(TIPS2PAGE_INDEX);//跳转到提示2页面
-	if(pProjectMan->lang == 0)
-		SetTextValue(TIPS2PAGE_INDEX, TIPS2_TIPS_EDIT, (uint8_t*)"Whether fill the tube?");
-	else
-		SetTextValue(TIPS2PAGE_INDEX, TIPS2_TIPS_EDIT, (uint8_t*)"是否灌注管道？");
-
-	beepAlarm(1);
-	while(pProjectMan->tipsButton == TIPS_NONE);
-		
-	if(pProjectMan->tipsButton == TIPS_CANCEL)
+	uint8_t flag1, flag2;
+	PhSensorEnum_TypeDef clamp1Sensor, clamp2Sensor;
+	Direction_TypeDef dir;
+	
+	if(action)
 	{
-		pProjectMan->tipsButton = TIPS_NONE;
-		SetScreen(RUNNINGPAGE_INDEX);//跳转到运行页面
-		return;
+		dir = CW;
+		clamp1Sensor = CLAMP1_SENSOR_L;
+		clamp2Sensor = CLAMP2_SENSOR_L;
 	}
-	pProjectMan->tipsButton = TIPS_NONE;
-
-	//状态显示灌注管道中
-	if(pProjectMan->lang == 0)
-		SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"In filling tube……");
 	else
-		SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"灌注管道中……");
-
-	SetScreen(SELECTPUMPPAGE_INDEX);//跳转到泵选择页面
-	BatchBegin(SELECTPUMPPAGE_INDEX);//更新泵选择页面控件状态
-	BatchSetButtonValue(PUMPSEL_PUMP1_BUTTON, pProjectMan->pumpSelPumpSel&PUMP1_MASK);
-	BatchSetButtonValue(PUMPSEL_PUMP2_BUTTON, pProjectMan->pumpSelPumpSel&PUMP2_MASK);
-	BatchSetButtonValue(PUMPSEL_PUMP3_BUTTON, pProjectMan->pumpSelPumpSel&PUMP3_MASK);
-	BatchSetButtonValue(PUMPSEL_PUMP4_BUTTON, pProjectMan->pumpSelPumpSel&PUMP4_MASK);
-	BatchSetButtonValue(PUMPSEL_PUMP5_BUTTON, pProjectMan->pumpSelPumpSel&PUMP5_MASK);
-	BatchSetButtonValue(PUMPSEL_PUMP6_BUTTON, pProjectMan->pumpSelPumpSel&PUMP6_MASK);
-	BatchSetButtonValue(PUMPSEL_PUMP7_BUTTON, pProjectMan->pumpSelPumpSel&PUMP7_MASK);
-	BatchSetButtonValue(PUMPSEL_PUMP8_BUTTON, pProjectMan->pumpSelPumpSel&PUMP8_MASK);
-	BatchEnd();
-
-	beepAlarm(1);
-	while(pProjectMan->tipsButton == TIPS_NONE); //等待泵选择完成
-		
-	pProjectMan->tipsButton = TIPS_NONE;
-	SetScreen(RUNNINGPAGE_INDEX);//跳转到运行页面
-
-	if(pProjectMan->pumpSelPumpSel == 0x00)
-		return;
-
-	//回原点
-	//pStepMotor->Home();
-
-	//将手动点回原位
-	relCoord = StepMotor_Abs2Rel(STEPMOTOR_MAIN, AbsCoordinate[9]);
-	StepMotor_RelativePosition(STEPMOTOR_MAIN, relCoord, AbsCoordinate[9]); //AbsCoordinate[9]为手动点
-
-	//提示将废液槽置于槽板号1的位置
-	SetScreen(TIPS1PAGE_INDEX);//跳转到提示1页面
-	if(pProjectMan->lang == 0)
-		SetTextValue(TIPS1PAGE_INDEX, TIPS1_TIPS_EDIT, (uint8_t*)"Please place the WASTE TANK in the Plate1");
-	else
-		SetTextValue(TIPS1PAGE_INDEX, TIPS1_TIPS_EDIT, (uint8_t*)"请把废液槽置于板号1位置");
-	
-	beepAlarm(1);
-	while(pProjectMan->tipsButton == TIPS_NONE);
-		
-	pProjectMan->tipsButton = TIPS_NONE;
-	SetScreen(RUNNINGPAGE_INDEX);//跳转到运行页面
-	
-	//灌注要灌注的管道
-	//pStepMotor->offset = STEPMOTOR_PUMP_OFFSET;
-	pStepMotor->offset = pProjectMan->posCali2;
-	for(i=0;i<8;i++)
 	{
-		if(pProjectMan->pumpSelPumpSel & (0x01<<i))
+		dir = CCW;
+		clamp1Sensor = CLAMP1_SENSOR_R;
+		clamp2Sensor = CLAMP2_SENSOR_R;
+	}
+	
+	DCMotor_Run(CLAMP1_MOTOR, dir, 100);
+	DCMotor_Run(CLAMP2_MOTOR, dir, 100);
+	flag1 = 0;
+	flag2 = 0;
+	while(1)
+	{
+		PhSensor_SingleScan(clamp1Sensor);
+		if((!flag1 && (!PhSensor_SingleCheck(clamp1Sensor))) || *pStopFlag)
 		{
-			//将废液槽转到对应的泵位置
-			relCoord = StepMotor_Abs2Rel(STEPMOTOR_MAIN, AbsCoordinate[i]);
-			StepMotor_RelativePosition(STEPMOTOR_MAIN, relCoord, AbsCoordinate[9]); //AbsCoordinate[9]为废液槽
-			
-			vTaskDelay(125);
+			DCMotor_Stop(CLAMP1_MOTOR);
+			flag1 = 1;
+		}
+		PhSensor_SingleScan(clamp2Sensor);
+		if((!flag2 && (!PhSensor_SingleCheck(clamp2Sensor))) || *pStopFlag)
+		{
+			DCMotor_Stop(CLAMP2_MOTOR);
+			flag2 = 1;
+		}
+		if(flag1 && flag2)
+			break;
+		
+		vTaskDelay(5);
+	}
+}
 
-            DCMotor_Run((DCMotorEnum_TypeDef)i, CW, 10);			
-			vTaskDelay(380);			
-			DCMotor_Stop((DCMotorEnum_TypeDef)i);
+//夹紧1
+//action : 0,夹紧松开; !=0,夹紧
+//stopFlag : 0,继续动作; !=0,主动退出动作
+void Clamp1(uint8_t action, uint8_t *pStopFlag)
+{
+	PhSensorEnum_TypeDef sensor;
+	Direction_TypeDef dir;
+	
+	if(action)
+	{
+		dir = CW;
+		sensor = CLAMP1_SENSOR_L;
+	}
+	else
+	{
+		dir = CCW;
+		sensor = CLAMP1_SENSOR_R;
+	}
+	
+	PhSensor_SingleScan(sensor);
+	if(!PhSensor_SingleCheck(sensor))
+		return;
+	
+	DCMotor_Run(CLAMP1_MOTOR, dir, 100);
+	while(1)
+	{
+		PhSensor_SingleScan(sensor);
+		if((!PhSensor_SingleCheck(sensor)) || *pStopFlag)
+		{
+			vTaskDelay(80);
+			DCMotor_Stop(CLAMP1_MOTOR);
+			break;
+		}
+		
+		vTaskDelay(5);
+	}
+}
 
-			while(1)
+//夹紧2
+//action : 0,夹紧松开; !=0,夹紧
+//stopFlag : 0,继续动作; !=0,主动退出动作
+void Clamp2(uint8_t action, uint8_t *pStopFlag)
+{
+	PhSensorEnum_TypeDef sensor;
+	Direction_TypeDef dir;
+	
+	if(action)
+	{
+		dir = CW;
+		sensor = CLAMP2_SENSOR_L;
+	}
+	else
+	{
+		dir = CCW;
+		sensor = CLAMP2_SENSOR_R;
+	}
+	
+	PhSensor_SingleScan(sensor);
+	if(!PhSensor_SingleCheck(sensor))
+		return;
+	
+	DCMotor_Run(CLAMP2_MOTOR, dir, 100);
+	while(1)
+	{
+		PhSensor_SingleScan(sensor);
+		if((!PhSensor_SingleCheck(sensor)) || *pStopFlag)
+		{
+			vTaskDelay(80);
+			DCMotor_Stop(CLAMP2_MOTOR);
+			break;
+		}
+		
+		vTaskDelay(5);
+	}
+}
+
+//切断
+//action : 0,切断松开; !=0,切断
+//stopFlag : 0,继续动作; !=0,主动退出动作
+void Cutoff(uint8_t action, uint8_t *pStopFlag)
+{
+	uint8_t flag1, flag2;
+	flag1 = 0;
+	flag2 = 0;
+	
+#if 0	
+	if(action)//切断
+	{
+		DCMotor_Run(CUTOFF1_MOTOR, CW, 100);
+		DCMotor_Run(CUTOFF2_MOTOR, CW, 100);
+		while(1)
+		{
+			PhSensor_SingleScan(CUTOFF1_SENSOR_L);
+			if((!flag1 && (PhSensor_SingleCheck(CUTOFF1_SENSOR_L))) || *pStopFlag)//这个传感器特别一点
 			{
-				//提示是否继续灌注管道
-				SetScreen(TIPS2PAGE_INDEX);//跳转到提示2页面
-				if(pProjectMan->lang == 0)
-					SetTextValue(TIPS2PAGE_INDEX, TIPS2_TIPS_EDIT, (uint8_t*)"Whether continue fill the tube?");
-				else
-					SetTextValue(TIPS2PAGE_INDEX, TIPS2_TIPS_EDIT, (uint8_t*)"是否继续灌注管道？");
+				DCMotor_Stop(CUTOFF1_MOTOR);
+				flag1 = 1;
+			}
+			PhSensor_SingleScan(CUTOFF2_SENSOR_L);
+			if((!flag2 && (!PhSensor_SingleCheck(CUTOFF2_SENSOR_L))) || *pStopFlag)
+			{
+				DCMotor_Stop(CUTOFF2_MOTOR);
+				flag2 = 1;
+			}
+			if(flag1 && flag2)
+				break;
+			
+			vTaskDelay(5);
+		}
+	}
+	else//切断松开
+	{
+		DCMotor_Run(CUTOFF1_MOTOR, CCW, 100);
+		DCMotor_Run(CUTOFF2_MOTOR, CCW, 100);
+		while(1)
+		{
+//			PhSensor_SingleScan(CUTOFF1_SENSOR_R);
+//			if((!flag1 && (!PhSensor_SingleCheck(CUTOFF1_SENSOR_R))) || *pStopFlag)
+//			{
+//				DCMotor_Stop(CUTOFF1_MOTOR);
+//				flag1 = 1;
+//			}
+			PhSensor_SingleScan(CUTOFF2_SENSOR_R);
+			if((!flag2 && (!PhSensor_SingleCheck(CUTOFF2_SENSOR_R))) || *pStopFlag)
+			{
+				DCMotor_Stop(CUTOFF2_MOTOR);
+				flag2 = 1;
 				
-				beepAlarm(1);
-				while(pProjectMan->tipsButton == TIPS_NONE);
-					
-				SetScreen(RUNNINGPAGE_INDEX);//跳转到运行页面
-				if(pProjectMan->tipsButton == TIPS_CANCEL)
-				{
-					pProjectMan->tipsButton = TIPS_NONE;
-					break;	
-				}
-				else
-				{
-					pProjectMan->tipsButton = TIPS_NONE;
-					//继续灌注管道
-					DCMotor_Run((DCMotorEnum_TypeDef)i, CW, 10);			
-                    vTaskDelay(125);			
-                    DCMotor_Stop((DCMotorEnum_TypeDef)i);
-				}
+				DCMotor_Stop(CUTOFF1_MOTOR);
+				flag1 = 1;
 			}
-
-			vTaskDelay(255);
-		}
-	}
-	//pStepMotor->offset = STEPMOTOR_OFFSET;
-	pStepMotor->offset = pProjectMan->posCali1;
-	
-	//吸取废液
-	wasteFluidAbsorb();
-
-	//将废液槽转到手动点位置
-	relCoord = StepMotor_Abs2Rel(STEPMOTOR_MAIN, AbsCoordinate[9]);
-	StepMotor_RelativePosition(STEPMOTOR_MAIN, relCoord, AbsCoordinate[9]); //AbsCoordinate[9]为废液槽
-
-	//提示移动废液槽
-	SetScreen(TIPS1PAGE_INDEX);//跳转到提示1页面
-	if(pProjectMan->lang == 0)
-		SetTextValue(TIPS1PAGE_INDEX, TIPS1_TIPS_EDIT, (uint8_t*)"Please take away the Waste Tank");
-	else
-		SetTextValue(TIPS1PAGE_INDEX, TIPS1_TIPS_EDIT, (uint8_t*)"请移走废液槽");
-	
-	beepAlarm(1);
-	while(pProjectMan->tipsButton == TIPS_NONE);
-		
-	SetScreen(RUNNINGPAGE_INDEX);//跳转到运行页面
-	pProjectMan->tipsButton = TIPS_NONE;
-
-	//清状态显示
-	SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"");
-}
-
-//放置板卡
-void placePlate(void)
-{
-	uint8_t startPlate, endPlate;
-	uint8_t relCoord;
-	uint8_t str[50];
-	uint16_t i;
-	startPlate = (pProjectMan->startTank-1)/TANK_PER_PLATE+1;
-	endPlate = (pProjectMan->endTank-1)/TANK_PER_PLATE+1;
-	
-	//状态显示放置槽板中
-	if(pProjectMan->lang == 0)
-		SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"In placing Plate……");
-	else
-		SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"放置槽板中……");
-
-	//for(i=startPlate;i<=endPlate;i++)
-	for(i=endPlate;i>=startPlate;i--)
-	{
-		//将对应槽板转到手动点
-		relCoord = StepMotor_Abs2Rel(STEPMOTOR_MAIN, AbsCoordinate[9]);	
-		StepMotor_RelativePosition(STEPMOTOR_MAIN, relCoord, TANK_PER_PLATE*(i-1)+3);
-
-		//提示放置槽板
-		SetScreen(TIPS1PAGE_INDEX);//跳转到提示1页面
-		if(pProjectMan->lang == 0)
-			sprintf((char*)str, "Please place the PLATE in the Plate%d", i);
-		else
-			sprintf((char*)str, "请将槽板置于【板号%d】位置", i);
-		SetTextValue(TIPS1PAGE_INDEX, TIPS1_TIPS_EDIT, (uint8_t*)str);
-
-		beepAlarm(1);
-		while(pProjectMan->tipsButton == TIPS_NONE);
 			
-		SetScreen(RUNNINGPAGE_INDEX);//跳转到运行页面
-		pProjectMan->tipsButton = TIPS_NONE;		
-	}
-
-	//清状态显示
-	SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"");
-
-	//SetScreen(RUNNINGPAGE_INDEX);//跳转到运行页面	
-}
-
-//吸液
-void imbibition(void)
-{
-	uint16_t i, j;
-	uint8_t relCoord;
-	uint16_t delayTime;
-
-	if(pProjectMan->pCurRunningAction->imbiAmount)//吸液量大于0
+			if(flag1 && flag2)
+				break;
+			
+			vTaskDelay(5);
+		}
+	}//if(action)
+	
+#else
+	
+	if(action)//切断
 	{
-		//状态显示吸液中
-		if(pProjectMan->lang == 0)
-			SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"In imbibing……");
-		else
-			SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"吸液中……");
-
-		//启动真空泵
-		//pDCMotor->SetCMD(PUMP_VACUUM, ENABLE);
-        DCMotor_Run(PUMP_VACUUM, CW, 100);
-		//松开夹管阀
-		//pDCMotor->SetSpeed(PUMP_PINCH, 0);
-        DCMotor_Run(PUMP_PINCH, CW, 0);
-
-		//延时，抽空废液瓶的空气形成气压差
-		vTaskDelay(255*6);
-
-		//for(i=pProjectMan->startTank;i<=pProjectMan->endTank;i++)
-		for(i=pProjectMan->endTank;i>=pProjectMan->startTank;i--)
+		DCMotor_Run(CUTOFF1_MOTOR, CW, 100);
+		DCMotor_Run(CUTOFF2_MOTOR, CW, 100);
+		while((flag1 != 2) || (flag2 != 2))
 		{
-			//更新吸液编辑框内容为当前槽
-			SetTextValueInt32(RUNNINGPAGE_INDEX, RUNNING_IMBITANK_EDIT, i);			
-
-			//将对应槽转到吸液口位置
-			relCoord = StepMotor_Abs2Rel(STEPMOTOR_MAIN, AbsCoordinate[8]);	
-			StepMotor_RelativePosition(STEPMOTOR_MAIN, relCoord, i);
-
-			//放下废液口
-			DCMotor_WastePump_SetPos(DOWN);
-			//cDebug("DOWN\n");
-			
-			//延时对应时间
-			delayTime = pProjectMan->pCurRunningAction->imbiAmount;
-			for(j=0;j<delayTime;j++)
-				vTaskDelay(167);
-
-			//提起废液口
-			DCMotor_WastePump_SetPos(UP);
-			//cDebug("UP\n");	
-		}
-		
-		//延时，吸取剩下的液体
-		vTaskDelay(255*6);
-
-		//关闭夹管阀
-		//pDCMotor->SetSpeed(PUMP_PINCH, 100);
-        DCMotor_Run(PUMP_PINCH, CW, 100);
-		//停止真空泵
-		//pDCMotor->SetCMD(PUMP_VACUUM, DISABLE);
-        DCMotor_Run(PUMP_VACUUM, CW, 0);
-		
-		//更新吸液编辑框内容为0
-		SetTextValueInt32(RUNNINGPAGE_INDEX, RUNNING_IMBITANK_EDIT, 0);		
-	}
-
-	//清状态显示
-	SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"");	
-}
-
-//动作提示
-void hint(void)
-{
-	uint16_t i;
-	uint8_t relCoord;
-	uint8_t str[50];
-
-	if(pProjectMan->pCurRunningAction->tips != NO_TIPS)//有提示
-	{
-		//状态显示吸液中
-		if(pProjectMan->lang == 0)
-			SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"In hinting……");
-		else
-			SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"提示中……");
-		
-		//for(i=pProjectMan->startTank;i<=pProjectMan->endTank;i++)
-		for(i=pProjectMan->endTank;i>=pProjectMan->startTank;i--)
-		{	
-			//将对应槽转到手动点位置
-			relCoord = StepMotor_Abs2Rel(STEPMOTOR_MAIN, AbsCoordinate[9]);	
-			StepMotor_RelativePosition(STEPMOTOR_MAIN, relCoord, i);
-			
-			//提示放置样品或膜条
-			SetScreen(TIPS1PAGE_INDEX);//跳转到提示1页面
-			if(pProjectMan->pCurRunningAction->tips == SAMPLE_TIPS)
+			if(*pStopFlag)
 			{
-				if(pProjectMan->lang == 0)
-					sprintf((char*)str, "Please place the SAMPLE in the Tank%d", i);
-				else
-					sprintf((char*)str, "请将【样本】置于【槽号%d】位置", i);
-				SetTextValue(TIPS1PAGE_INDEX, TIPS1_TIPS_EDIT, (uint8_t*)str);				
+				DCMotor_Stop(CUTOFF1_MOTOR);
+				DCMotor_Stop(CUTOFF2_MOTOR);
+
+				if( xTimerIsTimerActive( pProjectMan->xTimerUser[0] ) == pdTRUE )
+					xTimerStop( pProjectMan->xTimerUser[0], 0);
+				if( xTimerIsTimerActive( pProjectMan->xTimerUser[1] ) == pdTRUE )
+					xTimerStop( pProjectMan->xTimerUser[1], 0);
+				break;
 			}
-			else
-			{
-				if(pProjectMan->lang == 0)
-					sprintf((char*)str, "Please place the MEMBRANE in the Tank%d", i);
-				else
-					sprintf((char*)str, "请将【膜条】置于【槽号%d】位置", i);
-				SetTextValue(TIPS1PAGE_INDEX, TIPS1_TIPS_EDIT, (uint8_t*)str);
-			}
-
-			while(pProjectMan->tipsButton == TIPS_NONE)
-				beepAlarm(pProjectMan->pCurRunningAction->voice+1);
-
-			SetScreen(RUNNINGPAGE_INDEX);//跳转到运行页面
-			pProjectMan->tipsButton = TIPS_NONE;
-		}	
-	}
-
-	//清状态显示
-	SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"");
-	SetScreen(RUNNINGPAGE_INDEX);//跳转到运行页面	
-}
-
-//加注
-void adding(void)
-{
-	uint8_t relCoord, times;
-	//uint8_t str[50];
-	uint16_t i, j;
-	float time;
-
-	if(pProjectMan->pCurRunningAction->pump != 8)//有选择泵，编号8为0，表示无泵
-	{
-		//状态显示吸液中
-		if(pProjectMan->lang == 0)
-			SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"In adding……");
-		else
-			SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"加注中……");
-
-		//更新泵辑框内容为当前选择的泵编号
-		SetTextValueInt32(RUNNINGPAGE_INDEX, RUNNING_PUMP_EDIT, pProjectMan->pCurRunningAction->pump+1);		
-
-		//for(i=pProjectMan->startTank;i<=pProjectMan->endTank;i++)
-		//pStepMotor->offset = STEPMOTOR_PUMP_OFFSET;
-		pStepMotor->offset = pProjectMan->posCali2;
-		for(i=pProjectMan->endTank;i>=pProjectMan->startTank;i--)
-		{
-			//更新加注编辑框内容为当前槽
-			SetTextValueInt32(RUNNINGPAGE_INDEX, RUNNING_ADDTANK_EDIT, i);			
-
-			//将对应槽转到吸液口位置
-			relCoord = StepMotor_Abs2Rel(STEPMOTOR_MAIN, AbsCoordinate[pProjectMan->pCurRunningAction->pump]);	
-			StepMotor_RelativePosition(STEPMOTOR_MAIN, relCoord, i);
 			
-			vTaskDelay(6000);
-
-			//蠕动泵加注
-			times = pProjectMan->pCurRunningAction->addAmount;
-			time = pProjectMan->pCaliPumpPara[pProjectMan->pCurRunningAction->pump];
-			//SetTextValueInt32(RUNNINGPAGE_INDEX, RUNNING_IMBITANK_EDIT, pProjectMan->pCurRunningAction->addAmount);
-			//SetTextValueInt32(RUNNINGPAGE_INDEX, RUNNING_IMBITANK_EDIT, 10*time);
-			//cDebug("adding: %d mL\n", pProjectMan->pCurRunningAction->addAmount);
-			
-            //pDCMotor->SetCMD((DCMotorEnum_TypeDef)pProjectMan->pCurRunningAction->pump, ENABLE);
-            DCMotor_Run((DCMotorEnum_TypeDef)pProjectMan->pCurRunningAction->pump, CW, 10);
-			for(j=0;j<times;j++)
-				vTaskDelay(time);	
-			//pDCMotor->SetCMD((DCMotorEnum_TypeDef)pProjectMan->pCurRunningAction->pump, DISABLE);
-			DCMotor_Stop((DCMotorEnum_TypeDef)pProjectMan->pCurRunningAction->pump);
-            
-			vTaskDelay(255);
-		}
-		//pStepMotor->offset = STEPMOTOR_OFFSET;
-		pStepMotor->offset = pProjectMan->posCali1;	
-	}
-
-	//更新加注编辑框内容为0
-	SetTextValueInt32(RUNNINGPAGE_INDEX, RUNNING_ADDTANK_EDIT, 0);
-	//更新泵辑框内容为0
-	SetTextValueInt32(RUNNINGPAGE_INDEX, RUNNING_PUMP_EDIT, 0);
-
-	//清状态显示
-	SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"");	
-}
-
-//孵育
-void incubation(void)
-{
-	if(pProjectMan->pCurRunningAction->shakeTime.hour > 0
-		|| pProjectMan->pCurRunningAction->shakeTime.minute > 0)//孵育时间大于0
-	{
-		//状态显示孵育中
-		if(pProjectMan->lang == 0)
-			SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"In incubating……");
-		else
-			SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"孵育中……");
-
-		//启动RTC
-		StartTimer(RUNNINGPAGE_INDEX, RUNNING_TIME_RTC);
-
-	   	//设置摇动速度
-		switch(pProjectMan->pCurRunningAction->shakeSpeed)
-		{
-			case 0:	 //慢
-				//pStepMotor->SetSpeed(SPEDD_SLOW);
-                StepMotor_SetSpeed(STEPMOTOR_MAIN, SPEDD_SLOW);
-			break;
-			case 1:	 //中
-				//pStepMotor->SetSpeed(SPEDD_MIDDLE);
-                StepMotor_SetSpeed(STEPMOTOR_MAIN, SPEDD_MIDDLE);
-			break;
-			case 2:	 //快
-				//pStepMotor->SetSpeed(SPEDD_FAST);
-                StepMotor_SetSpeed(STEPMOTOR_MAIN, SPEDD_FAST);
-			break;
-			default: //默认
-				//pStepMotor->SetSpeed(SPEDD_SLOW);
-                StepMotor_SetSpeed(STEPMOTOR_MAIN, SPEDD_SLOW);
-			break;
-		}
-
-		//使能暂停 停止按钮
-		SetControlVisiable(RUNNINGPAGE_INDEX, RUNNING_PAUSE_BUTTON, 1);
-		SetControlVisiable(RUNNINGPAGE_INDEX, RUNNING_STOP_BUTTON, 1);
-
-		//转动转盘并等待孵育时间到
-		StepMotor_SetCMD(STEPMOTOR_MAIN, ENABLE);
-
-		while(pProjectMan->RTCTimeout == 0) //等待时间到
-		{
-			//检查是否有暂停
-			if(pProjectMan->exception == EXCEPTION_PAUSE)
+			switch(flag1)
 			{
-				//pProjectMan->exception = EXCEPTION_NONE;
-
-				//暂停RTC
-				PauseTimer(RUNNINGPAGE_INDEX, RUNNING_TIME_RTC);
-
-				//停止并对准槽
-				switch(pProjectMan->pCurRunningAction->shakeSpeed)
-				{
-					case 0:	 //慢
-						StepMotor_StopAndAlign(STEPMOTOR_MAIN, 2);
-					break;
-					case 1:	 //中
-						StepMotor_StopAndAlign(STEPMOTOR_MAIN, 4);
-					break;
-					case 2:	 //快
-						StepMotor_StopAndAlign(STEPMOTOR_MAIN, 7);
-					break;
-					default: //默认
-						StepMotor_StopAndAlign(STEPMOTOR_MAIN, 2);
-					break;
-				}
-				//pStepMotor->StopAndAlign(2);
-
-				//等到恢复
-				while(pProjectMan->exception != EXCEPTION_NONE)
-				{
-					if(pProjectMan->rotateFlag == 1)
+				case 0:
+					PhSensor_SingleScan(CUTOFF1_SENSOR_L);
+					if(PhSensor_SingleCheck(CUTOFF1_SENSOR_L))//这个传感器特别一点
 					{
-						//下一个槽
-						StepMotor_Position(STEPMOTOR_MAIN, CCW, 1);
-						pProjectMan->rotateFlag = 0;
+						flag1 = 1;
+						
+		//				for(i=0;i<SOFTWARETIMER_COUNT;i++)
+		//				{
+		//					if( xTimerIsTimerActive( pProjectMan->xTimerUser[i] ) == pdFALSE )
+		//						xTimerStart( pProjectMan->xTimerUser[i], 0 );
+		//				}
+						
+						//修改定时器周期并启动
+						xTimerChangePeriod( pProjectMan->xTimerUser[0], 300, 0);
+						pProjectMan->timerExpireFlag[0] = 0;
 					}
-				}
-
-				if(pProjectMan->jumpTo == 1) //暂停页面的跳转功能用到
-				{
-					pProjectMan->curLoopTime = pProjectMan->pCurRunningAction->loopTime; //用于退出循环	
-					StepMotor_Home(STEPMOTOR_MAIN);	//回原点
-					//pProjectMan->jumpTo = 0;
-					return;
-				}
-
-				//设置摇动速度
-				switch(pProjectMan->pCurRunningAction->shakeSpeed)
-				{
-					case 0:	 //慢
-						//pStepMotor->SetSpeed(SPEDD_SLOW);
-                        StepMotor_SetSpeed(STEPMOTOR_MAIN, SPEDD_SLOW);
-					break;
-					case 1:	 //中
-						//pStepMotor->SetSpeed(SPEDD_MIDDLE);
-                        StepMotor_SetSpeed(STEPMOTOR_MAIN, SPEDD_MIDDLE);
-					break;
-					case 2:	 //快
-						//pStepMotor->SetSpeed(SPEDD_FAST);
-                        StepMotor_SetSpeed(STEPMOTOR_MAIN, SPEDD_FAST);
-					break;
-					default: //默认
-						//pStepMotor->SetSpeed(SPEDD_SLOW);
-                        StepMotor_SetSpeed(STEPMOTOR_MAIN, SPEDD_SLOW);
-					break;
-				}
-
-				//转动转盘并等待孵育时间到
-				StepMotor_SetCMD(STEPMOTOR_MAIN, ENABLE);
-				pProjectMan->RTCTimeout = 0;
-				//恢复RTC
-				StartTimer(RUNNINGPAGE_INDEX, RUNNING_TIME_RTC);
+				break;
+				case 1:
+					if(pProjectMan->timerExpireFlag[0])
+					{
+						DCMotor_Stop(CUTOFF1_MOTOR);
+						flag1 = 2;
+					}
+				break;
+				default:
+				break;
 			}
-			else if(pProjectMan->exception == EXCEPTION_STOP)
+			
+			switch(flag2)
 			{
-				//pProjectMan->exception = EXCEPTION_NONE;
+				case 0:
+					PhSensor_SingleScan(CUTOFF2_SENSOR_L);
+					if(!PhSensor_SingleCheck(CUTOFF2_SENSOR_L))//这个传感器特别一点
+					{
+						flag2 = 1;
+						
+						//修改定时器周期并启动
+						xTimerChangePeriod( pProjectMan->xTimerUser[1], 380, 0);
+						pProjectMan->timerExpireFlag[1] = 0;
+					}
+				break;
+				case 1:
+					if(pProjectMan->timerExpireFlag[1])
+					{
+						DCMotor_Stop(CUTOFF2_MOTOR);
+						flag2 = 2;
+					}
+				break;
+				default:
+				break;
+			}	
+			
+			vTaskDelay(5);
+		}
+	}
+	else//切断松开
+	{
+		DCMotor_Run(CUTOFF1_MOTOR, CCW, 100);
+		DCMotor_Run(CUTOFF2_MOTOR, CCW, 100);
+		
+		//修改定时器周期并启动
+		xTimerChangePeriod( pProjectMan->xTimerUser[0], 4000/portTICK_PERIOD_MS, 0);
+		pProjectMan->timerExpireFlag[0] = 0;
+		xTimerChangePeriod( pProjectMan->xTimerUser[1], 4000/portTICK_PERIOD_MS, 0);
+		pProjectMan->timerExpireFlag[1] = 0;
+		
+		while((flag1 != 1) || (flag2 != 1))
+		{
+			if(*pStopFlag)
+			{
+				DCMotor_Stop(CUTOFF1_MOTOR);
+				DCMotor_Stop(CUTOFF2_MOTOR);
+				
+				if( xTimerIsTimerActive( pProjectMan->xTimerUser[0] ) == pdTRUE )
+					xTimerStop( pProjectMan->xTimerUser[0], 0);
+				if( xTimerIsTimerActive( pProjectMan->xTimerUser[1] ) == pdTRUE )
+					xTimerStop( pProjectMan->xTimerUser[1], 0);
+				
+				break;
+			}
+			
+			switch(flag1)
+			{
+				case 0:
+					PhSensor_SingleScan(CUTOFF1_SENSOR_R);
+					if((!PhSensor_SingleCheck(CUTOFF1_SENSOR_R)) || pProjectMan->timerExpireFlag[0])
+					{
+						DCMotor_Stop(CUTOFF1_MOTOR);
+						flag1 = 1;
+					}
+				break;
+				default:
+				break;
+			}
+			
+			switch(flag2)
+			{
+				case 0:
+					PhSensor_SingleScan(CUTOFF2_SENSOR_R);
+					if((!PhSensor_SingleCheck(CUTOFF2_SENSOR_R)) || pProjectMan->timerExpireFlag[1])
+					{
+						DCMotor_Stop(CUTOFF2_MOTOR);
+						flag2 = 1;
+					}
+				break;
+				default:
+				break;
+			}
+			
+			vTaskDelay(5);
+		}
+	}//if(action)
+#endif	
+}
 
-				StopTimer(RUNNINGPAGE_INDEX, RUNNING_TIME_RTC);
+//切断1
+//action : 0,切断松开; !=0,切断
+//stopFlag : 0,继续动作; !=0,主动退出动作
+void Cutoff1(uint8_t action, uint8_t *pStopFlag)
+{
+	PhSensorEnum_TypeDef sensor;
+	Direction_TypeDef dir;
+	uint8_t sensorFlag;
+	
+	if(action)
+	{
+		dir = CW;
+		sensor = CUTOFF1_SENSOR_L;
+		
+		PhSensor_SingleScan(sensor);
+		if(PhSensor_SingleCheck(sensor))
+			return;
+	}
+	else
+	{
+		dir = CCW;
+		sensor = CUTOFF1_SENSOR_R;
+		
+		PhSensor_SingleScan(sensor);
+		if(!PhSensor_SingleCheck(sensor))
+			return;
+	}
+	
+	DCMotor_Run(CUTOFF1_MOTOR, dir, 100);
+	while(1)
+	{
+		PhSensor_SingleScan(sensor);
+		if(action)
+			sensorFlag = PhSensor_SingleCheck(sensor);
+		else
+		{
+			//sensorFlag = !PhSensor_SingleCheck(sensor);
+			
+			vTaskDelay(5000);
+			sensorFlag = 1;
+		}
+		
+		if(sensorFlag || *pStopFlag)//这个传感器特别一点
+		{
+			if(action)//刀片轴有点松，切断时要延迟一点再停
+			{
+				vTaskDelay(330);
+			}
+			
+			DCMotor_Stop(CUTOFF1_MOTOR);
+			break;
+		}
+		
+		vTaskDelay(5);
+	}
+}
 
-				//停止并对准槽
-				switch(pProjectMan->pCurRunningAction->shakeSpeed)
-				{
-					case 0:	 //慢
-						StepMotor_StopAndAlign(STEPMOTOR_MAIN, 2);
-					break;
-					case 1:	 //中
-						StepMotor_StopAndAlign(STEPMOTOR_MAIN, 4);
-					break;
-					case 2:	 //快
-						StepMotor_StopAndAlign(STEPMOTOR_MAIN, 7);
-					break;
-					default: //默认
-						StepMotor_StopAndAlign(STEPMOTOR_MAIN, 2);
-					break;
-				}
-				//pStepMotor->StopAndAlign(2);
+//切断2
+//action : 0,切断松开; !=0,切断
+//stopFlag : 0,继续动作; !=0,主动退出动作
+void Cutoff2(uint8_t action, uint8_t *pStopFlag)
+{
+	PhSensorEnum_TypeDef sensor;
+	Direction_TypeDef dir;
 
-				pProjectMan->RTCTimeout = 0;
+	if(action)
+	{
+		dir = CW;
+		sensor = CUTOFF2_SENSOR_L;
+	}
+	else
+	{
+		dir = CCW;
+		sensor = CUTOFF2_SENSOR_R;
+	}
+	
+	PhSensor_SingleScan(sensor);
+	if(!PhSensor_SingleCheck(sensor))
+		return;
+	
+	DCMotor_Run(CUTOFF2_MOTOR, dir, 100);
+	while(1)
+	{
+		PhSensor_SingleScan(sensor);
+		if((!PhSensor_SingleCheck(sensor)) || *pStopFlag)
+		{
+			if(action)//刀片轴有点松，切断时要延迟一点再停
+			{
+				vTaskDelay(380);
+			}
+			DCMotor_Stop(CUTOFF2_MOTOR);
+			break;
+		}
+		
+		vTaskDelay(5);
+	}
+}
 
-				//os_delete_task(TASK_PROJECT);	//删除自己	
+//加热片加热
+//stopFlag : 0,继续动作; !=0,主动退出动作
+void HeatingCutoff(uint8_t *pStopFlag)
+{
+	uint8_t flag1, flag2;
+	flag1 = 0;
+	flag2 = 0;
+	
+	DCMotor_Run(CUTOFF1HEATDCMOTOR1, CW, 100);
+	DCMotor_Run(CUTOFF1HEATDCMOTOR2, CW, 100);
+	DCMotor_Run(CUTOFF2HEATDCMOTOR1, CW, 100);
+	DCMotor_Run(CUTOFF2HEATDCMOTOR2, CW, 100);
+	flag1 = 0;
+	flag2 = 0;
+	while(1)
+	{
+		if((!flag1 && (adcTemp[0].temperature >= pProjectMan->cutoff1Temperature)) || *pStopFlag)
+		{
+			DCMotor_Stop(CUTOFF1HEATDCMOTOR1);
+			DCMotor_Stop(CUTOFF1HEATDCMOTOR2);
+			flag1 = 1;
+		}
+		if((!flag2 && (adcTemp[1].temperature >= pProjectMan->cutoff2Temperature)) || *pStopFlag)
+		{
+			DCMotor_Stop(CUTOFF2HEATDCMOTOR1);
+			DCMotor_Stop(CUTOFF2HEATDCMOTOR2);
+			flag2 = 1;
+		}
+		if(flag1 && flag2)
+			break;
+		
+		if(flag1 && !flag2)
+		{
+			if(adcTemp[0].temperature <= pProjectMan->cutoff1Temperature)
+			{
+				DCMotor_Run(CUTOFF1HEATDCMOTOR1, CW, 100);
+				DCMotor_Run(CUTOFF1HEATDCMOTOR2, CW, 100);
+				flag1 = 0;
 			}
 		}
-		pProjectMan->RTCTimeout = 0;		
-
-		//停止并对准槽
-		switch(pProjectMan->pCurRunningAction->shakeSpeed)
+		else if(!flag1 && flag2)
 		{
-			case 0:	 //慢
-				StepMotor_StopAndAlign(STEPMOTOR_MAIN, 2);
-			break;
-			case 1:	 //中
-				StepMotor_StopAndAlign(STEPMOTOR_MAIN, 4);
-			break;
-			case 2:	 //快
-				StepMotor_StopAndAlign(STEPMOTOR_MAIN, 7);
-			break;
-			default: //默认
-				StepMotor_StopAndAlign(STEPMOTOR_MAIN, 2);
+			if(adcTemp[1].temperature <= pProjectMan->cutoff2Temperature)
+			{
+				DCMotor_Run(CUTOFF2HEATDCMOTOR1, CW, 100);
+				DCMotor_Run(CUTOFF2HEATDCMOTOR2, CW, 100);
+				flag2 = 0;
+			}
+		}
+		
+		vTaskDelay(5);
+	}
+}
+
+//加热片加热
+//stopFlag : 0,继续动作; !=0,主动退出动作
+void HeatingCutoff1(uint8_t *pStopFlag)
+{
+	DCMotor_Run(CUTOFF1HEATDCMOTOR1, CW, 100);
+	DCMotor_Run(CUTOFF1HEATDCMOTOR2, CW, 100);
+	while(1)
+	{
+		if((adcTemp[0].temperature >= pProjectMan->cutoff1Temperature) || *pStopFlag)
+		{
+			DCMotor_Stop(CUTOFF1HEATDCMOTOR1);
+			DCMotor_Stop(CUTOFF1HEATDCMOTOR2);
 			break;
 		}
-
-		//除能暂停 停止按钮
-		SetControlVisiable(RUNNINGPAGE_INDEX, RUNNING_PAUSE_BUTTON, 0);
-		SetControlVisiable(RUNNINGPAGE_INDEX, RUNNING_STOP_BUTTON, 0);
-
-		//结束需要回原点
-		StepMotor_Home(STEPMOTOR_MAIN);	
+		vTaskDelay(5);
 	}
-
-	//清状态显示
-	SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"");	
 }
 
-//执行动作
-void execAction(Action_TypeDef act)
+//加热片加热
+//stopFlag : 0,继续动作; !=0,主动退出动作
+void HeatingCutoff2(uint8_t *pStopFlag)
 {
-	 ;
+	DCMotor_Run(CUTOFF2HEATDCMOTOR1, CW, 100);
+	DCMotor_Run(CUTOFF2HEATDCMOTOR2, CW, 100);
+	while(1)
+	{
+		if((adcTemp[1].temperature >= pProjectMan->cutoff2Temperature) || *pStopFlag)
+		{
+			DCMotor_Stop(CUTOFF2HEATDCMOTOR1);
+			DCMotor_Stop(CUTOFF2HEATDCMOTOR2);
+			break;
+		}
+		vTaskDelay(5);
+	}
 }
 
-/****************************************************************************************************/
+//分离
+//action : 0,分离; !=0,分离闭合
+//stopFlag : 0,继续动作; !=0,主动退出动作
+void Seperation(uint8_t action, uint8_t *pStopFlag)
+{
+	PhSensorEnum_TypeDef sensor;
+	Direction_TypeDef dir;
+	
+	if(action)
+	{
+		dir = CCW;
+		sensor = SAPERATE_SENSOR_L;
+	}
+	else
+	{
+		dir = CW;
+		sensor = SAPERATE_SENSOR_R;
+	}
+	
+	PhSensor_SingleScan(sensor);
+	if(!PhSensor_SingleCheck(sensor))
+		return;
+	
+	DCMotor_Run(SAPERATE_MOTOR, dir, 100);
+	while(1)
+	{
+		PhSensor_SingleScan(sensor);
+		if(!PhSensor_SingleCheck(sensor) || *pStopFlag)
+		{
+			DCMotor_Stop(SAPERATE_MOTOR);
+			break;
+		}
+		vTaskDelay(5);
+	}
+}
+
+//错位
+//action : 0,错位回位; !=0,错位
+//stopFlag : 0,继续动作; !=0,主动退出动作
+void Disposition(uint8_t action, uint8_t *pStopFlag)
+{
+	PhSensorEnum_TypeDef sensor;
+	Direction_TypeDef dir;
+	
+	if(action)
+	{
+		dir = CCW;
+		sensor = DISPOS_SENSOR_L;
+	}
+	else
+	{
+		dir = CW;
+		sensor = DISPOS_SENSOR_R;
+	}
+	
+	PhSensor_SingleScan(sensor);
+	if(!PhSensor_SingleCheck(sensor))
+		return;
+	
+	StepMotor_SetDir(DISPOS_MOTOR, dir);
+	StepMotor_SetSpeed(DISPOS_MOTOR, 9);
+	StepMotor_SetCMD(DISPOS_MOTOR, ENABLE);
+	while(1)
+	{
+		PhSensor_SingleScan(sensor);
+		if(!PhSensor_SingleCheck(sensor) || *pStopFlag)
+		{
+			StepMotor_Stop(DISPOS_MOTOR);
+			break;
+		}
+		vTaskDelay(5);
+	}
+}
+
+//错位一定距离
+//action : 0,错位回位; !=0,错位
+//stopFlag : 0,继续动作; !=0,主动退出动作
+void DispositionDistance(uint8_t action, uint32_t distance, uint8_t *pStopFlag)
+{
+	Direction_TypeDef dir;
+	
+	if(action)
+		dir = CCW;
+	else
+		dir = CW;
+	
+	StepMotor_SetDir(DISPOS_MOTOR, dir);
+	StepMotor_SetSpeed(DISPOS_MOTOR, 9);
+	StepMotor_SetPluse(DISPOS_MOTOR, distance);
+	StepMotor_SetCMD(DISPOS_MOTOR, ENABLE);
+	while(1)
+	{
+		if(!StepMotor_IsStop(DISPOS_MOTOR) || *pStopFlag)
+			break;
+		
+		vTaskDelay(5);
+	}
+}
+
+//熔接加热
+//stopFlag : 0,继续动作; !=0,主动退出动作
+void Heating(uint8_t *pStopFlag)
+{
+	//熔接加热
+	pProjectMan->heating = 1;
+	RELAY = 1;
+	while(1)
+	{
+		if(adcTemp[2].temperature >= pProjectMan->fusingTemperature || *pStopFlag)
+			break;
+		vTaskDelay(5);
+	}
+	RELAY = 0;
+	pProjectMan->heating = 0;
+}
+
+//加热片抬起
+//action : 0,加热片回位; !=0,加热片抬起
+//stopFlag : 0,继续动作; !=0,主动退出动作
+void HeatingUp(uint8_t action, uint8_t *pStopFlag)
+{
+//	PhSensorEnum_TypeDef sensor;
+//	Direction_TypeDef dir;
+//	
+//	if(action)
+//	{
+//		dir = CW;
+//		sensor = HEATING_SENSOR_L;
+//	}
+//	else
+//	{
+//		dir = CCW;
+//		sensor = HEATING_SENSOR_R;
+//	}
+//	
+//	PhSensor_SingleScan(sensor);
+//	if(!PhSensor_SingleCheck(sensor))
+//		return;
+//	
+//	DCMotor_Run(HEATING_MOTOR, dir, 30);
+//	while(1)
+//	{
+//		PhSensor_SingleScan(sensor);
+//		if(!PhSensor_SingleCheck(sensor) || *pStopFlag)
+//		{
+//			if(action)
+//				vTaskDelay(40);			
+//			DCMotor_Stop(HEATING_MOTOR);
+//			break;
+//		}
+//		vTaskDelay(5);
+//	}
+
+	if(action)
+	{
+		DCMotor_Run(HEATING_MOTOR, CW, 30);
+		vTaskDelay(1000);			
+		DCMotor_Stop(HEATING_MOTOR);
+	}
+	else
+	{
+		PhSensor_SingleScan(HEATING_SENSOR_R);
+		if(!PhSensor_SingleCheck(HEATING_SENSOR_R))
+			return;
+		
+		DCMotor_Run(HEATING_MOTOR, CCW, 30);
+		while(1)
+		{
+			PhSensor_SingleScan(HEATING_SENSOR_R);
+			if(!PhSensor_SingleCheck(HEATING_SENSOR_R) || *pStopFlag)
+			{	
+				DCMotor_Stop(HEATING_MOTOR);
+				break;
+			}
+			vTaskDelay(5);
+		}
+	}
+}
+
+//恢复为原始状态
+//stopFlag : 0,继续动作; !=0,主动退出动作
+void ResetOriginStatus(uint8_t *pStopFlag)
+{
+	Seperation(0, pStopFlag); //分离
+	HeatingUp(0, pStopFlag); //加热片回位
+	Disposition(0, pStopFlag); //错位回位
+	Cutoff(1, pStopFlag); //切断，同步回位点，因为切断回位时只用到1个传感器
+	Cutoff(0, pStopFlag); //切断回位
+	Clamp(0, pStopFlag); //夹紧松开
+	Seperation(1, pStopFlag); //分离闭合
+}
+
+//自动运行1个周期
+//stopFlag : 0,继续动作; !=0,主动退出动作
+void AutoRun(uint8_t *pStopFlag)
+{
+	//Clamp(1, pStopFlag); //夹紧
+	pProjectMan->clamp2Flag = 1;
+	Clamp1(1, pStopFlag); //夹紧1夹紧，夹紧2夹紧在另外一个线程
+	while(1)
+	{
+		if(pProjectMan->clamp2Flag)
+			vTaskDelay(5);
+		else
+			break;
+	}
+	
+	//HeatingCutoff(pStopFlag); //切断加热片加热
+	
+	Cutoff(1, pStopFlag); //切断
+//	pProjectMan->cutoff2Flag = 1;
+//	Cutoff1(1, pStopFlag); //切断1切断，切断2切断在另外一个线程
+//	while(1)
+//	{
+//		if(pProjectMan->cutoff2Flag)
+//			vTaskDelay(5);
+//		else
+//			break;
+//	}
+	
+	Seperation(0, pStopFlag); //分离
+	Disposition(1, pStopFlag); //错位
+	Cutoff(0, pStopFlag); //切断回位
+	Heating(pStopFlag); //熔接加热片加热
+	HeatingUp(1, pStopFlag); //加热片抬起
+	vTaskDelay(pProjectMan->fusingTime*1000); //延时
+	HeatingUp(0, pStopFlag); //加热片放下
+	Seperation(1, pStopFlag); //分离闭合
+	vTaskDelay(pProjectMan->jointTime*1000); //延时
+	Clamp(0, pStopFlag); //夹紧松开
+	DispositionDistance(0, 17000, pStopFlag); //错位回来一点
+
+#if 0	
+	Clamp1(1, pStopFlag); //夹紧
+	HeatingCutoff2(pStopFlag); //切断加热片加热
+	Cutoff2(1, pStopFlag); //切断
+	
+	vTaskDelay(5000);
+	//vTaskDelay(5000);
+	
+	Seperation(0, pStopFlag); //分离
+	Cutoff2(0, pStopFlag); //切断
+#endif
+
+#if 0	
+	Clamp2(1, pStopFlag); //夹紧
+	HeatingCutoff1(pStopFlag); //切断加热片加热
+	Cutoff1(1, pStopFlag); //切断
+	
+	vTaskDelay(5000);
+	vTaskDelay(5000);
+	
+	Seperation(0, pStopFlag); //分离
+	Cutoff1(0, pStopFlag); //切断回位
+#endif
+
+}
 
 void ProjectTask(void)
 {
-	uint16_t i;
-	uint32_t rtcTime;
-	pProjectMan->curTank = pProjectMan->startTank;
-	pProjectMan->curLoopTime = 1;
-	pProjectMan->RTCTimeout = 0;
-
-	//清状态显示
-	SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"");
-
-	//等到转盘停止
-	while(StepMotor_IsStop(STEPMOTOR_MAIN));
-
-	//状态显示吸液中
-	if(pProjectMan->lang == 0)
-		SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"In preparing……");
-	else
-		SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"准备中……");
-
-	//回原点
-	StepMotor_Home(STEPMOTOR_MAIN);
-
-	//灌注管道
-	fillTube();
-
-	//放置板卡
-	placePlate();
-
-	//状态显示吸液中
-	if(pProjectMan->lang == 0)
-		SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"Preparation finish!");
-	else
-		SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"准备完成！");
-
-	//执行动作
-	for(i=0;i<ACTIONS_PER_PROJECT;i++)
+	while(1)
 	{
-		if(pProjectMan->jumpTo == 1)
+#if 1	
+		if(pProjectMan->projectStatus&PROJECT_RUNNING)
 		{
-			if(&pProjectMan->pCurRunningProject->action[i] != pProjectMan->pCurRunningAction)
-				continue;
-			else
-				pProjectMan->jumpTo = 0;	
+			switch(pProjectMan->projectStatus&0x7F)
+			{
+				case PROJECT_TEST_CLAMP1CW:
+					Clamp1(1, &(pProjectMan->projectStopFlag));
+				
+					SetButtonValue(TESTPAGE_INDEX, TEST_CLAMP1CW_BUTTON, 0);
+					SetButtonValue(TESTPAGE_INDEX, TEST_CLAMP1CW_BUTTON, 0);
+					//GetControlValue(TESTPAGE_INDEX, TEST_CLAMP1CW_BUTTON);
+					
+				break;
+				case PROJECT_TEST_CLAMP1CCW:
+					Clamp1(0, &(pProjectMan->projectStopFlag));
+					SetButtonValue(TESTPAGE_INDEX, TEST_CLAMP1CCW_BUTTON, 0);
+					SetButtonValue(TESTPAGE_INDEX, TEST_CLAMP1CCW_BUTTON, 0);
+				break;
+				case PROJECT_TEST_CLAMP2CW:
+					Clamp2(1, &(pProjectMan->projectStopFlag));
+					SetButtonValue(TESTPAGE_INDEX, TEST_CLAMP2CW_BUTTON, 0);
+					SetButtonValue(TESTPAGE_INDEX, TEST_CLAMP2CW_BUTTON, 0);
+				break;
+				case PROJECT_TEST_CLAMP2CCW:
+					Clamp2(0, &(pProjectMan->projectStopFlag));
+					SetButtonValue(TESTPAGE_INDEX, TEST_CLAMP2CCW_BUTTON, 0);
+					SetButtonValue(TESTPAGE_INDEX, TEST_CLAMP2CCW_BUTTON, 0);
+				break;
+				case PROJECT_TEST_CUTOFF1CW:
+					Cutoff1(1, &(pProjectMan->projectStopFlag));
+					SetButtonValue(TESTPAGE_INDEX, TEST_CUTOFF1CW_BUTTON, 0);
+					SetButtonValue(TESTPAGE_INDEX, TEST_CUTOFF1CW_BUTTON, 0);
+				break;
+				case PROJECT_TEST_CUTOFF1CCW:
+					Cutoff1(0, &(pProjectMan->projectStopFlag));
+					SetButtonValue(TESTPAGE_INDEX, TEST_CUTOFF1CCW_BUTTON, 0);
+					SetButtonValue(TESTPAGE_INDEX, TEST_CUTOFF1CCW_BUTTON, 0);
+				break;
+				case PROJECT_TEST_CUTOFF2CW:
+					Cutoff2(1, &(pProjectMan->projectStopFlag));
+					SetButtonValue(TESTPAGE_INDEX, TEST_CUTOFF2CW_BUTTON, 0);
+					SetButtonValue(TESTPAGE_INDEX, TEST_CUTOFF2CW_BUTTON, 0);
+				break;
+				case PROJECT_TEST_CUTOFF2CCW:
+					Cutoff2(0, &(pProjectMan->projectStopFlag));
+					SetButtonValue(TESTPAGE_INDEX, TEST_CUTOFF2CCW_BUTTON, 0);
+					SetButtonValue(TESTPAGE_INDEX, TEST_CUTOFF2CCW_BUTTON, 0);
+				break;
+				case PROJECT_TEST_HEATINGUP:
+					HeatingUp(1, &(pProjectMan->projectStopFlag));
+					SetButtonValue(TESTPAGE_INDEX, TEST_HEATINGUP_BUTTON, 0);
+					SetButtonValue(TESTPAGE_INDEX, TEST_HEATINGUP_BUTTON, 0);
+				break;
+				case PROJECT_TEST_HEATINGDOWN:
+					HeatingUp(0, &(pProjectMan->projectStopFlag));
+					SetButtonValue(TESTPAGE_INDEX, TEST_HEATINGDOWN_BUTTON, 0);
+					SetButtonValue(TESTPAGE_INDEX, TEST_HEATINGDOWN_BUTTON, 0);
+				break;
+				case PROJECT_TEST_SEPATATIONCW:
+					Seperation(1, &(pProjectMan->projectStopFlag));
+					SetButtonValue(TESTPAGE_INDEX, TEST_SEPERATECW_BUTTON, 0);
+					SetButtonValue(TESTPAGE_INDEX, TEST_SEPERATECW_BUTTON, 0);
+				break;
+				case PROJECT_TEST_SEPATATIONCCW:
+					Seperation(0, &(pProjectMan->projectStopFlag));
+					SetButtonValue(TESTPAGE_INDEX, TEST_SEPERATECCW_BUTTON, 0);
+					SetButtonValue(TESTPAGE_INDEX, TEST_SEPERATECCW_BUTTON, 0);
+				break;
+				case PROJECT_TEST_DISPOSITIONCW:
+					Disposition(1, &(pProjectMan->projectStopFlag));
+					SetButtonValue(TESTPAGE_INDEX, TEST_DISPOSCW_BUTTON, 0);
+					SetButtonValue(TESTPAGE_INDEX, TEST_DISPOSCW_BUTTON, 0);
+				break;
+				case PROJECT_TEST_DISPOSITIONCCW:
+					Disposition(0, &(pProjectMan->projectStopFlag));
+					SetButtonValue(TESTPAGE_INDEX, TEST_DISPOSCCW_BUTTON, 0);
+					SetButtonValue(TESTPAGE_INDEX, TEST_DISPOSCCW_BUTTON, 0);
+				break;
+				case PROJECT_PARAMETER_RESET:
+					ResetOriginStatus(&(pProjectMan->projectStopFlag));
+					SetButtonValue(PARAMETERPAGE_INDEX, PARAMETER_RESET_BUTTON, 0);
+					SetButtonValue(PARAMETERPAGE_INDEX, PARAMETER_RESET_BUTTON, 0);
+				break;
+				case PROJECT_PARAMETER_AUTO:
+					AutoRun(&(pProjectMan->projectStopFlag));
+					SetButtonValue(PARAMETERPAGE_INDEX, PARAMETER_AUTO_BUTTON, 0);
+					SetButtonValue(PARAMETERPAGE_INDEX, PARAMETER_AUTO_BUTTON, 0);
+				break;
+			}
+			pProjectMan->projectStatus = 0;
+			pProjectMan->projectStopFlag = 0;
 		}
-		pProjectMan->pCurRunningAction = &pProjectMan->pCurRunningProject->action[i];		
-		SetTextValue(RUNNINGPAGE_INDEX, RUNNING_ACTION_EDIT, (uint8_t*)pProjectMan->pCurRunningAction->name);
-		SetTextValueInt32(RUNNINGPAGE_INDEX, RUNNING_PUMP_EDIT, 0);
-		SetTextValueInt32(RUNNINGPAGE_INDEX, RUNNING_ADDTANK_EDIT, 0);
-		SetTextValueInt32(RUNNINGPAGE_INDEX, RUNNING_IMBITANK_EDIT, 0);
-		SetTextValueInt32(RUNNINGPAGE_INDEX, RUNNING_LOOPTIME_EDIT, 1);
-		SetTextValueInt32(RUNNINGPAGE_INDEX, RUNNING_TOTALLOOPTIME_EDIT, pProjectMan->pCurRunningAction->loopTime);
-		rtcTime = pProjectMan->pCurProject->action[i].shakeTime.hour*3600
-					+ pProjectMan->pCurProject->action[i].shakeTime.minute*60;
-		SeTimer(RUNNINGPAGE_INDEX, RUNNING_TIME_RTC, rtcTime);
-
-		for(pProjectMan->curLoopTime=1;pProjectMan->curLoopTime<=pProjectMan->pCurRunningAction->loopTime;pProjectMan->curLoopTime++)
-		{
-			SetTextValueInt32(RUNNINGPAGE_INDEX, RUNNING_LOOPTIME_EDIT, pProjectMan->curLoopTime);
-			
-			//吸液
-			imbibition();
-
-			//动作提示
-			hint();
-
-			//加注
-			adding();
-
-			//孵育
-			incubation();
-		}
-	}
-
-	//状态显示完成
-	if(pProjectMan->lang == 0)
-		SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"Finish!");
-	else
-		SetTextValue(RUNNINGPAGE_INDEX, RUNNING_STATUS_EDIT, (uint8_t*)"完成!");
-	
-	//回原点
-	StepMotor_Home(STEPMOTOR_MAIN);
-
-	//提示动作完成
-	SetScreen(TIPS1PAGE_INDEX);//跳转到提示1页面
-	if(pProjectMan->lang == 0)
-		SetTextValue(TIPS1PAGE_INDEX, TIPS1_TIPS_EDIT, (uint8_t*)"Project has Finish!");
-	else
-		SetTextValue(TIPS1PAGE_INDEX, TIPS1_TIPS_EDIT, (uint8_t*)"项目完成!");
-	
-	beepAlarm(5);
-	while(pProjectMan->tipsButton == TIPS_NONE);
+		else
+			vTaskDelay(10);
+#endif
 		
-	pProjectMan->tipsButton = TIPS_NONE;
-
-	//跳到项目页面
-	SetScreen(PROJECTPAGE_INDEX);	
-    
-    //删除自己
-    vTaskDelete( NULL );
+		LED2Task(); //LED2闪烁指示PROJECT线程正在运行	
+	}
 }
 
 #ifdef __cplusplus

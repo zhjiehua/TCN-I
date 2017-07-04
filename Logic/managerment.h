@@ -5,29 +5,87 @@
 extern "C" {
 #endif
 
-#include "../UILogic/pageCommon.h"
+#include "stdint.h"
 #include "project.h"
+#include "../UILogic/pageCommon.h"
 #include "../HMI/cmd_queue.h"
 #include "../HMI/cmd_process.h"
 #include "../HMI/hmi_user_uart.h"
+#include "../PID/PID.h"
+	
+/* Scheduler includes. */
+#include "FreeRTOS.h"
+#include "task.h"
+#include "timers.h"
 
-typedef enum
-{
-	TIPSSOURCE_NONE,
+#define SOFTWARETIMER_COUNT 2
 
-	//tips2页面
-	TIPSSOURCE_FILLTIPS,
-	TIPSSOURCE_RUNNINGPAUSE,
-	TIPSSOURCE_RUNNINGSTOP,
+//定义EEPROM地址功能
+#define RESET_DEFAULT			0
+#define RESET_DEFAULT_SIZE		4
+#define LANGUAGE_BASEADDR 		8
+#define LANGUAGE_SIZE 			1
+#define CUTOFF1TEMP_BASEADDR	9
+#define CUTOFF1TEMP_SIZE 		4
+#define CUTOFF2TEMP_BASEADDR	13
+#define CUTOFF2TEMP_SIZE 		4
+#define FUSINGTEMP_BASEADDR		17
+#define FUSINGTEMP_SIZE 		4
+#define CUTOFFTIME_BASEADDR		21
+#define CUTOFFTIME_SIZE 		4
+#define FUSINGTIME_BASEADDR		25
+#define FUSINGTIME_SIZE 		4
+#define JOINTTIME_BASEADDR		29
+#define JOINTTIME_SIZE 			4
 
-	//tips1页面
-	TIPSSOURCE_PUTWASTETANK,
-	TIPSSOURCE_GETWASTETANK,
-	TIPSSOURCE_PUTTANK,
-	TIPSSOURCE_GETTANK,
-	TIPSSOURCE_SAMPLE,
-	TIPSSOURCE_MEMBRANCE,
-}TipsSource_TypeDef;
+//定义电机对应功能
+#define CLAMP1_MOTOR		DCMOTOR1	//夹紧1
+#define CLAMP2_MOTOR		DCMOTOR2	//夹紧2
+#define CUTOFF1_MOTOR		DCMOTOR3	//切断1
+#define CUTOFF2_MOTOR		DCMOTOR4	//切断2
+#define	HEATING_MOTOR		DCMOTOR5	//加热片抬起
+#define	SAPERATE_MOTOR		DCMOTOR6	//分离
+#define	DISPOS_MOTOR		0			//错位
+#define CUTOFF1HEATDCMOTOR1 DCMOTOR9	//切断1加热片1
+#define CUTOFF1HEATDCMOTOR2 DCMOTOR10	//切断1加热片2
+#define CUTOFF2HEATDCMOTOR1 DCMOTOR11	//切断2加热片1
+#define CUTOFF2HEATDCMOTOR2 DCMOTOR12	//切断2加热片2
+
+//定义传感器对应功能
+#define CLAMP1_SENSOR_L		PHSENSOR16
+#define CLAMP1_SENSOR_R		PHSENSOR15
+#define CLAMP2_SENSOR_L		PHSENSOR14
+#define CLAMP2_SENSOR_R		PHSENSOR13
+#define CUTOFF1_SENSOR_L	PHSENSOR2
+#define CUTOFF1_SENSOR_R	PHSENSOR1
+#define CUTOFF2_SENSOR_L	PHSENSOR12
+#define CUTOFF2_SENSOR_R	PHSENSOR11
+#define HEATING_SENSOR_L	PHSENSOR4
+#define HEATING_SENSOR_R	PHSENSOR3
+#define SAPERATE_SENSOR_L	PHSENSOR8   //PHSENSOR10暂时检测不到
+#define SAPERATE_SENSOR_R	PHSENSOR9
+#define DISPOS_SENSOR_L		PHSENSOR6
+#define DISPOS_SENSOR_R		PHSENSOR5
+
+//项目程序代号
+#define PROJECT_TEST_CLAMP1CW		1
+#define PROJECT_TEST_CLAMP1CCW		2
+#define PROJECT_TEST_CLAMP2CW		3
+#define PROJECT_TEST_CLAMP2CCW		4
+#define PROJECT_TEST_CUTOFF1CW		5
+#define PROJECT_TEST_CUTOFF1CCW		6
+#define PROJECT_TEST_CUTOFF2CW		7
+#define PROJECT_TEST_CUTOFF2CCW		8
+#define PROJECT_TEST_SEPATATIONCW	9
+#define PROJECT_TEST_SEPATATIONCCW	10
+#define PROJECT_TEST_DISPOSITIONCW	11
+#define PROJECT_TEST_DISPOSITIONCCW	12
+#define PROJECT_TEST_HEATINGUP		13
+#define PROJECT_TEST_HEATINGDOWN	14
+#define PROJECT_PARAMETER_RESET		15
+#define PROJECT_PARAMETER_AUTO		16
+
+#define PROJECT_RUNNING				0x80
 
 typedef enum
 {
@@ -38,94 +96,37 @@ typedef enum
 
 typedef enum
 {
-	EXCEPTION_NONE,
-	EXCEPTION_PAUSE,
-	EXCEPTION_STOP,
-}Exception_TypeDef;
-
-typedef enum
-{
-	RUNNING_NONE,
-	RUNNING_PROJECT,
-	RUNNING_BACKFLOW,
-	RUNNING_PURGE,
-	RUNNING_CALIBRATION,
-	RUNNING_HOME,
-}RunningType_TypeDef;
-
-typedef enum
-{
 	English = 0,
 	Chinese,
 }Language_TypeDef;
-
-typedef enum
-{
-	PROJECTSTATUS_IDLE,
-	PROJECTSTATUS_SELECTPUMP,
-	PROJECTSTATUS_FILLING,
-	PROJECTSTATUS_PLACEPLATE,
-	PROJECTSTATUS_IMBIBING,
-	PROJECTSTATUS_TIPS,
-	PROJECTSTATUS_ADDING,
-	PROJECTSTATUS_INCUBATION,
-	PROJECTSTATUS_TIMEOUT,
-
-	//PROJECTSTATUS_PAUSETIPS,
-	PROJECTSTATUS_WAITING,
-	PROJECTSTATUS_PAUSE,
-}ProjectStatus_TypeDef;
 
 /************************************************************************/
 /* 项目管理结构体                                                       */
 /************************************************************************/
 typedef struct
 {
-	Project_TypeDef *pCurRunningProject;  //运行页面当前正在运行的项目
-	Action_TypeDef *pCurRunningAction;  //运行页面当前正在运行的动作
-	uint8 curTank;  //运行页面当前动作的槽
-	uint8 curLoopTime;  //运行页面当前第几次循环
-	uint8 RTCTimeout;  //运行页面RTC定时时间到标志，0:未到；>0:定时器溢出
+	uint8_t projectStatus; //bit7表示测试程序正在运行，bit6~bit0对应项目程序代号
+	uint8_t projectStopFlag; //强制停止测试测试
+	
+	float cutoff1Temperature;  //切断1温度
+	float cutoff2Temperature;  //切断2温度
+	float fusingTemperature;  //熔接温度
+	uint32_t cutoffTime;	//切断时间
+	uint32_t fusingTime;	//熔接时间
+	uint32_t jointTime;		//接合时间
+	
+	uint8_t heating;
+	
+	uint8_t clamp2Flag;
+	uint8_t cutoff2Flag;
+	
+	TimerHandle_t xTimerUser[SOFTWARETIMER_COUNT];
+	uint8_t timerExpireFlag[SOFTWARETIMER_COUNT];
 
-	Project_TypeDef *pCurProject;  //项目页面当前选择的项目
-	uint8 startTank;  //项目页面起始槽
-	uint8 endTank;  //项目页面终止槽
-
-	Project_TypeDef *pCurEditProject;  //项目编辑页面当前编辑的项目
-	Action_TypeDef *pCurEditAction;  //项目编辑页面当前编辑的动作
-
-	Action_TypeDef *pCurJumptoAction;  //暂停页面的跳转选择动作
-
-	uint8 backflowPumpSel;  //回流页面的泵选择按钮状态
-	uint8 purgePumpSel;  //清洗页面的泵选择按钮状态
-	uint8 pumpSelPumpSel;  //泵选择页面的泵选择按钮状态
-
-	uint8 caliPumpSel;  //校准页面的泵选择按钮状态
-	float *pCaliPumpPara;  //实际的校准泵参数列表
-	float caliAmount;  //校准页面实际加注量的输入临时参数
-
-	//动作编辑页面的输入临时参数
-	Pump_TypeDef pump;//泵编号
-	Tips_TypeDef tips;//提示
-	Voice_TypeDef voice;//声音
-	uint8 addAmount;//加注量
-	uint8 imbiAmount;//吸液量
-	ShakeSpeed_TypeDef shakeSpeed;//摇动速度
-	ShakeTime_TypeDef shakeTime;//摇动时间
-	uint8 loopTime;//循环次数
-
-	Exception_TypeDef exception;  //异常
-	Exception_TypeDef exceptionButtonFlag;  //当暂停或停止按钮按下时该标志位设置为PAUSE/STOP，如果在弹出的对话框中点击了OK才设置exception为PAUSE/STOP
-
-	uint8 rotateFlag;  //用于暂停页面的旋转标志
-	uint8 jumpTo;  //用于暂停页面的跳转标志
-
-	TipsButton_TypeDef tipsButton;  //提示页面的按钮状态
-	RunningType_TypeDef runningType;  //正在运行的类型
-
+	PID_TypeDef cutoff1PID;
+	PID_TypeDef cutoff2PID;
+	
 	Language_TypeDef lang;
-	uint16 posCali1; //废液口位置校准参数
-	uint16 posCali2; //蠕动泵位置校准参数
 }ProjectMan_TypeDef;
 
 /************************************************************************/
@@ -137,10 +138,10 @@ extern uint8 cmd_buffer[CMD_MAX_SIZE];
 
 void initProjectMan(ProjectMan_TypeDef *pm);
 void initUI(void);
+void initSoftwareTimer(void);
 
-//void uartInterrupt(uint8 data);
-//void loopForever(void);
-
+void UITask(void);
+	
 #ifdef __cplusplus
 }
 #endif

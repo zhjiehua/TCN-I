@@ -3,7 +3,7 @@
 ..\obj\wdg.o: ..\SYSTEM\sys\sys.h
 ..\obj\wdg.o: ..\USER\stm32f10x.h
 ..\obj\wdg.o: ..\CORE\core_cm3.h
-..\obj\wdg.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\wdg.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\wdg.o: ..\USER\system_stm32f10x.h
 ..\obj\wdg.o: ..\USER\stm32f10x_conf.h
 ..\obj\wdg.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_fsmc.h

@@ -3,7 +3,7 @@
 ..\obj\phsensor.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h
 ..\obj\phsensor.o: ..\USER\stm32f10x.h
 ..\obj\phsensor.o: ..\CORE\core_cm3.h
-..\obj\phsensor.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\phsensor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\phsensor.o: ..\USER\system_stm32f10x.h
 ..\obj\phsensor.o: ..\USER\stm32f10x_conf.h
 ..\obj\phsensor.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_fsmc.h
@@ -17,9 +17,15 @@
 ..\obj\phsensor.o: ..\HARDWARE\HardwareCommon.h
 ..\obj\phsensor.o: ..\SYSTEM\sys\sys.h
 ..\obj\phsensor.o: ..\SYSTEM\usart\usart.h
-..\obj\phsensor.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\phsensor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\phsensor.o: ..\USER\../UILogic/pageCommon.h
+..\obj\phsensor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\obj\phsensor.o: ..\USER\../UILogic/../HMI/hmi_user_uart.h
+..\obj\phsensor.o: ..\USER\../UILogic/../HMI/hmi_driver.h
+..\obj\phsensor.o: ..\USER\../UILogic/../HMI/cmd_process.h
+..\obj\phsensor.o: ..\HARDWARE\PhotoelectricSensor\../DCMotor/DCMotor.h
 ..\obj\phsensor.o: ..\FreeRTOS\Source\include\FreeRTOS.h
-..\obj\phsensor.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+..\obj\phsensor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 ..\obj\phsensor.o: ..\USER\FreeRTOSConfig.h
 ..\obj\phsensor.o: ..\FreeRTOS\Source\include\projdefs.h
 ..\obj\phsensor.o: ..\FreeRTOS\Source\include\portable.h

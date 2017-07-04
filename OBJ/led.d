@@ -3,7 +3,7 @@
 ..\obj\led.o: ..\SYSTEM\sys\sys.h
 ..\obj\led.o: ..\USER\stm32f10x.h
 ..\obj\led.o: ..\CORE\core_cm3.h
-..\obj\led.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\led.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\led.o: ..\USER\system_stm32f10x.h
 ..\obj\led.o: ..\USER\stm32f10x_conf.h
 ..\obj\led.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_fsmc.h
@@ -15,9 +15,9 @@
 ..\obj\led.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h
 ..\obj\led.o: ..\FWLIB\STM32F10x_FWLib\inc\misc.h
 ..\obj\led.o: ..\SYSTEM\usart\usart.h
-..\obj\led.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\led.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\led.o: ..\FreeRTOS\Source\include\FreeRTOS.h
-..\obj\led.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+..\obj\led.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 ..\obj\led.o: ..\USER\FreeRTOSConfig.h
 ..\obj\led.o: ..\FreeRTOS\Source\include\projdefs.h
 ..\obj\led.o: ..\FreeRTOS\Source\include\portable.h

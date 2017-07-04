@@ -108,14 +108,14 @@
 #define configQUEUE_REGISTRY_SIZE                8
 
 
-//#define configUSE_TIMERS                         1
-//#define configTIMER_TASK_PRIORITY                3
-//#define configTIMER_QUEUE_LENGTH                 10
-//#define configTIMER_TASK_STACK_DEPTH             50
+#define configUSE_TIMERS                         1
+#define configTIMER_TASK_PRIORITY                4
+#define configTIMER_QUEUE_LENGTH                 10
+#define configTIMER_TASK_STACK_DEPTH             50
 
-//#define configUSE_QUEUE_SETS                     1
+#define configUSE_QUEUE_SETS                     1
 
-//#define configUSE_COUNTING_SEMAPHORES            1
+#define configUSE_COUNTING_SEMAPHORES            1
 
 
 /* Co-routine definitions. */

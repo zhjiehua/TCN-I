@@ -59,19 +59,6 @@ typedef struct
     uint8_t speed;
     uint16_t timPulse;
     uint16_t timPeriod;
-    
-	uint8_t curCount;    //当前第几个信号
-	uint8_t desCount; 	 //计算第几个信号后停止电机，0表示不停
-
-//	void (*SetCMD)(DCMotorEnum_TypeDef num, Status sta);
-//	void (*SetDir)(DCMotorEnum_TypeDef num, Direction_TypeDef dir);
-//	void (*SetSpeed)(DCMotorEnum_TypeDef num, uint8_t speed);
-
-//	void (*SetPos)(uint8_t pos);
-//	void (*UpdatePos)();
-//	uint8_t (*IsOnPos)(void);	
-
-//	void (*WastePump_SetPos)(Position_TypeDef pos);	
 }DCMotor_TypeDef;
 
 extern DCMotor_TypeDef *pDCMotor;
@@ -81,11 +68,6 @@ void DCMotor_SetSpeed(DCMotorEnum_TypeDef num, uint8_t speed);
 void DCMotor_SetDir(DCMotorEnum_TypeDef num, Direction_TypeDef dir);
 void DCMotor_Stop(DCMotorEnum_TypeDef num);
 void DCMotor_Run(DCMotorEnum_TypeDef num, Direction_TypeDef dir, uint8_t speed);
-
-
-void DCMotor_SetPos(DCMotorEnum_TypeDef num, uint8_t pos);
-void DCMotor_WastePump_SetPos(Position_TypeDef pos);
-
 
 void DCMotor_Init(void);
 

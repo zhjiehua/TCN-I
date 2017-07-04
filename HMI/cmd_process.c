@@ -12,8 +12,6 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-#include "main.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -173,7 +171,7 @@ void ProcessMessage( PCTRL_MSG msg, uint16 size )
 
 		//创建线程
 		//os_create_task(TASK_HOME);	//创建回原点任务，如果直接执行创建任务，会出现死机
-        xTaskCreate( (TaskFunction_t)HomeTask, "HomeTask", home_TASK_STACKDEP, NULL, home_TASK_PRIORITY, NULL );
+//        xTaskCreate( (TaskFunction_t)HomeTask, "HomeTask", home_TASK_STACKDEP, NULL, home_TASK_PRIORITY, NULL );
     
 		//createTask(TASK_HOME);
 
@@ -253,7 +251,7 @@ void NotifyTouchXY(uint8 press,uint16 x,uint16 y)
  *  \param control_id 控件ID
  *  \param state 按钮状态：0弹起，1按下
  */
-void NotifyButton(uint16 screen_id, uint16 control_id, uint8  state)
+void NotifyButton(uint16 screen_id, uint16 control_id, uint8 state)
 {
 	//TODO: 添加用户代码
 	switch(screen_id)
@@ -261,41 +259,23 @@ void NotifyButton(uint16 screen_id, uint16 control_id, uint8  state)
 		case MAINPAGE_INDEX:
 			mainPageButtonProcess(control_id, state);
 		break;
-		case PROJECTPAGE_INDEX:
-			projectPageButtonProcess(control_id, state);
+		case MANUALPAGE_INDEX:
+			manualPageButtonProcess(control_id, state);
 		break;
-		case PROJECTEDITPAGE_INDEX:
-			projectEditPageButtonProcess(control_id, state);
+		case PARAMETERPAGE_INDEX:
+			parameterPageButtonProcess(control_id, state);
 		break;
-		case BACKFLOWPAGE_INDEX:
-			backflowPageButtonProcess(control_id, state);
+		case INPUTPAGE_INDEX:
+			inputPageButtonProcess(control_id, state);
 		break;
-		case PURGEPAGE_INDEX:
-			purgePageButtonProcess(control_id, state);
+		case TEMPERATUREPAGE_INDEX:
+			temperaturePageButtonProcess(control_id, state);
 			break;
-		case CALIBRATIONPAGE_INDEX:
-			caliPageButtonProcess(control_id, state);
+		case TESTPAGE_INDEX:
+			testPageButtonProcess(control_id, state);
 			break;
-		case INFORMATIONPAGE_INDEX:
-			infoPageButtonProcess(control_id, state);
-			break;
-		case ACTIONPAGE_INDEX:
-			actionPageButtonProcess(control_id, state);
-			break;
-		case RUNNINGPAGE_INDEX:
-			runningPageButtonProcess(control_id, state);
-			break;
-		case TIPS1PAGE_INDEX:
-			tips1PageButtonProcess(control_id, state);
-			break;
-		case TIPS2PAGE_INDEX:
-			tips2PageButtonProcess(control_id, state);
-			break;
-		case PAUSEPAGE_INDEX:
-			pausePageButtonProcess(control_id, state);
-			break;
-		case SELECTPUMPPAGE_INDEX:
-			selectPumpPageButtonProcess(control_id, state);
+		case TIPSPAGE_INDEX:
+			//tipsPageButtonProcess(control_id, state);
 			break;
 		default:
 			cDebug("cmd_process NotifyButton error!\n");
@@ -315,21 +295,9 @@ void NotifyText(uint16 screen_id, uint16 control_id, uint8 *str)
 	//TODO: 添加用户代码
 	switch(screen_id)
 	{
-		case PROJECTPAGE_INDEX:
-			projectPageEditProcess(control_id, str);
+		case PARAMETERPAGE_INDEX:
+			parameterPageEditProcess(control_id, str);
 		break;
-		case ACTIONPAGE_INDEX:
-			actionPageEditProcess(control_id, str);
-			break;
-		case PROJECTEDITPAGE_INDEX:
-			projectEditPageEditProcess(control_id, str);
-			break;
-		case CALIBRATIONPAGE_INDEX:
-			caliPageEditProcess(control_id, str);
-			break;
-		case INFORMATIONPAGE_INDEX:
-			infoPageEditProcess(control_id, str);
-			break;
 		default:
 			cDebug("cmd_process NotifyText error!\n");
 		break;
@@ -388,15 +356,6 @@ void NotifyMenu(uint16 screen_id, uint16 control_id, uint8  item, uint8  state)
 
 	switch(screen_id)
 	{
-		case CALIBRATIONPAGE_INDEX:
-			caliPageMenuProcess(control_id, item);
-		break;
-		case ACTIONPAGE_INDEX:
-			actionPageMenuProcess(control_id, item);
-			break;
-		case INFORMATIONPAGE_INDEX:
-			infoPageMenuProcess(control_id, item);
-			break;
 		default:
 			cDebug("cmd_process NotifyMenu error!\n");
 		break;
@@ -425,11 +384,8 @@ void NotifyTimer(uint16 screen_id, uint16 control_id)
 	//TODO: 添加用户代码
 	switch(screen_id)
 	{
-		case RUNNINGPAGE_INDEX:
-			runningPageRTCTimeoutProcess(control_id);
-			break;
 		default:
-			break;
+		break;
 	}
 }
 
