@@ -57,7 +57,7 @@ void SetHandShake(void);
 /*! 
  *  \brief  复位串口屏
  */
-void ResetDevice(void);
+void ResetDevice();
 
 /*! 
  *  \brief  设置前景色

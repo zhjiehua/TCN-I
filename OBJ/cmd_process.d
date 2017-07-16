@@ -37,3 +37,6 @@
 ..\obj\cmd_process.o: ..\FreeRTOS\Source\include\task.h
 ..\obj\cmd_process.o: ..\FreeRTOS\Source\include\list.h
 ..\obj\cmd_process.o: ..\FreeRTOS\Source\include\timers.h
+..\obj\cmd_process.o: ..\FreeRTOS\Source\include\queue.h
+..\obj\cmd_process.o: ..\FreeRTOS\Source\include\semphr.h
+..\obj\cmd_process.o: ..\FreeRTOS\Source\include\event_groups.h

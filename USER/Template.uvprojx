@@ -536,6 +536,11 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\NTCResistor\NTCResistor.c</FilePath>
             </File>
+            <File>
+              <FileName>timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\Timer\timer.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -773,6 +778,49 @@
               <FileName>parameterPage.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\UILogic\parameterPage.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>0</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls></MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>inputPage.c</FileName>
@@ -780,14 +828,39 @@
               <FilePath>..\UILogic\inputPage.c</FilePath>
             </File>
             <File>
-              <FileName>temperaturePage.c</FileName>
+              <FileName>aboutPage.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\UILogic\temperaturePage.c</FilePath>
+              <FilePath>..\UILogic\aboutPage.c</FilePath>
             </File>
             <File>
-              <FileName>testPage.c</FileName>
+              <FileName>statusPage.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\UILogic\testPage.c</FilePath>
+              <FilePath>..\UILogic\statusPage.c</FilePath>
+            </File>
+            <File>
+              <FileName>tempparaPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\UILogic\tempparaPage.c</FilePath>
+            </File>
+            <File>
+              <FileName>timeparaPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\UILogic\timeparaPage.c</FilePath>
+            </File>
+            <File>
+              <FileName>manualrawPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\UILogic\manualrawPage.c</FilePath>
+            </File>
+            <File>
+              <FileName>motorparaPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\UILogic\motorparaPage.c</FilePath>
+            </File>
+            <File>
+              <FileName>setupPage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\UILogic\setupPage.c</FilePath>
             </File>
           </Files>
         </Group>

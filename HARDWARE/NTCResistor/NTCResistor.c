@@ -4,6 +4,7 @@
 
 #include "../HMI/cmd_process.h"
 #include "../UILogic/pageCommon.h"
+#include "../Logic/managerment.h"
 
 //////////////////////////////////////////////////////////////////////////////////	 
 //本程序只供学习使用，未经作者许可，不得用于其它任何用途
@@ -879,8 +880,13 @@ void NTCResistorTask(void)
 							* (adcTemp[0].ntcResistor - NTCResistor_50K3950_Table[i].resistorKOhm)
 							+ NTCResistor_50K3950_Table[i].temperature;
 			//cDebug("adcTemp[0].temperature = %f\r\n", adcTemp[0].temperature);
-			//SetTextFloat(PARAMETERPAGE_INDEX, PARAMETER_CUTOFF1TEMP_EDIT, adcTemp[0].temperature, 2, 1);
-			SetTextInt32(PARAMETERPAGE_INDEX, PARAMETER_CUTOFF1TEMPSTA_EDIT, adcTemp[0].temperature, 1, 0);
+			//SetTextFloat(STATUSPAGE_INDEX, STATUS_TEMPCUTOFF1_EDIT, adcTemp[0].temperature, 2, 1);
+			if(pProjectMan->inStatusPageFlag)
+			{
+				xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+				SetTextInt32(STATUSPAGE_INDEX, STATUS_TEMPCUTOFF1_EDIT, adcTemp[0].temperature, 1, 0);
+				xSemaphoreGive(pProjectMan->lcdUartSem);
+			}
 			flag1 = 1;
 		}
 		if(!flag2 && (adcTemp[1].ntcResistor > NTCResistor_50K3950_Table[i].resistorKOhm && adcTemp[1].ntcResistor <= NTCResistor_50K3950_Table[i+1].resistorKOhm))
@@ -889,8 +895,13 @@ void NTCResistorTask(void)
 							* (adcTemp[1].ntcResistor - NTCResistor_50K3950_Table[i].resistorKOhm)
 							+ NTCResistor_50K3950_Table[i].temperature;
 			//cDebug("adcTemp[1].temperature = %f\r\n", adcTemp[1].temperature);
-			//SetTextFloat(PARAMETERPAGE_INDEX, PARAMETER_CUTOFF2TEMP_EDIT, adcTemp[1].temperature, 2, 1);
-			SetTextInt32(PARAMETERPAGE_INDEX, PARAMETER_CUTOFF2TEMPSTA_EDIT, adcTemp[1].temperature, 1, 0);
+			//SetTextFloat(STATUSPAGE_INDEX, STATUS_TEMPCUTOFF2_EDIT, adcTemp[1].temperature, 2, 1);
+			if(pProjectMan->inStatusPageFlag)
+			{
+				xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+				SetTextInt32(STATUSPAGE_INDEX, STATUS_TEMPCUTOFF2_EDIT, adcTemp[1].temperature, 1, 0);
+				xSemaphoreGive(pProjectMan->lcdUartSem);
+			}
 			flag2 = 1;
 		}
 		if(!flag3 && (adcTemp[2].ntcResistor > NTCResistor_50K3950_Table[i].resistorKOhm && adcTemp[2].ntcResistor <= NTCResistor_50K3950_Table[i+1].resistorKOhm))
@@ -899,8 +910,13 @@ void NTCResistorTask(void)
 							* (adcTemp[2].ntcResistor - NTCResistor_50K3950_Table[i].resistorKOhm)
 							+ NTCResistor_50K3950_Table[i].temperature;
 			//cDebug("adcTemp[2].temperature = %f\r\n", adcTemp[2].temperature);
-			//SetTextFloat(PARAMETERPAGE_INDEX, PARAMETER_FUSINGTEMP_EDIT, adcTemp[2].temperature, 2, 1);
-			SetTextInt32(PARAMETERPAGE_INDEX, PARAMETER_FUSINGTEMPSTA_EDIT, adcTemp[2].temperature, 1, 0);
+			//SetTextFloat(STATUSPAGE_INDEX, STATUS_TEMPFUSING_EDIT, adcTemp[2].temperature, 2, 1);
+			if(pProjectMan->inStatusPageFlag)
+			{
+				xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+				SetTextInt32(STATUSPAGE_INDEX, STATUS_TEMPFUSING_EDIT, adcTemp[2].temperature, 1, 0);
+				xSemaphoreGive(pProjectMan->lcdUartSem);
+			}
 			flag3 = 1;
 		}
 		if(flag1 && flag2 && flag3)

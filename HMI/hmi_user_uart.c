@@ -63,7 +63,7 @@ void UartInit(uint32 BaudRate)
 	//Usart1 NVIC 配置
     NVIC_InitStructure.NVIC_IRQChannel = UART4_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=3 ;//抢占优先级3
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;		//子优先级3
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//子优先级3
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			//IRQ通道使能
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器
 	
@@ -112,7 +112,9 @@ void UART4_IRQHandler(void)                	//串口4中断服务程序
 	{
 		Res =USART_ReceiveData(UART4);//(USART1->DR);	//读取接收到的数据
 		
-		queue_push(Res);	 
+		queue_push(Res);
+
+		//USART_SendData(USART1, Res);
     } 
         
     portCLEAR_INTERRUPT_MASK_FROM_ISR(oldBasePri);

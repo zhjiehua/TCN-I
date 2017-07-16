@@ -37,3 +37,8 @@
 ..\obj\mainpage.o: ..\FreeRTOS\Source\include\task.h
 ..\obj\mainpage.o: ..\FreeRTOS\Source\include\list.h
 ..\obj\mainpage.o: ..\FreeRTOS\Source\include\timers.h
+..\obj\mainpage.o: ..\FreeRTOS\Source\include\queue.h
+..\obj\mainpage.o: ..\FreeRTOS\Source\include\semphr.h
+..\obj\mainpage.o: ..\FreeRTOS\Source\include\event_groups.h
+..\obj\mainpage.o: ..\UILogic\../HARDWARE/24CXX/24cxx.h
+..\obj\mainpage.o: ..\UILogic\../HARDWARE/24CXX/myiic.h

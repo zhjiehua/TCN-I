@@ -200,8 +200,8 @@ void StepMotor_Init(void)
         GPIO_ResetBits(StepMotorPin[i].DIR_GPIOx, StepMotorPin[i].DIR_GPIO_Pin);
         
         NVIC_InitStructure.NVIC_IRQChannel = StepMotorPin[i].NVIC_IRQChannel;
-        NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1 ;//抢占优先级3
-        NVIC_InitStructure.NVIC_IRQChannelSubPriority = i;		//子优先级3
+        NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=2 ;//抢占优先级3
+        NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//子优先级3
         NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			//IRQ通道使能
         NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器
         

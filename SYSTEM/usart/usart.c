@@ -136,8 +136,8 @@ void uart_init(u32 bound){
 	
 	//Usart1 NVIC 配置
     NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=3 ;//抢占优先级3
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;		//子优先级3
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1 ;//抢占优先级3
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//子优先级3
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			//IRQ通道使能
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器
   
@@ -161,9 +161,11 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
     uint32_t oldBasePri = portSET_INTERRUPT_MASK_FROM_ISR();
         
 	if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)  //接收中断(接收到的数据必须是0x0d 0x0a结尾)
-		{
+	{
 		Res =USART_ReceiveData(USART1);//(USART1->DR);	//读取接收到的数据
 
+		//USART_SendData(UART4, Res);
+		
 #if (LCDUART == 0)	//LCDUART		
 		queue_push(Res);
 #else            
@@ -191,11 +193,19 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
     portCLEAR_INTERRUPT_MASK_FROM_ISR(oldBasePri);
 }
 
+uint8_t pcWriteBuffer[500];
+
 void UartTask(void)
 {
-    uint32_t cnt = 0;
     uint16_t i;
-    uint16_t temp;
+	uint8_t rtosInfoFlag = 0;
+//	uint8_t buf[2048];
+	
+//	for(i=2047;i>=0;i++)
+//	{
+//		buf[i] = i;
+//		vTaskDelay(1);
+//	}
 	
 	while(1)
 	{
@@ -213,69 +223,85 @@ void UartTask(void)
 			pProjectMan->clamp2Flag = 0;
 		}
 		
-//        for(i=0;i<BUTTON_COUNT;i++)
-//        {
-//            if(button[i].flag)
-//            {
-//                char s[20];
-//                sprintf(s, "Button%d", i);
-//                cDebug("%s is pressed!\n", s);
-//                button[i].flag = 0;
-//            }
-//        }
-//        
-//        if(USART_RX_STA&0x8000)
-//		{					   
-//			//len=USART_RX_STA&0x3fff;//得到此次接收到的数据长度
-//			
-//            switch(USART_RX_BUF[0])
-//            {
-//                case 'R':  //继电器
-//                    RELAY = !!(USART_RX_BUF[1]-0x30);
-//                break;
-//                case 'B':	//蜂鸣器
-//                    BEEP = !!(USART_RX_BUF[1]-0x30);
-//                break;
-//                case 'M':	//MOS管
-//                    //MOS1 = !!(USART_RX_BUF[1]-0x30);
-//                    MOS2 = !!(USART_RX_BUF[2]-0x30);
-//                break;
-//                case 'D':	//直流电机
-//                    pDCMotor[0].control = USART_RX_BUF[1]-0x30;
-//                    pDCMotor[0].temp = USART_RX_BUF[2]-0x30;
-//                break;
-//                case 'S':	//步进电机
-////                    pStepMotor[0].control = USART_RX_BUF[1]-0x30;
-////                    pStepMotor[0].temp = USART_RX_BUF[2]-0x30;
-//                break;
-//				case 'T':
-////					setTemperature = (USART_RX_BUF[1]-0x30)*100 + (USART_RX_BUF[2]-0x30)*10 + (USART_RX_BUF[3]-0x30);
-////					cDebug("setTemperature = %d\r\n", setTemperature);
-////					PID_UpdateSetPoint(pPID, setTemperature);
-//				break;
-//				case 'P':
-//					switch(USART_RX_BUF[1])
-//					{
-//						case 'p':
-//							//pPID->Proportion = (float)(USART_RX_BUF[2])/10.0;
-//						break;
-//						case 'i':
-//							//pPID->Integral = (float)(USART_RX_BUF[2])/10.0;
-//						break;
-//						case 'd':
-//							//pPID->Derivative = (float)(USART_RX_BUF[2])/10.0;
-//						break;
-//						default:                
-//						break;
-//					}
-//				break;
-//                default:
-//                    
-//                break;
-//            }
-//                
-//			USART_RX_STA=0;
-//		}       
+        for(i=0;i<BUTTON_COUNT;i++)
+        {
+            if(button[i].flag)
+            {
+                char s[20];
+                sprintf(s, "Button%d", i);
+                cDebug("%s is pressed!\n", s);
+                button[i].flag = 0;
+            }
+        }
+        
+        if(USART_RX_STA&0x8000)
+		{					   
+			//len=USART_RX_STA&0x3fff;//得到此次接收到的数据长度
+			
+            switch(USART_RX_BUF[0])
+            {
+                case 'R':  //继电器
+                    RELAY = !!(USART_RX_BUF[1]-0x30);
+                break;
+                case 'B':	//蜂鸣器
+                    BEEP = !!(USART_RX_BUF[1]-0x30);
+                break;
+                case 'M':	//MOS管
+                    //MOS1 = !!(USART_RX_BUF[1]-0x30);
+                    MOS2 = !!(USART_RX_BUF[2]-0x30);
+                break;
+                case 'D':	//直流电机
+                    pDCMotor[0].control = USART_RX_BUF[1]-0x30;
+                    pDCMotor[0].temp = USART_RX_BUF[2]-0x30;
+                break;
+                case 'S':	//步进电机
+//                    pStepMotor[0].control = USART_RX_BUF[1]-0x30;
+//                    pStepMotor[0].temp = USART_RX_BUF[2]-0x30;
+                break;
+				case 'T':
+//					setTemperature = (USART_RX_BUF[1]-0x30)*100 + (USART_RX_BUF[2]-0x30)*10 + (USART_RX_BUF[3]-0x30);
+//					cDebug("setTemperature = %d\r\n", setTemperature);
+//					PID_UpdateSetPoint(pPID, setTemperature);
+				break;
+				case 'P':
+					switch(USART_RX_BUF[1])
+					{
+						case 'p':
+							//pPID->Proportion = (float)(USART_RX_BUF[2])/10.0;
+						break;
+						case 'i':
+							//pPID->Integral = (float)(USART_RX_BUF[2])/10.0;
+						break;
+						case 'd':
+							//pPID->Derivative = (float)(USART_RX_BUF[2])/10.0;
+						break;
+						default:                
+						break;
+					}
+				break;
+				case 'p':
+					rtosInfoFlag = 1;		
+				break;
+                default:
+                    
+                break;
+            }
+                
+			USART_RX_STA=0;
+		}
+
+		if(rtosInfoFlag)
+		{
+			rtosInfoFlag = 0;
+			printf("=================================================\r\n");
+			printf("任务名      任务状态 优先级   剩余栈 任务序号\r\n");
+			vTaskList((char *)&pcWriteBuffer);
+			printf("%s\r\n", pcWriteBuffer);
+		
+			printf("\r\n任务名       运行计数         使用率\r\n");
+			vTaskGetRunTimeStats((char *)&pcWriteBuffer);
+			printf("%s\r\n", pcWriteBuffer);
+		}		
 	}
 }
 

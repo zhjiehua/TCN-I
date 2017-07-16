@@ -28,6 +28,9 @@
 ..\obj\main.o: ..\HARDWARE\StepMotor/StepMotor.h
 ..\obj\main.o: ..\HARDWARE\WDG/WDG.h
 ..\obj\main.o: ..\HARDWARE\NTCResistor/NTCResistor.h
+..\obj\main.o: ..\HARDWARE\Timer/timer.h
+..\obj\main.o: ..\HARDWARE\24CXX/24cxx.h
+..\obj\main.o: ..\HARDWARE\24CXX/myiic.h
 ..\obj\main.o: ../Logic/managerment.h
 ..\obj\main.o: ../Logic/project.h
 ..\obj\main.o: ../Logic/../UILogic/pageCommon.h
@@ -50,3 +53,6 @@
 ..\obj\main.o: ..\FreeRTOS\Source\include\task.h
 ..\obj\main.o: ..\FreeRTOS\Source\include\list.h
 ..\obj\main.o: ..\FreeRTOS\Source\include\timers.h
+..\obj\main.o: ..\FreeRTOS\Source\include\queue.h
+..\obj\main.o: ..\FreeRTOS\Source\include\semphr.h
+..\obj\main.o: ..\FreeRTOS\Source\include\event_groups.h

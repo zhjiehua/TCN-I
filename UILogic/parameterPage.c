@@ -31,7 +31,6 @@ void parameterPageButtonProcess(uint16 control_id, uint8  state)
 			else
 			{
 				pProjectMan->projectStopFlag = 1;
-				pProjectMan->projectStatus = 0;
 			}
 		}
 		break;
@@ -54,7 +53,6 @@ void parameterPageButtonProcess(uint16 control_id, uint8  state)
 			else
 			{
 				pProjectMan->projectStopFlag = 1;
-				pProjectMan->projectStatus = 0;
 			}
 		}	
 		break;
@@ -73,18 +71,37 @@ void parameterPageEditProcess(uint16 control_id, uint8 *str)
 {
 	switch(control_id)
 	{
-		case PARAMETER_CUTOFFTEMP_EDIT:
-			pProjectMan->cutoff1Temperature = StringToFloat(str);
-			pProjectMan->cutoff2Temperature = pProjectMan->cutoff1Temperature;
+		case PARAMETER_CUTOFF1TEMP_EDIT:
+			pProjectMan->cutoff1Temperature = StringToInt32(str); //StringToFloat(str);
+			PID_UpdateSetPoint(&(pProjectMan->cutoff1PID), pProjectMan->cutoff1Temperature);
+			SetTextInt32(PARAMETERPAGE_INDEX, PARAMETER_CUTOFF1TEMP_EDIT, pProjectMan->cutoff1Temperature, 0, 0);
+			SetTextInt32(PARAMETERPAGE_INDEX, PARAMETER_CUTOFF1TEMP_EDIT, pProjectMan->cutoff1Temperature, 0, 0);
+			AT24CXX_Write(CUTOFF1TEMP_BASEADDR, (uint8_t*)&pProjectMan->cutoff1Temperature, CUTOFF1TEMP_SIZE);
+		break;
+		case PARAMETER_CUTOFF2TEMP_EDIT:
+			pProjectMan->cutoff2Temperature = StringToInt32(str); //StringToFloat(str);
+			PID_UpdateSetPoint(&(pProjectMan->cutoff2PID), pProjectMan->cutoff2Temperature);
+			SetTextInt32(PARAMETERPAGE_INDEX, PARAMETER_CUTOFF2TEMP_EDIT, pProjectMan->cutoff2Temperature, 0, 0);
+			SetTextInt32(PARAMETERPAGE_INDEX, PARAMETER_CUTOFF2TEMP_EDIT, pProjectMan->cutoff2Temperature, 0, 0);
+			AT24CXX_Write(CUTOFF2TEMP_BASEADDR, (uint8_t*)&pProjectMan->cutoff2Temperature, CUTOFF2TEMP_SIZE);
 		break;
 		case PARAMETER_CUTOFFTIME_EDIT:
+			pProjectMan->cutoffTime = StringToInt32(str);
+			AT24CXX_Write(CUTOFFTIME_BASEADDR, (uint8_t*)&pProjectMan->cutoffTime, CUTOFFTIME_SIZE);
 		break;
 		case PARAMETER_FUSINGTEMP_EDIT:
-			pProjectMan->fusingTemperature = StringToFloat(str);
+			pProjectMan->fusingTemperature = StringToInt32(str); //StringToFloat(str);
+			SetTextInt32(PARAMETERPAGE_INDEX, PARAMETER_FUSINGTEMP_EDIT, pProjectMan->fusingTemperature, 0, 0);
+			SetTextInt32(PARAMETERPAGE_INDEX, PARAMETER_FUSINGTEMP_EDIT, pProjectMan->fusingTemperature, 0, 0);
+			AT24CXX_Write(FUSINGTEMP_BASEADDR, (uint8_t*)&pProjectMan->fusingTemperature, FUSINGTEMP_SIZE);
 		break;
 		case PARAMETER_FUSINGTIME_EDIT:
+			pProjectMan->fusingTime = StringToInt32(str);
+			AT24CXX_Write(FUSINGTIME_BASEADDR, (uint8_t*)&pProjectMan->fusingTime, FUSINGTIME_SIZE);
 		break;
 		case PARAMETER_JOINTTIME_EDIT:
+			pProjectMan->jointTime = StringToInt32(str);
+			AT24CXX_Write(JOINTTIME_BASEADDR, (uint8_t*)&pProjectMan->jointTime, JOINTTIME_SIZE);
 		break;
 		default:
 			cDebug("parameterPage EDIT error!\n");

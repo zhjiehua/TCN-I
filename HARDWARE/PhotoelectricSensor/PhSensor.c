@@ -30,7 +30,7 @@ const PhSensorPin_TypeDef phSensorPin[] =
     {GPIOD, GPIO_Pin_5},//"EXIN7"
     {GPIOD, GPIO_Pin_6},//"EXIN8"
     {GPIOD, GPIO_Pin_7},//"EXIN9"
-    {GPIOB, GPIO_Pin_3},//"EXIN10"
+    {GPIOB, GPIO_Pin_3},//"EXIN10"  需要重定义
     {GPIOB, GPIO_Pin_4},//"EXIN11"
     {GPIOB, GPIO_Pin_5},//"EXIN12"
     {GPIOB, GPIO_Pin_6},//"EXIN13"
@@ -161,10 +161,10 @@ void PhSensor_Init(void)
         GPIO_Init(phSensorPin[i].GPIOx, &GPIO_InitStructure);
         
         phSensor.checkEdge[i] = FALLINGEDGE;
-        phSensor.curCount[i] = 0;
-        phSensor.desCount[i] = 0;
     }
-    
+	
+	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE); 
+	
     phSensor.preStatus = 0x00;
 	phSensor.curStatus = 0x00;
 	phSensor.fallingEdge = 0x00;

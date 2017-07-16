@@ -43,3 +43,6 @@
 ..\obj\stepmotor.o: ..\FreeRTOS\Source\include\task.h
 ..\obj\stepmotor.o: ..\FreeRTOS\Source\include\list.h
 ..\obj\stepmotor.o: ..\FreeRTOS\Source\include\timers.h
+..\obj\stepmotor.o: ..\FreeRTOS\Source\include\queue.h
+..\obj\stepmotor.o: ..\FreeRTOS\Source\include\semphr.h
+..\obj\stepmotor.o: ..\FreeRTOS\Source\include\event_groups.h

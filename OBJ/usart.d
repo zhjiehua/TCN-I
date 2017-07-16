@@ -50,3 +50,6 @@
 ..\obj\usart.o: ..\USER\../Logic/../PID/PID.h
 ..\obj\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\usart.o: ..\FreeRTOS\Source\include\timers.h
+..\obj\usart.o: ..\FreeRTOS\Source\include\queue.h
+..\obj\usart.o: ..\FreeRTOS\Source\include\semphr.h
+..\obj\usart.o: ..\FreeRTOS\Source\include\event_groups.h

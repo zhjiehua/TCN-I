@@ -11,7 +11,7 @@ static int32_t Value2Point(int32_t Val)
 
 void PID_Init(PID_TypeDef *p, float32_t Kp, float32_t Ki, float32_t Kd)
 {
-	qDebug("PID_Init!\n");
+	//qDebug("PID_Init!\n");
 	p->Proportion = Kp;
 	p->Integral = Ki;
 	p->Derivative = Kd;
@@ -51,7 +51,7 @@ void PID_Init(PID_TypeDef *p, float32_t Kp, float32_t Ki, float32_t Kd)
 	p->Value = 0;
 	p->Value2Point = Value2Point;
 
-	qDebug("PID_Init finish!\n");
+	//qDebug("PID_Init finish!\n");
 }
 
 void PID_UpdateSetPoint(PID_TypeDef *p, int32_t Point)

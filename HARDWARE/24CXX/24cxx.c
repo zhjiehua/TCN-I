@@ -32,7 +32,7 @@ u8 AT24CXX_ReadOneByte(u16 ReadAddr)
 		IIC_Send_Byte(0XA0);	   //发送写命令
 		IIC_Wait_Ack();
 		IIC_Send_Byte(ReadAddr>>8);//发送高地址
-		IIC_Wait_Ack();		 
+		//IIC_Wait_Ack();		 
 	}else IIC_Send_Byte(0XA0+((ReadAddr/256)<<1));   //发送器件地址0XA0,写数据 	 
 
 	IIC_Wait_Ack(); 
@@ -106,12 +106,12 @@ u32 AT24CXX_ReadLenByte(u16 ReadAddr,u8 Len)
 u8 AT24CXX_Check(void)
 {
 	u8 temp;
-	temp=AT24CXX_ReadOneByte(255);//避免每次开机都写AT24CXX			   
+	temp=AT24CXX_ReadOneByte(EE_TYPE);//避免每次开机都写AT24CXX			   
 	if(temp==0X55)return 0;		   
 	else//排除第一次初始化的情况
 	{
-		AT24CXX_WriteOneByte(255,0X55);
-	    temp=AT24CXX_ReadOneByte(255);	  
+		AT24CXX_WriteOneByte(EE_TYPE,0X55);
+	    temp=AT24CXX_ReadOneByte(EE_TYPE);	  
 		if(temp==0X55)return 0;
 	}
 	return 1;											  

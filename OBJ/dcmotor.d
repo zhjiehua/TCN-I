@@ -44,3 +44,6 @@
 ..\obj\dcmotor.o: ..\FreeRTOS\Source\include\task.h
 ..\obj\dcmotor.o: ..\FreeRTOS\Source\include\list.h
 ..\obj\dcmotor.o: ..\FreeRTOS\Source\include\timers.h
+..\obj\dcmotor.o: ..\FreeRTOS\Source\include\queue.h
+..\obj\dcmotor.o: ..\FreeRTOS\Source\include\semphr.h
+..\obj\dcmotor.o: ..\FreeRTOS\Source\include\event_groups.h

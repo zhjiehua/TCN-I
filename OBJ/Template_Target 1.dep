@@ -1,5 +1,5 @@
 Dependencies for Project 'Template', Target 'Target 1': (DO NOT MODIFY !)
-F (.\main.c)(0x595B2F8E)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
+F (.\main.c)(0x59682D01)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
 I (..\SYSTEM\sys\sys.h)(0x595A1004)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
 I (..\CORE\core_cm3.h)(0x4D523B58)
@@ -14,13 +14,13 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
 I (..\SYSTEM\delay\delay.h)(0x555AC87B)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
 I (..\HARDWARE\LED/led.h)(0x590D2891)
 I (..\HARDWARE\Key/key.h)(0x550A927F)
 I (..\HARDWARE\Beep/beep.h)(0x591A67EE)
 I (..\HARDWARE\Button/Button.h)(0x590E9BB5)
-I (..\HARDWARE\PhotoelectricSensor/PhSensor.h)(0x59524580)
+I (..\HARDWARE\PhotoelectricSensor/PhSensor.h)(0x59657737)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h)(0x4D783BB4)
 I (..\HARDWARE\HardwareCommon.h)(0x591FBCB4)
 I (..\HARDWARE\RelayMOS/RelayMOS.h)(0x590FC907)
@@ -28,12 +28,15 @@ I (..\HARDWARE\DCMotor/DCMotor.h)(0x59584E62)
 I (..\HARDWARE\StepMotor/StepMotor.h)(0x5955F4DA)
 I (..\HARDWARE\WDG/WDG.h)(0x5051DADA)
 I (..\HARDWARE\NTCResistor/NTCResistor.h)(0x5954D335)
-I (../Logic/managerment.h)(0x595A0C96)
-I (../Logic/project.h)(0x5955F93A)
-I (../Logic/../UILogic/pageCommon.h)(0x59571D55)
+I (..\HARDWARE\Timer/timer.h)(0x595D9A91)
+I (..\HARDWARE\24CXX/24cxx.h)(0x595DB4F5)
+I (..\HARDWARE\24CXX/myiic.h)(0x595DA7A0)
+I (../Logic/managerment.h)(0x59682634)
+I (../Logic/project.h)(0x59660289)
+I (../Logic/../UILogic/pageCommon.h)(0x596826C9)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
 I (../Logic/../UILogic/../HMI/hmi_user_uart.h)(0x5955E246)
-I (../Logic/../UILogic/../HMI/hmi_driver.h)(0x59190CF9)
+I (../Logic/../UILogic/../HMI/hmi_driver.h)(0x59683766)
 I (../Logic/../UILogic/../HMI/cmd_process.h)(0x59190D05)
 I (../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
 I (../Logic/../PID/PID.h)(0x595B3393)
@@ -41,7 +44,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
 I (..\USER\CPrintf.h)(0x594B1F03)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -50,6 +53,9 @@ I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
 F (.\stm32f10x_it.c)(0x5883279D)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\stm32f10x_it.o --omf_browse ..\obj\stm32f10x_it.crf --depend ..\obj\stm32f10x_it.d)
 I (stm32f10x_it.h)(0x4D99A426)
 I (stm32f10x.h)(0x4D783CB4)
@@ -94,11 +100,11 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -107,7 +113,7 @@ I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
 F (..\HARDWARE\KEY\key.c)(0x590D3500)()
-F (..\HARDWARE\BEEP\beep.c)(0x591A9557)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\beep.o --omf_browse ..\obj\beep.crf --depend ..\obj\beep.d)
+F (..\HARDWARE\BEEP\beep.c)(0x595EDE22)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\beep.o --omf_browse ..\obj\beep.crf --depend ..\obj\beep.d)
 I (..\HARDWARE\BEEP\beep.h)(0x591A67EE)
 I (..\SYSTEM\sys\sys.h)(0x595A1004)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
@@ -124,7 +130,7 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -132,7 +138,7 @@ I (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\portmacro.h)(0x573F3A17)
 I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
-F (..\HARDWARE\Button\Button.c)(0x590EBEFD)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\button.o --omf_browse ..\obj\button.crf --depend ..\obj\button.d)
+F (..\HARDWARE\Button\Button.c)(0x596814E4)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\button.o --omf_browse ..\obj\button.crf --depend ..\obj\button.d)
 I (..\HARDWARE\Button\Button.h)(0x590E9BB5)
 I (..\SYSTEM\sys\sys.h)(0x595A1004)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
@@ -147,11 +153,40 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h)(0x4D783BB4)
-I (..\HARDWARE\PhotoelectricSensor/PhSensor.h)(0x59524580)
+I (..\HARDWARE\PhotoelectricSensor/PhSensor.h)(0x59657737)
 I (..\HARDWARE\HardwareCommon.h)(0x591FBCB4)
+I (..\USER\../Logic/managerment.h)(0x59682634)
+I (..\USER\../Logic/project.h)(0x59660289)
+I (..\USER\../Logic/../UILogic/pageCommon.h)(0x596826C9)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
+I (..\USER\../Logic/../UILogic/../HMI/hmi_user_uart.h)(0x5955E246)
+I (..\USER\../Logic/../UILogic/../HMI/hmi_driver.h)(0x59683766)
+I (..\USER\../Logic/../UILogic/../HMI/cmd_process.h)(0x59190D05)
+I (..\USER\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
+I (..\USER\../Logic/../PID/PID.h)(0x595B3393)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (..\USER\CPrintf.h)(0x594B1F03)
+I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
+I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
+I (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\portmacro.h)(0x573F3A17)
+I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
+I (..\HARDWARE\Button\../DCMotor/DCMotor.h)(0x59584E62)
+I (..\HARDWARE\Button\../StepMotor/StepMotor.h)(0x5955F4DA)
+I (..\HARDWARE\Button\../RelayMOS/RelayMOS.h)(0x590FC907)
+I (..\HARDWARE\Button\../WDG/WDG.h)(0x5051DADA)
 F (..\HARDWARE\DCMotor\DCMotor.c)(0x59584E7E)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\dcmotor.o --omf_browse ..\obj\dcmotor.crf --depend ..\obj\dcmotor.d)
 I (..\HARDWARE\DCMotor\../DCMotor/DCMotor.h)(0x59584E62)
 I (..\HARDWARE\DCMotor\../DCMotor/../HardwareCommon.h)(0x591FBCB4)
@@ -169,26 +204,26 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h)(0x4D783BB4)
-I (..\HARDWARE\DCMotor\../DCMotor/../PhotoelectricSensor/PhSensor.h)(0x59524580)
+I (..\HARDWARE\DCMotor\../DCMotor/../PhotoelectricSensor/PhSensor.h)(0x59657737)
 I (..\HARDWARE\DCMotor\../RelayMOS/RelayMOS.h)(0x590FC907)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
 I (..\USER\CPrintf.h)(0x594B1F03)
 I (..\HARDWARE\StepMotor/StepMotor.h)(0x5955F4DA)
 I (..\HARDWARE\NTCResistor/NTCResistor.h)(0x5954D335)
-I (..\USER\../Logic/managerment.h)(0x595A0C96)
-I (..\USER\../Logic/project.h)(0x5955F93A)
-I (..\USER\../Logic/../UILogic/pageCommon.h)(0x59571D55)
+I (..\USER\../Logic/managerment.h)(0x59682634)
+I (..\USER\../Logic/project.h)(0x59660289)
+I (..\USER\../Logic/../UILogic/pageCommon.h)(0x596826C9)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
 I (..\USER\../Logic/../UILogic/../HMI/hmi_user_uart.h)(0x5955E246)
-I (..\USER\../Logic/../UILogic/../HMI/hmi_driver.h)(0x59190CF9)
+I (..\USER\../Logic/../UILogic/../HMI/hmi_driver.h)(0x59683766)
 I (..\USER\../Logic/../UILogic/../HMI/cmd_process.h)(0x59190D05)
 I (..\USER\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
 I (..\USER\../Logic/../PID/PID.h)(0x595B3393)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -197,8 +232,11 @@ I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
-F (..\HARDWARE\PhotoelectricSensor\PhSensor.c)(0x5956FEB8)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\phsensor.o --omf_browse ..\obj\phsensor.crf --depend ..\obj\phsensor.d)
-I (..\HARDWARE\PhotoelectricSensor\PhSensor.h)(0x59524580)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
+F (..\HARDWARE\PhotoelectricSensor\PhSensor.c)(0x5965C8DF)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\phsensor.o --omf_browse ..\obj\phsensor.crf --depend ..\obj\phsensor.d)
+I (..\HARDWARE\PhotoelectricSensor\PhSensor.h)(0x59657737)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h)(0x4D783BB4)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
 I (..\CORE\core_cm3.h)(0x4D523B58)
@@ -214,17 +252,17 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
 I (..\HARDWARE\HardwareCommon.h)(0x591FBCB4)
 I (..\SYSTEM\sys\sys.h)(0x595A1004)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
-I (..\USER\../UILogic/pageCommon.h)(0x59571D55)
+I (..\USER\../UILogic/pageCommon.h)(0x596826C9)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
 I (..\USER\../UILogic/../HMI/hmi_user_uart.h)(0x5955E246)
-I (..\USER\../UILogic/../HMI/hmi_driver.h)(0x59190CF9)
+I (..\USER\../UILogic/../HMI/hmi_driver.h)(0x59683766)
 I (..\USER\../UILogic/../HMI/cmd_process.h)(0x59190D05)
 I (..\HARDWARE\PhotoelectricSensor\../DCMotor/DCMotor.h)(0x59584E62)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -247,7 +285,7 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
-F (..\HARDWARE\StepMotor\StepMotor.c)(0x5955F5AC)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\stepmotor.o --omf_browse ..\obj\stepmotor.crf --depend ..\obj\stepmotor.d)
+F (..\HARDWARE\StepMotor\StepMotor.c)(0x595EDB22)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\stepmotor.o --omf_browse ..\obj\stepmotor.crf --depend ..\obj\stepmotor.d)
 I (..\HARDWARE\BEEP\beep.h)(0x591A67EE)
 I (..\SYSTEM\sys\sys.h)(0x595A1004)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
@@ -265,24 +303,24 @@ I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
 I (..\HARDWARE\StepMotor/StepMotor.h)(0x5955F4DA)
 I (..\HARDWARE\StepMotor/../HardwareCommon.h)(0x591FBCB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h)(0x4D783BB4)
-I (..\HARDWARE\StepMotor/../PhotoelectricSensor/PhSensor.h)(0x59524580)
+I (..\HARDWARE\StepMotor/../PhotoelectricSensor/PhSensor.h)(0x59657737)
 I (..\HARDWARE\LED/LED.h)(0x590D2891)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
 I (..\USER\CPrintf.h)(0x594B1F03)
-I (..\USER\../Logic/managerment.h)(0x595A0C96)
-I (..\USER\../Logic/project.h)(0x5955F93A)
-I (..\USER\../Logic/../UILogic/pageCommon.h)(0x59571D55)
+I (..\USER\../Logic/managerment.h)(0x59682634)
+I (..\USER\../Logic/project.h)(0x59660289)
+I (..\USER\../Logic/../UILogic/pageCommon.h)(0x596826C9)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
 I (..\USER\../Logic/../UILogic/../HMI/hmi_user_uart.h)(0x5955E246)
-I (..\USER\../Logic/../UILogic/../HMI/hmi_driver.h)(0x59190CF9)
+I (..\USER\../Logic/../UILogic/../HMI/hmi_driver.h)(0x59683766)
 I (..\USER\../Logic/../UILogic/../HMI/cmd_process.h)(0x59190D05)
 I (..\USER\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
 I (..\USER\../Logic/../PID/PID.h)(0x595B3393)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -291,9 +329,12 @@ I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
-F (..\HARDWARE\24CXX\24cxx.c)(0x591A94C3)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\24cxx.o --omf_browse ..\obj\24cxx.crf --depend ..\obj\24cxx.d)
-I (..\HARDWARE\24CXX\./24cxx.h)(0x50558BF2)
-I (..\HARDWARE\24CXX\./myiic.h)(0x59194E5A)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
+F (..\HARDWARE\24CXX\24cxx.c)(0x595DD172)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\24cxx.o --omf_browse ..\obj\24cxx.crf --depend ..\obj\24cxx.d)
+I (..\HARDWARE\24CXX\./24cxx.h)(0x595DB4F5)
+I (..\HARDWARE\24CXX\./myiic.h)(0x595DA7A0)
 I (..\SYSTEM\sys\sys.h)(0x595A1004)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
 I (..\CORE\core_cm3.h)(0x4D523B58)
@@ -308,8 +349,8 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
 I (..\SYSTEM\delay\delay.h)(0x555AC87B)
-F (..\HARDWARE\24CXX\myiic.c)(0x59194C62)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\myiic.o --omf_browse ..\obj\myiic.crf --depend ..\obj\myiic.d)
-I (..\HARDWARE\24CXX\myiic.h)(0x59194E5A)
+F (..\HARDWARE\24CXX\myiic.c)(0x595DABB9)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\myiic.o --omf_browse ..\obj\myiic.crf --depend ..\obj\myiic.d)
+I (..\HARDWARE\24CXX\myiic.h)(0x595DA7A0)
 I (..\SYSTEM\sys\sys.h)(0x595A1004)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
 I (..\CORE\core_cm3.h)(0x4D523B58)
@@ -358,7 +399,7 @@ I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
 I (..\SYSTEM\delay\delay.h)(0x555AC87B)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_adc.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_dma.h)(0x4D783BB4)
-F (..\HARDWARE\NTCResistor\NTCResistor.c)(0x595B3170)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\ntcresistor.o --omf_browse ..\obj\ntcresistor.crf --depend ..\obj\ntcresistor.d)
+F (..\HARDWARE\NTCResistor\NTCResistor.c)(0x596725B3)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\ntcresistor.o --omf_browse ..\obj\ntcresistor.crf --depend ..\obj\ntcresistor.d)
 I (..\HARDWARE\NTCResistor/NTCResistor.h)(0x5954D335)
 I (..\SYSTEM\sys\sys.h)(0x595A1004)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
@@ -375,14 +416,49 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
 I (..\HARDWARE\NTCResistor/adc.h)(0x593A021B)
 I (..\USER\../USER/cPrintf.h)(0x594B1F03)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
 I (..\USER\../HMI/cmd_process.h)(0x59190D05)
-I (..\USER\../HMI/hmi_driver.h)(0x59190CF9)
+I (..\USER\../HMI/hmi_driver.h)(0x59683766)
 I (..\USER\../HMI/hmi_user_uart.h)(0x5955E246)
-I (..\USER\../UILogic/pageCommon.h)(0x59571D55)
+I (..\USER\../UILogic/pageCommon.h)(0x596826C9)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
-F (..\SYSTEM\delay\delay.c)(0x595A28DB)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\delay.o --omf_browse ..\obj\delay.crf --depend ..\obj\delay.d)
+I (..\USER\../Logic/managerment.h)(0x59682634)
+I (..\USER\../Logic/project.h)(0x59660289)
+I (..\USER\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
+I (..\USER\../Logic/../PID/PID.h)(0x595B3393)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
+I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
+I (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\portmacro.h)(0x573F3A17)
+I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
+F (..\HARDWARE\Timer\timer.c)(0x595EDF2A)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\timer.o --omf_browse ..\obj\timer.crf --depend ..\obj\timer.d)
+I (..\HARDWARE\Timer\timer.h)(0x595D9A91)
+I (..\SYSTEM\sys\sys.h)(0x595A1004)
+I (..\USER\stm32f10x.h)(0x4D783CB4)
+I (..\CORE\core_cm3.h)(0x4D523B58)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\USER\system_stm32f10x.h)(0x4D783CAA)
+I (..\USER\stm32f10x_conf.h)(0x54B9E91F)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_fsmc.h)(0x50388DDC)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_gpio.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_rcc.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
+I (..\HARDWARE\LED\led.h)(0x590D2891)
+F (..\SYSTEM\delay\delay.c)(0x595DA27C)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\delay.o --omf_browse ..\obj\delay.crf --depend ..\obj\delay.d)
 I (..\SYSTEM\delay\delay.h)(0x555AC87B)
 I (..\SYSTEM\sys\sys.h)(0x595A1004)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
@@ -399,7 +475,7 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -421,7 +497,7 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
-F (..\SYSTEM\usart\usart.c)(0x595B0A20)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\usart.o --omf_browse ..\obj\usart.crf --depend ..\obj\usart.d)
+F (..\SYSTEM\usart\usart.c)(0x5966009D)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\usart.o --omf_browse ..\obj\usart.crf --depend ..\obj\usart.d)
 I (..\SYSTEM\sys\sys.h)(0x595A1004)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
 I (..\CORE\core_cm3.h)(0x4D523B58)
@@ -435,7 +511,7 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_dma.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_adc.h)(0x4D783BB4)
@@ -443,7 +519,7 @@ I (..\HARDWARE\HardwareCommon.h)(0x591FBCB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h)(0x4D783BB4)
 I (..\HARDWARE\Beep/beep.h)(0x591A67EE)
 I (..\HARDWARE\Button/Button.h)(0x590E9BB5)
-I (..\HARDWARE\PhotoelectricSensor/PhSensor.h)(0x59524580)
+I (..\HARDWARE\PhotoelectricSensor/PhSensor.h)(0x59657737)
 I (..\HARDWARE\RelayMOS/RelayMOS.h)(0x590FC907)
 I (..\HARDWARE\DCMotor/DCMotor.h)(0x59584E62)
 I (..\HARDWARE\StepMotor/StepMotor.h)(0x5955F4DA)
@@ -451,14 +527,14 @@ I (..\HARDWARE\WDG/WDG.h)(0x5051DADA)
 I (..\HARDWARE\NTCResistor/adc.h)(0x593A021B)
 I (..\HARDWARE\NTCResistor/NTCResistor.h)(0x5954D335)
 I (..\USER\../HMI/cmd_process.h)(0x59190D05)
-I (..\USER\../HMI/hmi_driver.h)(0x59190CF9)
+I (..\USER\../HMI/hmi_driver.h)(0x59683766)
 I (..\USER\../HMI/hmi_user_uart.h)(0x5955E246)
-I (..\USER\../UILogic/pageCommon.h)(0x59571D55)
+I (..\USER\../UILogic/pageCommon.h)(0x596826C9)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
 I (..\USER\CPrintf.h)(0x594B1F03)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -467,14 +543,17 @@ I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
 I (..\USER\../HMI/cmd_queue.h)(0x583A3C6A)
-I (..\USER\../Logic/managerment.h)(0x595A0C96)
-I (..\USER\../Logic/project.h)(0x5955F93A)
+I (..\USER\../Logic/managerment.h)(0x59682634)
+I (..\USER\../Logic/project.h)(0x59660289)
 I (..\USER\../Logic/../PID/PID.h)(0x595B3393)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
 I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
 F (..\CORE\core_cm3.c)(0x4C0C587E)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\core_cm3.o --omf_browse ..\obj\core_cm3.crf --depend ..\obj\core_cm3.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
-F (..\CORE\startup_stm32f10x_hd.s)(0x59575485)(--cpu Cortex-M3 -g --apcs=interwork -I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 514" --pd "STM32F10X_HD SETA 1"--list ..\obj\startup_stm32f10x_hd.lst --xref -o ..\obj\startup_stm32f10x_hd.o --depend ..\obj\startup_stm32f10x_hd.d)
+F (..\CORE\startup_stm32f10x_hd.s)(0x595B8AC6)(--cpu Cortex-M3 -g --apcs=interwork -I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 514" --pd "STM32F10X_HD SETA 1"--list ..\obj\startup_stm32f10x_hd.lst --xref -o ..\obj\startup_stm32f10x_hd.o --depend ..\obj\startup_stm32f10x_hd.d)
 F (..\FWLIB\STM32F10x_FWLib\src\misc.c)(0x4D783BB4)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\misc.o --omf_browse ..\obj\misc.crf --depend ..\obj\misc.d)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
@@ -601,7 +680,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -611,11 +690,11 @@ I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
-F (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\port.c)(0x595A178D)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\port.o --omf_browse ..\obj\port.crf --depend ..\obj\port.d)
+F (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\port.c)(0x595EE662)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\port.o --omf_browse ..\obj\port.crf --depend ..\obj\port.d)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -628,7 +707,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -640,7 +719,7 @@ F (..\FreeRTOS\Source\croutine.c)(0x573F3A16)(-c --cpu Cortex-M3 -g -O0 --apcs=i
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -656,7 +735,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -666,12 +745,13 @@ I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\StackMacros.h)(0x573F3A16)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
 F (..\FreeRTOS\Source\list.c)(0x573F3A16)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\list.o --omf_browse ..\obj\list.crf --depend ..\obj\list.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -683,7 +763,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -699,7 +779,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -708,14 +788,14 @@ I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
-F (..\HMI\cmd_process.c)(0x5951F659)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\cmd_process.o --omf_browse ..\obj\cmd_process.crf --depend ..\obj\cmd_process.d)
-I (..\HMI\hmi_driver.h)(0x59190CF9)
+F (..\HMI\cmd_process.c)(0x59683822)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\cmd_process.o --omf_browse ..\obj\cmd_process.crf --depend ..\obj\cmd_process.d)
+I (..\HMI\hmi_driver.h)(0x59683766)
 I (..\HMI\hmi_user_uart.h)(0x5955E246)
 I (..\HMI\cmd_queue.h)(0x583A3C6A)
 I (..\HMI\cmd_process.h)(0x59190D05)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
 I (..\HMI\../User/CPrintf.h)(0x594B1F03)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
 I (..\SYSTEM\sys\sys.h)(0x595A1004)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
 I (..\CORE\core_cm3.h)(0x4D523B58)
@@ -729,15 +809,15 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
-I (..\HMI\../UILogic/pageCommon.h)(0x59571D55)
+I (..\HMI\../UILogic/pageCommon.h)(0x596826C9)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
-I (..\HMI\../Logic/managerment.h)(0x595A0C96)
-I (..\HMI\../Logic/project.h)(0x5955F93A)
+I (..\HMI\../Logic/managerment.h)(0x59682634)
+I (..\HMI\../Logic/project.h)(0x59660289)
 I (..\HMI\../Logic/../PID/PID.h)(0x595B3393)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -746,15 +826,18 @@ I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
 F (..\HMI\cmd_queue.c)(0x583A3C6A)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\cmd_queue.o --omf_browse ..\obj\cmd_queue.crf --depend ..\obj\cmd_queue.d)
 I (..\HMI\cmd_queue.h)(0x583A3C6A)
-I (..\HMI\hmi_driver.h)(0x59190CF9)
+I (..\HMI\hmi_driver.h)(0x59683766)
 I (..\HMI\hmi_user_uart.h)(0x5955E246)
-F (..\HMI\hmi_driver.c)(0x59190CFF)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\hmi_driver.o --omf_browse ..\obj\hmi_driver.crf --depend ..\obj\hmi_driver.d)
-I (..\HMI\hmi_driver.h)(0x59190CF9)
+F (..\HMI\hmi_driver.c)(0x59681CC0)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\hmi_driver.o --omf_browse ..\obj\hmi_driver.crf --depend ..\obj\hmi_driver.d)
+I (..\HMI\hmi_driver.h)(0x59683766)
 I (..\HMI\hmi_user_uart.h)(0x5955E246)
-F (..\HMI\hmi_user_uart.c)(0x59576344)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\hmi_user_uart.o --omf_browse ..\obj\hmi_user_uart.crf --depend ..\obj\hmi_user_uart.d)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
+F (..\HMI\hmi_user_uart.c)(0x5964960E)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\hmi_user_uart.o --omf_browse ..\obj\hmi_user_uart.crf --depend ..\obj\hmi_user_uart.d)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
 I (..\SYSTEM\sys\sys.h)(0x595A1004)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
@@ -771,10 +854,10 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
 I (..\HMI\hmi_user_uart.h)(0x5955E246)
 I (..\HMI\cmd_queue.h)(0x583A3C6A)
-I (..\HMI\hmi_driver.h)(0x59190CF9)
+I (..\HMI\hmi_driver.h)(0x59683766)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -782,20 +865,20 @@ I (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\portmacro.h)(0x573F3A17)
 I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
-F (..\Logic\managerment.c)(0x595B3A85)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\managerment.o --omf_browse ..\obj\managerment.crf --depend ..\obj\managerment.d)
-I (..\Logic\managerment.h)(0x595A0C96)
+F (..\Logic\managerment.c)(0x596839A9)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\managerment.o --omf_browse ..\obj\managerment.crf --depend ..\obj\managerment.d)
+I (..\Logic\managerment.h)(0x59682634)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
-I (..\Logic\project.h)(0x5955F93A)
-I (..\Logic\../UILogic/pageCommon.h)(0x59571D55)
+I (..\Logic\project.h)(0x59660289)
+I (..\Logic\../UILogic/pageCommon.h)(0x596826C9)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
 I (..\Logic\../UILogic/../HMI/hmi_user_uart.h)(0x5955E246)
-I (..\Logic\../UILogic/../HMI/hmi_driver.h)(0x59190CF9)
+I (..\Logic\../UILogic/../HMI/hmi_driver.h)(0x59683766)
 I (..\Logic\../UILogic/../HMI/cmd_process.h)(0x59190D05)
 I (..\Logic\../HMI/cmd_queue.h)(0x583A3C6A)
 I (..\Logic\../PID/PID.h)(0x595B3393)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
 I (..\USER\CPrintf.h)(0x594B1F03)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
 I (..\SYSTEM\sys\sys.h)(0x595A1004)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
@@ -811,7 +894,7 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -820,31 +903,35 @@ I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
 I (..\Logic\../HARDWARE/DCMotor/dcmotor.h)(0x59584E62)
 I (..\Logic\../HARDWARE/DCMotor/../HardwareCommon.h)(0x591FBCB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h)(0x4D783BB4)
-I (..\Logic\../HARDWARE/DCMotor/../PhotoelectricSensor/PhSensor.h)(0x59524580)
+I (..\Logic\../HARDWARE/DCMotor/../PhotoelectricSensor/PhSensor.h)(0x59657737)
 I (..\Logic\../HARDWARE/StepMotor/stepmotor.h)(0x5955F4DA)
 I (..\Logic\../HARDWARE/Beep/beep.h)(0x591A67EE)
-I (..\Logic\../HARDWARE/24CXX/24cxx.h)(0x50558BF2)
-I (..\Logic\../HARDWARE/24CXX/myiic.h)(0x59194E5A)
+I (..\Logic\../HARDWARE/24CXX/24cxx.h)(0x595DB4F5)
+I (..\Logic\../HARDWARE/24CXX/myiic.h)(0x595DA7A0)
+I (..\Logic\../HARDWARE/WDG/wdg.h)(0x5051DADA)
 I (..\HARDWARE\NTCResistor/NTCResistor.h)(0x5954D335)
 I (..\HARDWARE\LED/led.h)(0x590D2891)
 I (..\HARDWARE\RelayMOS/RelayMOS.h)(0x590FC907)
-F (..\Logic\project.c)(0x595B3A50)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\project.o --omf_browse ..\obj\project.crf --depend ..\obj\project.d)
-I (..\Logic\project.h)(0x5955F93A)
+F (..\Logic\project.c)(0x5968366A)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\project.o --omf_browse ..\obj\project.crf --depend ..\obj\project.d)
+I (..\Logic\project.h)(0x59660289)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
-I (..\Logic\../UILogic/pageCommon.h)(0x59571D55)
+I (..\Logic\../UILogic/pageCommon.h)(0x596826C9)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
 I (..\Logic\../UILogic/../HMI/hmi_user_uart.h)(0x5955E246)
-I (..\Logic\../UILogic/../HMI/hmi_driver.h)(0x59190CF9)
+I (..\Logic\../UILogic/../HMI/hmi_driver.h)(0x59683766)
 I (..\Logic\../UILogic/../HMI/cmd_process.h)(0x59190D05)
-I (..\Logic\managerment.h)(0x595A0C96)
+I (..\Logic\managerment.h)(0x59682634)
 I (..\Logic\../HMI/cmd_queue.h)(0x583A3C6A)
 I (..\Logic\../PID/PID.h)(0x595B3393)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
 I (..\USER\CPrintf.h)(0x594B1F03)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
 I (..\SYSTEM\sys\sys.h)(0x595A1004)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
@@ -860,7 +947,7 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -869,24 +956,118 @@ I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
 I (..\Logic\../HARDWARE/DCMotor/DCMotor.h)(0x59584E62)
 I (..\Logic\../HARDWARE/DCMotor/../HardwareCommon.h)(0x591FBCB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h)(0x4D783BB4)
-I (..\Logic\../HARDWARE/DCMotor/../PhotoelectricSensor/PhSensor.h)(0x59524580)
+I (..\Logic\../HARDWARE/DCMotor/../PhotoelectricSensor/PhSensor.h)(0x59657737)
 I (..\Logic\../HARDWARE/StepMotor/StepMotor.h)(0x5955F4DA)
 I (..\Logic\../HARDWARE/Beep/beep.h)(0x591A67EE)
 I (..\Logic\../HARDWARE/NTCResistor/NTCResistor.h)(0x5954D335)
-I (..\HARDWARE\LED\../RelayMOS/RelayMOS.h)(0x590FC907)
-I (..\HARDWARE\LED/led.h)(0x590D2891)
-F (..\UILogic\mainPage.c)(0x5937D9F6)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\mainpage.o --omf_browse ..\obj\mainpage.crf --depend ..\obj\mainpage.d)
-I (..\UILogic\pageCommon.h)(0x59571D55)
+I (..\Logic\../HARDWARE/RelayMOS/RelayMOS.h)(0x590FC907)
+I (..\Logic\../HARDWARE/24CXX/24cxx.h)(0x595DB4F5)
+I (..\Logic\../HARDWARE/24CXX/myiic.h)(0x595DA7A0)
+I (..\Logic\../HARDWARE/LED/led.h)(0x590D2891)
+F (..\UILogic\mainPage.c)(0x59682676)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\mainpage.o --omf_browse ..\obj\mainpage.crf --depend ..\obj\mainpage.d)
+I (..\UILogic\pageCommon.h)(0x596826C9)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
+I (..\UILogic\../HMI/hmi_user_uart.h)(0x5955E246)
+I (..\UILogic\../HMI/hmi_driver.h)(0x59683766)
+I (..\UILogic\../HMI/cmd_process.h)(0x59190D05)
+I (..\UILogic\../Logic/managerment.h)(0x59682634)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\UILogic\../Logic/project.h)(0x59660289)
+I (..\UILogic\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
+I (..\UILogic\../Logic/../PID/PID.h)(0x595B3393)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (..\USER\CPrintf.h)(0x594B1F03)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (..\SYSTEM\sys\sys.h)(0x595A1004)
+I (..\USER\stm32f10x.h)(0x4D783CB4)
+I (..\CORE\core_cm3.h)(0x4D523B58)
+I (..\USER\system_stm32f10x.h)(0x4D783CAA)
+I (..\USER\stm32f10x_conf.h)(0x54B9E91F)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_fsmc.h)(0x50388DDC)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_gpio.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_rcc.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
+I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
+I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
+I (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\portmacro.h)(0x573F3A17)
+I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
+I (..\UILogic\../HARDWARE/24CXX/24cxx.h)(0x595DB4F5)
+I (..\UILogic\../HARDWARE/24CXX/myiic.h)(0x595DA7A0)
+F (..\UILogic\manualPage.c)(0x5964AF55)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\manualpage.o --omf_browse ..\obj\manualpage.crf --depend ..\obj\manualpage.d)
+I (..\UILogic\pageCommon.h)(0x596826C9)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
+I (..\UILogic\../HMI/hmi_user_uart.h)(0x5955E246)
+I (..\UILogic\../HMI/hmi_driver.h)(0x59683766)
+I (..\UILogic\../HMI/cmd_process.h)(0x59190D05)
+I (..\UILogic\../Logic/managerment.h)(0x59682634)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\UILogic\../Logic/project.h)(0x59660289)
+I (..\UILogic\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
+I (..\UILogic\../Logic/../PID/PID.h)(0x595B3393)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (..\USER\CPrintf.h)(0x594B1F03)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (..\SYSTEM\sys\sys.h)(0x595A1004)
+I (..\USER\stm32f10x.h)(0x4D783CB4)
+I (..\CORE\core_cm3.h)(0x4D523B58)
+I (..\USER\system_stm32f10x.h)(0x4D783CAA)
+I (..\USER\stm32f10x_conf.h)(0x54B9E91F)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_fsmc.h)(0x50388DDC)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_gpio.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_rcc.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
+I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
+I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
+I (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\portmacro.h)(0x573F3A17)
+I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
+I (..\HARDWARE\LED\../DCMotor/DCMotor.h)(0x59584E62)
+I (..\HARDWARE\LED\../DCMotor/../HardwareCommon.h)(0x591FBCB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h)(0x4D783BB4)
+I (..\HARDWARE\LED\../DCMotor/../PhotoelectricSensor/PhSensor.h)(0x59657737)
+I (..\HARDWARE\LED\../StepMotor/StepMotor.h)(0x5955F4DA)
+F (..\UILogic\parameterPage.c)(0x595DE403)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\parameterpage.o --omf_browse ..\obj\parameterpage.crf --depend ..\obj\parameterpage.d)
+I (..\UILogic\pageCommon.h)(0x59603747)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
 I (..\UILogic\../HMI/hmi_user_uart.h)(0x5955E246)
 I (..\UILogic\../HMI/hmi_driver.h)(0x59190CF9)
 I (..\UILogic\../HMI/cmd_process.h)(0x59190D05)
-I (..\UILogic\../Logic/managerment.h)(0x595A0C96)
+I (..\UILogic\../Logic/managerment.h)(0x596045E6)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
-I (..\UILogic\../Logic/project.h)(0x5955F93A)
+I (..\UILogic\../Logic/project.h)(0x596039E2)
 I (..\UILogic\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
 I (..\UILogic\../Logic/../PID/PID.h)(0x595B3393)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
@@ -907,7 +1088,7 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x595EE250)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -916,64 +1097,292 @@ I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
-F (..\UILogic\manualPage.c)(0x595612E6)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\manualpage.o --omf_browse ..\obj\manualpage.crf --depend ..\obj\manualpage.d)
-I (..\UILogic\pageCommon.h)(0x59571D55)
-I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
-I (..\UILogic\../HMI/hmi_user_uart.h)(0x5955E246)
-I (..\UILogic\../HMI/hmi_driver.h)(0x59190CF9)
-I (..\UILogic\../HMI/cmd_process.h)(0x59190D05)
-I (..\UILogic\../Logic/managerment.h)(0x595A0C96)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
-I (..\UILogic\../Logic/project.h)(0x5955F93A)
-I (..\UILogic\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
-I (..\UILogic\../Logic/../PID/PID.h)(0x595B3393)
-I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
-I (..\USER\CPrintf.h)(0x594B1F03)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
-I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
-I (..\SYSTEM\sys\sys.h)(0x595A1004)
-I (..\USER\stm32f10x.h)(0x4D783CB4)
-I (..\CORE\core_cm3.h)(0x4D523B58)
-I (..\USER\system_stm32f10x.h)(0x4D783CAA)
-I (..\USER\stm32f10x_conf.h)(0x54B9E91F)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_fsmc.h)(0x50388DDC)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_gpio.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_rcc.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
-I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
-I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
-I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
-I (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\portmacro.h)(0x573F3A17)
-I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
+I (..\UILogic\../HARDWARE/24CXX/24cxx.h)(0x595DB4F5)
+I (..\UILogic\../HARDWARE/24CXX/myiic.h)(0x595DA7A0)
 I (..\HARDWARE\LED\../DCMotor/DCMotor.h)(0x59584E62)
 I (..\HARDWARE\LED\../DCMotor/../HardwareCommon.h)(0x591FBCB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h)(0x4D783BB4)
 I (..\HARDWARE\LED\../DCMotor/../PhotoelectricSensor/PhSensor.h)(0x59524580)
+F (..\UILogic\inputPage.c)(0x5960BF24)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\inputpage.o --omf_browse ..\obj\inputpage.crf --depend ..\obj\inputpage.d)
+I (..\UILogic\pageCommon.h)(0x596826C9)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
+I (..\UILogic\../HMI/hmi_user_uart.h)(0x5955E246)
+I (..\UILogic\../HMI/hmi_driver.h)(0x59683766)
+I (..\UILogic\../HMI/cmd_process.h)(0x59190D05)
+I (..\UILogic\../Logic/managerment.h)(0x59682634)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\UILogic\../Logic/project.h)(0x59660289)
+I (..\UILogic\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
+I (..\UILogic\../Logic/../PID/PID.h)(0x595B3393)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (..\USER\CPrintf.h)(0x594B1F03)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (..\SYSTEM\sys\sys.h)(0x595A1004)
+I (..\USER\stm32f10x.h)(0x4D783CB4)
+I (..\CORE\core_cm3.h)(0x4D523B58)
+I (..\USER\system_stm32f10x.h)(0x4D783CAA)
+I (..\USER\stm32f10x_conf.h)(0x54B9E91F)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_fsmc.h)(0x50388DDC)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_gpio.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_rcc.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
+I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
+I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
+I (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\portmacro.h)(0x573F3A17)
+I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
+F (..\UILogic\aboutPage.c)(0x5960C2B0)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\aboutpage.o --omf_browse ..\obj\aboutpage.crf --depend ..\obj\aboutpage.d)
+I (..\UILogic\pageCommon.h)(0x596826C9)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
+I (..\UILogic\../HMI/hmi_user_uart.h)(0x5955E246)
+I (..\UILogic\../HMI/hmi_driver.h)(0x59683766)
+I (..\UILogic\../HMI/cmd_process.h)(0x59190D05)
+I (..\UILogic\../Logic/managerment.h)(0x59682634)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\UILogic\../Logic/project.h)(0x59660289)
+I (..\UILogic\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
+I (..\UILogic\../Logic/../PID/PID.h)(0x595B3393)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (..\USER\CPrintf.h)(0x594B1F03)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (..\SYSTEM\sys\sys.h)(0x595A1004)
+I (..\USER\stm32f10x.h)(0x4D783CB4)
+I (..\CORE\core_cm3.h)(0x4D523B58)
+I (..\USER\system_stm32f10x.h)(0x4D783CAA)
+I (..\USER\stm32f10x_conf.h)(0x54B9E91F)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_fsmc.h)(0x50388DDC)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_gpio.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_rcc.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
+I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
+I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
+I (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\portmacro.h)(0x573F3A17)
+I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
+I (..\UILogic\../HARDWARE/24CXX/24cxx.h)(0x595DB4F5)
+I (..\UILogic\../HARDWARE/24CXX/myiic.h)(0x595DA7A0)
+I (..\UILogic\../HARDWARE/DCMotor/DCMotor.h)(0x59584E62)
+I (..\UILogic\../HARDWARE/DCMotor/../HardwareCommon.h)(0x591FBCB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h)(0x4D783BB4)
+I (..\UILogic\../HARDWARE/DCMotor/../PhotoelectricSensor/PhSensor.h)(0x59657737)
+F (..\UILogic\statusPage.c)(0x5967126B)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\statuspage.o --omf_browse ..\obj\statuspage.crf --depend ..\obj\statuspage.d)
+I (..\UILogic\pageCommon.h)(0x596826C9)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
+I (..\UILogic\../HMI/hmi_user_uart.h)(0x5955E246)
+I (..\UILogic\../HMI/hmi_driver.h)(0x59683766)
+I (..\UILogic\../HMI/cmd_process.h)(0x59190D05)
+I (..\UILogic\../Logic/managerment.h)(0x59682634)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\UILogic\../Logic/project.h)(0x59660289)
+I (..\UILogic\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
+I (..\UILogic\../Logic/../PID/PID.h)(0x595B3393)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (..\USER\CPrintf.h)(0x594B1F03)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (..\SYSTEM\sys\sys.h)(0x595A1004)
+I (..\USER\stm32f10x.h)(0x4D783CB4)
+I (..\CORE\core_cm3.h)(0x4D523B58)
+I (..\USER\system_stm32f10x.h)(0x4D783CAA)
+I (..\USER\stm32f10x_conf.h)(0x54B9E91F)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_fsmc.h)(0x50388DDC)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_gpio.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_rcc.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
+I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
+I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
+I (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\portmacro.h)(0x573F3A17)
+I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
+I (..\UILogic\../HARDWARE/DCMotor/DCMotor.h)(0x59584E62)
+I (..\UILogic\../HARDWARE/DCMotor/../HardwareCommon.h)(0x591FBCB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h)(0x4D783BB4)
+I (..\UILogic\../HARDWARE/DCMotor/../PhotoelectricSensor/PhSensor.h)(0x59657737)
+F (..\UILogic\tempparaPage.c)(0x5960CB0F)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\tempparapage.o --omf_browse ..\obj\tempparapage.crf --depend ..\obj\tempparapage.d)
+I (..\UILogic\pageCommon.h)(0x596826C9)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
+I (..\UILogic\../HMI/hmi_user_uart.h)(0x5955E246)
+I (..\UILogic\../HMI/hmi_driver.h)(0x59683766)
+I (..\UILogic\../HMI/cmd_process.h)(0x59190D05)
+I (..\UILogic\../Logic/managerment.h)(0x59682634)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\UILogic\../Logic/project.h)(0x59660289)
+I (..\UILogic\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
+I (..\UILogic\../Logic/../PID/PID.h)(0x595B3393)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (..\USER\CPrintf.h)(0x594B1F03)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (..\SYSTEM\sys\sys.h)(0x595A1004)
+I (..\USER\stm32f10x.h)(0x4D783CB4)
+I (..\CORE\core_cm3.h)(0x4D523B58)
+I (..\USER\system_stm32f10x.h)(0x4D783CAA)
+I (..\USER\stm32f10x_conf.h)(0x54B9E91F)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_fsmc.h)(0x50388DDC)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_gpio.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_rcc.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
+I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
+I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
+I (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\portmacro.h)(0x573F3A17)
+I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
+I (..\UILogic\../HARDWARE/24CXX/24cxx.h)(0x595DB4F5)
+I (..\UILogic\../HARDWARE/24CXX/myiic.h)(0x595DA7A0)
+F (..\UILogic\timeparaPage.c)(0x59671058)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\timeparapage.o --omf_browse ..\obj\timeparapage.crf --depend ..\obj\timeparapage.d)
+I (..\UILogic\pageCommon.h)(0x596826C9)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
+I (..\UILogic\../HMI/hmi_user_uart.h)(0x5955E246)
+I (..\UILogic\../HMI/hmi_driver.h)(0x59683766)
+I (..\UILogic\../HMI/cmd_process.h)(0x59190D05)
+I (..\UILogic\../Logic/managerment.h)(0x59682634)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\UILogic\../Logic/project.h)(0x59660289)
+I (..\UILogic\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
+I (..\UILogic\../Logic/../PID/PID.h)(0x595B3393)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (..\USER\CPrintf.h)(0x594B1F03)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (..\SYSTEM\sys\sys.h)(0x595A1004)
+I (..\USER\stm32f10x.h)(0x4D783CB4)
+I (..\CORE\core_cm3.h)(0x4D523B58)
+I (..\USER\system_stm32f10x.h)(0x4D783CAA)
+I (..\USER\stm32f10x_conf.h)(0x54B9E91F)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_fsmc.h)(0x50388DDC)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_gpio.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_rcc.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
+I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
+I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
+I (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\portmacro.h)(0x573F3A17)
+I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
+I (..\UILogic\../HARDWARE/24CXX/24cxx.h)(0x595DB4F5)
+I (..\UILogic\../HARDWARE/24CXX/myiic.h)(0x595DA7A0)
+F (..\UILogic\manualrawPage.c)(0x5960CA62)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\manualrawpage.o --omf_browse ..\obj\manualrawpage.crf --depend ..\obj\manualrawpage.d)
+I (..\UILogic\pageCommon.h)(0x596826C9)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
+I (..\UILogic\../HMI/hmi_user_uart.h)(0x5955E246)
+I (..\UILogic\../HMI/hmi_driver.h)(0x59683766)
+I (..\UILogic\../HMI/cmd_process.h)(0x59190D05)
+I (..\UILogic\../Logic/managerment.h)(0x59682634)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\UILogic\../Logic/project.h)(0x59660289)
+I (..\UILogic\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
+I (..\UILogic\../Logic/../PID/PID.h)(0x595B3393)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (..\USER\CPrintf.h)(0x594B1F03)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (..\SYSTEM\sys\sys.h)(0x595A1004)
+I (..\USER\stm32f10x.h)(0x4D783CB4)
+I (..\CORE\core_cm3.h)(0x4D523B58)
+I (..\USER\system_stm32f10x.h)(0x4D783CAA)
+I (..\USER\stm32f10x_conf.h)(0x54B9E91F)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_fsmc.h)(0x50388DDC)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_gpio.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_rcc.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
+I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
+I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
+I (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\portmacro.h)(0x573F3A17)
+I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
+I (..\HARDWARE\LED\../DCMotor/DCMotor.h)(0x59584E62)
+I (..\HARDWARE\LED\../DCMotor/../HardwareCommon.h)(0x591FBCB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h)(0x4D783BB4)
+I (..\HARDWARE\LED\../DCMotor/../PhotoelectricSensor/PhSensor.h)(0x59657737)
 I (..\HARDWARE\StepMotor/StepMotor.h)(0x5955F4DA)
 I (..\HARDWARE\RelayMOS/RelayMOS.h)(0x590FC907)
-F (..\UILogic\parameterPage.c)(0x595A0F13)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\parameterpage.o --omf_browse ..\obj\parameterpage.crf --depend ..\obj\parameterpage.d)
-I (..\UILogic\pageCommon.h)(0x59571D55)
+F (..\UILogic\motorparaPage.c)(0x5960C74B)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\motorparapage.o --omf_browse ..\obj\motorparapage.crf --depend ..\obj\motorparapage.d)
+I (..\UILogic\pageCommon.h)(0x596826C9)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
 I (..\UILogic\../HMI/hmi_user_uart.h)(0x5955E246)
-I (..\UILogic\../HMI/hmi_driver.h)(0x59190CF9)
+I (..\UILogic\../HMI/hmi_driver.h)(0x59683766)
 I (..\UILogic\../HMI/cmd_process.h)(0x59190D05)
-I (..\UILogic\../Logic/managerment.h)(0x595A0C96)
+I (..\UILogic\../Logic/managerment.h)(0x59682634)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
-I (..\UILogic\../Logic/project.h)(0x5955F93A)
+I (..\UILogic\../Logic/project.h)(0x59660289)
 I (..\UILogic\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
 I (..\UILogic\../Logic/../PID/PID.h)(0x595B3393)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
 I (..\USER\CPrintf.h)(0x594B1F03)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
 I (..\SYSTEM\sys\sys.h)(0x595A1004)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
@@ -989,7 +1398,7 @@ I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
 I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
 I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
@@ -998,136 +1407,65 @@ I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
 I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
-I (..\UILogic\../HARDWARE/24CXX/24cxx.h)(0x50558BF2)
-I (..\UILogic\../HARDWARE/24CXX/myiic.h)(0x59194E5A)
-I (..\HARDWARE\LED\../DCMotor/DCMotor.h)(0x59584E62)
-I (..\HARDWARE\LED\../DCMotor/../HardwareCommon.h)(0x591FBCB4)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
+I (..\UILogic\../HARDWARE/24CXX/24cxx.h)(0x595DB4F5)
+I (..\UILogic\../HARDWARE/24CXX/myiic.h)(0x595DA7A0)
+F (..\UILogic\setupPage.c)(0x59671039)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\setuppage.o --omf_browse ..\obj\setuppage.crf --depend ..\obj\setuppage.d)
+I (..\UILogic\pageCommon.h)(0x596826C9)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
+I (..\UILogic\../HMI/hmi_user_uart.h)(0x5955E246)
+I (..\UILogic\../HMI/hmi_driver.h)(0x59683766)
+I (..\UILogic\../HMI/cmd_process.h)(0x59190D05)
+I (..\UILogic\../Logic/managerment.h)(0x59682634)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\UILogic\../Logic/project.h)(0x59660289)
+I (..\UILogic\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
+I (..\UILogic\../Logic/../PID/PID.h)(0x595B3393)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (..\USER\CPrintf.h)(0x594B1F03)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (..\SYSTEM\sys\sys.h)(0x595A1004)
+I (..\USER\stm32f10x.h)(0x4D783CB4)
+I (..\CORE\core_cm3.h)(0x4D523B58)
+I (..\USER\system_stm32f10x.h)(0x4D783CAA)
+I (..\USER\stm32f10x_conf.h)(0x54B9E91F)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_fsmc.h)(0x50388DDC)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_gpio.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_rcc.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
+I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
+I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
+I (..\USER\FreeRTOSConfig.h)(0x59658EFD)
+I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
+I (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\portmacro.h)(0x573F3A17)
+I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\queue.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\semphr.h)(0x573F3A16)
+I (..\FreeRTOS\Source\include\event_groups.h)(0x573F3A16)
+I (..\UILogic\../HARDWARE/24CXX/24cxx.h)(0x595DB4F5)
+I (..\UILogic\../HARDWARE/24CXX/myiic.h)(0x595DA7A0)
+I (..\UILogic\../HARDWARE/DCMotor/DCMotor.h)(0x59584E62)
+I (..\UILogic\../HARDWARE/DCMotor/../HardwareCommon.h)(0x591FBCB4)
 I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h)(0x4D783BB4)
-I (..\HARDWARE\LED\../DCMotor/../PhotoelectricSensor/PhSensor.h)(0x59524580)
-F (..\UILogic\inputPage.c)(0x5937D9EC)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\inputpage.o --omf_browse ..\obj\inputpage.crf --depend ..\obj\inputpage.d)
-I (..\UILogic\pageCommon.h)(0x59571D55)
-I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
-I (..\UILogic\../HMI/hmi_user_uart.h)(0x5955E246)
-I (..\UILogic\../HMI/hmi_driver.h)(0x59190CF9)
-I (..\UILogic\../HMI/cmd_process.h)(0x59190D05)
-I (..\UILogic\../Logic/managerment.h)(0x595A0C96)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
-I (..\UILogic\../Logic/project.h)(0x5955F93A)
-I (..\UILogic\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
-I (..\UILogic\../Logic/../PID/PID.h)(0x595B3393)
-I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
-I (..\USER\CPrintf.h)(0x594B1F03)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
-I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
-I (..\SYSTEM\sys\sys.h)(0x595A1004)
-I (..\USER\stm32f10x.h)(0x4D783CB4)
-I (..\CORE\core_cm3.h)(0x4D523B58)
-I (..\USER\system_stm32f10x.h)(0x4D783CAA)
-I (..\USER\stm32f10x_conf.h)(0x54B9E91F)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_fsmc.h)(0x50388DDC)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_gpio.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_rcc.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
-I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
-I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
-I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
-I (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\portmacro.h)(0x573F3A17)
-I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
-F (..\UILogic\temperaturePage.c)(0x5951F656)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\temperaturepage.o --omf_browse ..\obj\temperaturepage.crf --depend ..\obj\temperaturepage.d)
-I (..\UILogic\pageCommon.h)(0x59571D55)
-I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
-I (..\UILogic\../HMI/hmi_user_uart.h)(0x5955E246)
-I (..\UILogic\../HMI/hmi_driver.h)(0x59190CF9)
-I (..\UILogic\../HMI/cmd_process.h)(0x59190D05)
-I (..\UILogic\../Logic/managerment.h)(0x595A0C96)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
-I (..\UILogic\../Logic/project.h)(0x5955F93A)
-I (..\UILogic\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
-I (..\UILogic\../Logic/../PID/PID.h)(0x595B3393)
-I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
-I (..\USER\CPrintf.h)(0x594B1F03)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
-I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
-I (..\SYSTEM\sys\sys.h)(0x595A1004)
-I (..\USER\stm32f10x.h)(0x4D783CB4)
-I (..\CORE\core_cm3.h)(0x4D523B58)
-I (..\USER\system_stm32f10x.h)(0x4D783CAA)
-I (..\USER\stm32f10x_conf.h)(0x54B9E91F)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_fsmc.h)(0x50388DDC)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_gpio.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_rcc.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
-I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
-I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
-I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
-I (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\portmacro.h)(0x573F3A17)
-I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
-F (..\UILogic\testPage.c)(0x595853C9)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\testpage.o --omf_browse ..\obj\testpage.crf --depend ..\obj\testpage.d)
-I (..\UILogic\pageCommon.h)(0x59571D55)
-I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
-I (..\UILogic\../HMI/hmi_user_uart.h)(0x5955E246)
-I (..\UILogic\../HMI/hmi_driver.h)(0x59190CF9)
-I (..\UILogic\../HMI/cmd_process.h)(0x59190D05)
-I (..\UILogic\../Logic/managerment.h)(0x595A0C96)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
-I (..\UILogic\../Logic/project.h)(0x5955F93A)
-I (..\UILogic\../Logic/../HMI/cmd_queue.h)(0x583A3C6A)
-I (..\UILogic\../Logic/../PID/PID.h)(0x595B3393)
-I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
-I (..\USER\CPrintf.h)(0x594B1F03)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
-I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
-I (..\SYSTEM\sys\sys.h)(0x595A1004)
-I (..\USER\stm32f10x.h)(0x4D783CB4)
-I (..\CORE\core_cm3.h)(0x4D523B58)
-I (..\USER\system_stm32f10x.h)(0x4D783CAA)
-I (..\USER\stm32f10x_conf.h)(0x54B9E91F)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_fsmc.h)(0x50388DDC)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_gpio.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_rcc.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_spi.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
-I (..\FreeRTOS\Source\include\FreeRTOS.h)(0x573F3A16)
-I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5475F300)
-I (..\USER\FreeRTOSConfig.h)(0x5959AD92)
-I (..\FreeRTOS\Source\include\projdefs.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\portable.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\deprecated_definitions.h)(0x573F3A16)
-I (..\FreeRTOS\Source\portable\RVDS\ARM_CM3\portmacro.h)(0x573F3A17)
-I (..\FreeRTOS\Source\include\mpu_wrappers.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\task.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\list.h)(0x573F3A16)
-I (..\FreeRTOS\Source\include\timers.h)(0x573F3A16)
-I (..\HARDWARE\LED\../DCMotor/DCMotor.h)(0x59584E62)
-I (..\HARDWARE\LED\../DCMotor/../HardwareCommon.h)(0x591FBCB4)
-I (..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h)(0x4D783BB4)
-I (..\HARDWARE\LED\../DCMotor/../PhotoelectricSensor/PhSensor.h)(0x59524580)
-I (..\HARDWARE\LED\../StepMotor/StepMotor.h)(0x5955F4DA)
-F (..\PID\PID.c)(0x595B33BE)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\pid.o --omf_browse ..\obj\pid.crf --depend ..\obj\pid.d)
+I (..\UILogic\../HARDWARE/DCMotor/../PhotoelectricSensor/PhSensor.h)(0x59657737)
+I (..\HARDWARE\NTCResistor/NTCResistor.h)(0x5954D335)
+I (..\USER\main.h)(0x594B1E54)
+F (..\PID\PID.c)(0x59648642)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\STM32F10x_FWLib\inc -I..\FWLIB\STM32F10x_FWLib\inc -I..\HARDWARE\LED -I..\HARDWARE\BEEP -I..\HARDWARE\KEY -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I..\FreeRTOS\Source\CMSIS_RTOS -I..\FWLIB\CMSIS\Include -I..\HARDWARE -I..\HARDWARE\24CXX-I F:\GitHubRepository\TCN-I\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\pid.o --omf_browse ..\obj\pid.crf --depend ..\obj\pid.d)
 I (..\PID\PID.h)(0x595B3393)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5475F300)
 I (..\USER\CPrintf.h)(0x594B1F03)
-I (..\SYSTEM\usart\usart.h)(0x59575AD8)
+I (..\SYSTEM\usart\usart.h)(0x596496D8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
 I (..\SYSTEM\sys\sys.h)(0x595A1004)
 I (..\USER\stm32f10x.h)(0x4D783CB4)

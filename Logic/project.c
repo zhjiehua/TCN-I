@@ -12,60 +12,14 @@ extern "C" {
 #include "../HARDWARE/StepMotor/StepMotor.h"
 #include "../HARDWARE/Beep/beep.h"
 #include "../HARDWARE/NTCResistor/NTCResistor.h"
-#include "../RelayMOS/RelayMOS.h"
-#include "LED/led.h"
+#include "../HARDWARE/RelayMOS/RelayMOS.h"
+#include "../HARDWARE/24CXX/24cxx.h"
+#include "../HARDWARE/LED/led.h"
 	
 /* Scheduler includes. */
 #include "FreeRTOS.h"
 #include "task.h"
 #include "timers.h"
-
-//夹紧
-//action : 0,夹紧松开; !=0,夹紧
-//stopFlag : 0,继续动作; !=0,主动退出动作
-void Clamp(uint8_t action, uint8_t *pStopFlag)
-{
-	uint8_t flag1, flag2;
-	PhSensorEnum_TypeDef clamp1Sensor, clamp2Sensor;
-	Direction_TypeDef dir;
-	
-	if(action)
-	{
-		dir = CW;
-		clamp1Sensor = CLAMP1_SENSOR_L;
-		clamp2Sensor = CLAMP2_SENSOR_L;
-	}
-	else
-	{
-		dir = CCW;
-		clamp1Sensor = CLAMP1_SENSOR_R;
-		clamp2Sensor = CLAMP2_SENSOR_R;
-	}
-	
-	DCMotor_Run(CLAMP1_MOTOR, dir, 100);
-	DCMotor_Run(CLAMP2_MOTOR, dir, 100);
-	flag1 = 0;
-	flag2 = 0;
-	while(1)
-	{
-		PhSensor_SingleScan(clamp1Sensor);
-		if((!flag1 && (!PhSensor_SingleCheck(clamp1Sensor))) || *pStopFlag)
-		{
-			DCMotor_Stop(CLAMP1_MOTOR);
-			flag1 = 1;
-		}
-		PhSensor_SingleScan(clamp2Sensor);
-		if((!flag2 && (!PhSensor_SingleCheck(clamp2Sensor))) || *pStopFlag)
-		{
-			DCMotor_Stop(CLAMP2_MOTOR);
-			flag2 = 1;
-		}
-		if(flag1 && flag2)
-			break;
-		
-		vTaskDelay(5);
-	}
-}
 
 //夹紧1
 //action : 0,夹紧松开; !=0,夹紧
@@ -87,7 +41,7 @@ void Clamp1(uint8_t action, uint8_t *pStopFlag)
 	}
 	
 	PhSensor_SingleScan(sensor);
-	if(!PhSensor_SingleCheck(sensor))
+	if(!PhSensor_SingleCheck(sensor) || *pStopFlag)
 		return;
 	
 	DCMotor_Run(CLAMP1_MOTOR, dir, 100);
@@ -96,7 +50,8 @@ void Clamp1(uint8_t action, uint8_t *pStopFlag)
 		PhSensor_SingleScan(sensor);
 		if((!PhSensor_SingleCheck(sensor)) || *pStopFlag)
 		{
-			vTaskDelay(80);
+			if(action && !*pStopFlag)
+				vTaskDelay(pProjectMan->clamp1Delay);//80
 			DCMotor_Stop(CLAMP1_MOTOR);
 			break;
 		}
@@ -125,7 +80,7 @@ void Clamp2(uint8_t action, uint8_t *pStopFlag)
 	}
 	
 	PhSensor_SingleScan(sensor);
-	if(!PhSensor_SingleCheck(sensor))
+	if(!PhSensor_SingleCheck(sensor) || *pStopFlag)
 		return;
 	
 	DCMotor_Run(CLAMP2_MOTOR, dir, 100);
@@ -134,213 +89,14 @@ void Clamp2(uint8_t action, uint8_t *pStopFlag)
 		PhSensor_SingleScan(sensor);
 		if((!PhSensor_SingleCheck(sensor)) || *pStopFlag)
 		{
-			vTaskDelay(80);
+			if(action && !*pStopFlag)
+				vTaskDelay(pProjectMan->clamp2Delay);//80
 			DCMotor_Stop(CLAMP2_MOTOR);
 			break;
 		}
 		
 		vTaskDelay(5);
 	}
-}
-
-//切断
-//action : 0,切断松开; !=0,切断
-//stopFlag : 0,继续动作; !=0,主动退出动作
-void Cutoff(uint8_t action, uint8_t *pStopFlag)
-{
-	uint8_t flag1, flag2;
-	flag1 = 0;
-	flag2 = 0;
-	
-#if 0	
-	if(action)//切断
-	{
-		DCMotor_Run(CUTOFF1_MOTOR, CW, 100);
-		DCMotor_Run(CUTOFF2_MOTOR, CW, 100);
-		while(1)
-		{
-			PhSensor_SingleScan(CUTOFF1_SENSOR_L);
-			if((!flag1 && (PhSensor_SingleCheck(CUTOFF1_SENSOR_L))) || *pStopFlag)//这个传感器特别一点
-			{
-				DCMotor_Stop(CUTOFF1_MOTOR);
-				flag1 = 1;
-			}
-			PhSensor_SingleScan(CUTOFF2_SENSOR_L);
-			if((!flag2 && (!PhSensor_SingleCheck(CUTOFF2_SENSOR_L))) || *pStopFlag)
-			{
-				DCMotor_Stop(CUTOFF2_MOTOR);
-				flag2 = 1;
-			}
-			if(flag1 && flag2)
-				break;
-			
-			vTaskDelay(5);
-		}
-	}
-	else//切断松开
-	{
-		DCMotor_Run(CUTOFF1_MOTOR, CCW, 100);
-		DCMotor_Run(CUTOFF2_MOTOR, CCW, 100);
-		while(1)
-		{
-//			PhSensor_SingleScan(CUTOFF1_SENSOR_R);
-//			if((!flag1 && (!PhSensor_SingleCheck(CUTOFF1_SENSOR_R))) || *pStopFlag)
-//			{
-//				DCMotor_Stop(CUTOFF1_MOTOR);
-//				flag1 = 1;
-//			}
-			PhSensor_SingleScan(CUTOFF2_SENSOR_R);
-			if((!flag2 && (!PhSensor_SingleCheck(CUTOFF2_SENSOR_R))) || *pStopFlag)
-			{
-				DCMotor_Stop(CUTOFF2_MOTOR);
-				flag2 = 1;
-				
-				DCMotor_Stop(CUTOFF1_MOTOR);
-				flag1 = 1;
-			}
-			
-			if(flag1 && flag2)
-				break;
-			
-			vTaskDelay(5);
-		}
-	}//if(action)
-	
-#else
-	
-	if(action)//切断
-	{
-		DCMotor_Run(CUTOFF1_MOTOR, CW, 100);
-		DCMotor_Run(CUTOFF2_MOTOR, CW, 100);
-		while((flag1 != 2) || (flag2 != 2))
-		{
-			if(*pStopFlag)
-			{
-				DCMotor_Stop(CUTOFF1_MOTOR);
-				DCMotor_Stop(CUTOFF2_MOTOR);
-
-				if( xTimerIsTimerActive( pProjectMan->xTimerUser[0] ) == pdTRUE )
-					xTimerStop( pProjectMan->xTimerUser[0], 0);
-				if( xTimerIsTimerActive( pProjectMan->xTimerUser[1] ) == pdTRUE )
-					xTimerStop( pProjectMan->xTimerUser[1], 0);
-				break;
-			}
-			
-			switch(flag1)
-			{
-				case 0:
-					PhSensor_SingleScan(CUTOFF1_SENSOR_L);
-					if(PhSensor_SingleCheck(CUTOFF1_SENSOR_L))//这个传感器特别一点
-					{
-						flag1 = 1;
-						
-		//				for(i=0;i<SOFTWARETIMER_COUNT;i++)
-		//				{
-		//					if( xTimerIsTimerActive( pProjectMan->xTimerUser[i] ) == pdFALSE )
-		//						xTimerStart( pProjectMan->xTimerUser[i], 0 );
-		//				}
-						
-						//修改定时器周期并启动
-						xTimerChangePeriod( pProjectMan->xTimerUser[0], 300, 0);
-						pProjectMan->timerExpireFlag[0] = 0;
-					}
-				break;
-				case 1:
-					if(pProjectMan->timerExpireFlag[0])
-					{
-						DCMotor_Stop(CUTOFF1_MOTOR);
-						flag1 = 2;
-					}
-				break;
-				default:
-				break;
-			}
-			
-			switch(flag2)
-			{
-				case 0:
-					PhSensor_SingleScan(CUTOFF2_SENSOR_L);
-					if(!PhSensor_SingleCheck(CUTOFF2_SENSOR_L))//这个传感器特别一点
-					{
-						flag2 = 1;
-						
-						//修改定时器周期并启动
-						xTimerChangePeriod( pProjectMan->xTimerUser[1], 380, 0);
-						pProjectMan->timerExpireFlag[1] = 0;
-					}
-				break;
-				case 1:
-					if(pProjectMan->timerExpireFlag[1])
-					{
-						DCMotor_Stop(CUTOFF2_MOTOR);
-						flag2 = 2;
-					}
-				break;
-				default:
-				break;
-			}	
-			
-			vTaskDelay(5);
-		}
-	}
-	else//切断松开
-	{
-		DCMotor_Run(CUTOFF1_MOTOR, CCW, 100);
-		DCMotor_Run(CUTOFF2_MOTOR, CCW, 100);
-		
-		//修改定时器周期并启动
-		xTimerChangePeriod( pProjectMan->xTimerUser[0], 4000/portTICK_PERIOD_MS, 0);
-		pProjectMan->timerExpireFlag[0] = 0;
-		xTimerChangePeriod( pProjectMan->xTimerUser[1], 4000/portTICK_PERIOD_MS, 0);
-		pProjectMan->timerExpireFlag[1] = 0;
-		
-		while((flag1 != 1) || (flag2 != 1))
-		{
-			if(*pStopFlag)
-			{
-				DCMotor_Stop(CUTOFF1_MOTOR);
-				DCMotor_Stop(CUTOFF2_MOTOR);
-				
-				if( xTimerIsTimerActive( pProjectMan->xTimerUser[0] ) == pdTRUE )
-					xTimerStop( pProjectMan->xTimerUser[0], 0);
-				if( xTimerIsTimerActive( pProjectMan->xTimerUser[1] ) == pdTRUE )
-					xTimerStop( pProjectMan->xTimerUser[1], 0);
-				
-				break;
-			}
-			
-			switch(flag1)
-			{
-				case 0:
-					PhSensor_SingleScan(CUTOFF1_SENSOR_R);
-					if((!PhSensor_SingleCheck(CUTOFF1_SENSOR_R)) || pProjectMan->timerExpireFlag[0])
-					{
-						DCMotor_Stop(CUTOFF1_MOTOR);
-						flag1 = 1;
-					}
-				break;
-				default:
-				break;
-			}
-			
-			switch(flag2)
-			{
-				case 0:
-					PhSensor_SingleScan(CUTOFF2_SENSOR_R);
-					if((!PhSensor_SingleCheck(CUTOFF2_SENSOR_R)) || pProjectMan->timerExpireFlag[1])
-					{
-						DCMotor_Stop(CUTOFF2_MOTOR);
-						flag2 = 1;
-					}
-				break;
-				default:
-				break;
-			}
-			
-			vTaskDelay(5);
-		}
-	}//if(action)
-#endif	
 }
 
 //切断1
@@ -358,7 +114,7 @@ void Cutoff1(uint8_t action, uint8_t *pStopFlag)
 		sensor = CUTOFF1_SENSOR_L;
 		
 		PhSensor_SingleScan(sensor);
-		if(PhSensor_SingleCheck(sensor))
+		if(PhSensor_SingleCheck(sensor) || *pStopFlag)
 			return;
 	}
 	else
@@ -367,7 +123,7 @@ void Cutoff1(uint8_t action, uint8_t *pStopFlag)
 		sensor = CUTOFF1_SENSOR_R;
 		
 		PhSensor_SingleScan(sensor);
-		if(!PhSensor_SingleCheck(sensor))
+		if(!PhSensor_SingleCheck(sensor) || *pStopFlag)
 			return;
 	}
 	
@@ -381,15 +137,24 @@ void Cutoff1(uint8_t action, uint8_t *pStopFlag)
 		{
 			//sensorFlag = !PhSensor_SingleCheck(sensor);
 			
-			vTaskDelay(5000);
+			pProjectMan->timerExpireFlag[0] = 0;
+			xTimerChangePeriod( pProjectMan->xTimerUser[0], pProjectMan->cutoffReturnDelay*1000, 0);//4000/portTICK_PERIOD_MS
+		
+			while(!*pStopFlag && !pProjectMan->timerExpireFlag[0])
+			{
+				vTaskDelay(5);
+			}
+			if(*pStopFlag)
+				xTimerStop( pProjectMan->xTimerUser[0], 0);
+			
 			sensorFlag = 1;
 		}
 		
 		if(sensorFlag || *pStopFlag)//这个传感器特别一点
 		{
-			if(action)//刀片轴有点松，切断时要延迟一点再停
+			if(action && !*pStopFlag)//刀片轴有点松，切断时要延迟一点再停
 			{
-				vTaskDelay(330);
+				vTaskDelay(pProjectMan->cutoff1Delay);//330
 			}
 			
 			DCMotor_Stop(CUTOFF1_MOTOR);
@@ -407,6 +172,7 @@ void Cutoff2(uint8_t action, uint8_t *pStopFlag)
 {
 	PhSensorEnum_TypeDef sensor;
 	Direction_TypeDef dir;
+	uint8_t sensorFlag;
 
 	if(action)
 	{
@@ -420,18 +186,37 @@ void Cutoff2(uint8_t action, uint8_t *pStopFlag)
 	}
 	
 	PhSensor_SingleScan(sensor);
-	if(!PhSensor_SingleCheck(sensor))
+	if(!PhSensor_SingleCheck(sensor) || *pStopFlag)
 		return;
 	
 	DCMotor_Run(CUTOFF2_MOTOR, dir, 100);
 	while(1)
 	{
 		PhSensor_SingleScan(sensor);
-		if((!PhSensor_SingleCheck(sensor)) || *pStopFlag)
+		if(action)
+			sensorFlag = !PhSensor_SingleCheck(sensor);
+		else
 		{
-			if(action)//刀片轴有点松，切断时要延迟一点再停
+			//sensorFlag = !PhSensor_SingleCheck(sensor);
+			
+			pProjectMan->timerExpireFlag[1] = 0;
+			xTimerChangePeriod( pProjectMan->xTimerUser[1], pProjectMan->cutoffReturnDelay*1000, 0);//4000/portTICK_PERIOD_MS
+		
+			while(!*pStopFlag && !pProjectMan->timerExpireFlag[1])
 			{
-				vTaskDelay(380);
+				vTaskDelay(5);
+			}
+			if(*pStopFlag)
+				xTimerStop( pProjectMan->xTimerUser[1], 0);
+			
+			sensorFlag = 1;
+		}
+		
+		if(sensorFlag || *pStopFlag)
+		{
+			if(action && !*pStopFlag)//刀片轴有点松，切断时要延迟一点再停
+			{
+				vTaskDelay(pProjectMan->cutoff2Delay);//420
 			}
 			DCMotor_Stop(CUTOFF2_MOTOR);
 			break;
@@ -441,6 +226,7 @@ void Cutoff2(uint8_t action, uint8_t *pStopFlag)
 	}
 }
 
+#if 0
 //加热片加热
 //stopFlag : 0,继续动作; !=0,主动退出动作
 void HeatingCutoff(uint8_t *pStopFlag)
@@ -530,11 +316,12 @@ void HeatingCutoff2(uint8_t *pStopFlag)
 		vTaskDelay(5);
 	}
 }
+#endif
 
 //分离
 //action : 0,分离; !=0,分离闭合
 //stopFlag : 0,继续动作; !=0,主动退出动作
-void Seperation(uint8_t action, uint8_t *pStopFlag)
+void Separation(uint8_t action, uint8_t *pStopFlag)
 {
 	PhSensorEnum_TypeDef sensor;
 	Direction_TypeDef dir;
@@ -570,7 +357,7 @@ void Seperation(uint8_t action, uint8_t *pStopFlag)
 //错位
 //action : 0,错位回位; !=0,错位
 //stopFlag : 0,继续动作; !=0,主动退出动作
-void Disposition(uint8_t action, uint8_t *pStopFlag)
+void Dislocation(uint8_t action, uint8_t *pStopFlag)
 {
 	PhSensorEnum_TypeDef sensor;
 	Direction_TypeDef dir;
@@ -608,7 +395,7 @@ void Disposition(uint8_t action, uint8_t *pStopFlag)
 //错位一定距离
 //action : 0,错位回位; !=0,错位
 //stopFlag : 0,继续动作; !=0,主动退出动作
-void DispositionDistance(uint8_t action, uint32_t distance, uint8_t *pStopFlag)
+void DislocationDistance(uint8_t action, uint32_t distance, uint8_t *pStopFlag)
 {
 	Direction_TypeDef dir;
 	
@@ -635,7 +422,8 @@ void DispositionDistance(uint8_t action, uint32_t distance, uint8_t *pStopFlag)
 void Heating(uint8_t *pStopFlag)
 {
 	//熔接加热
-	pProjectMan->heating = 1;
+	pProjectMan->fusingTempControlFlag = 0;
+	pProjectMan->fusingRaisingTempControlFlag = 1;
 	RELAY = 1;
 	while(1)
 	{
@@ -644,7 +432,8 @@ void Heating(uint8_t *pStopFlag)
 		vTaskDelay(5);
 	}
 	RELAY = 0;
-	pProjectMan->heating = 0;
+	pProjectMan->fusingRaisingTempControlFlag = 0;
+	pProjectMan->fusingTempControlFlag = 1;//退出温度控制，准备降温
 }
 
 //加热片抬起
@@ -652,42 +441,19 @@ void Heating(uint8_t *pStopFlag)
 //stopFlag : 0,继续动作; !=0,主动退出动作
 void HeatingUp(uint8_t action, uint8_t *pStopFlag)
 {
-//	PhSensorEnum_TypeDef sensor;
-//	Direction_TypeDef dir;
-//	
-//	if(action)
-//	{
-//		dir = CW;
-//		sensor = HEATING_SENSOR_L;
-//	}
-//	else
-//	{
-//		dir = CCW;
-//		sensor = HEATING_SENSOR_R;
-//	}
-//	
-//	PhSensor_SingleScan(sensor);
-//	if(!PhSensor_SingleCheck(sensor))
-//		return;
-//	
-//	DCMotor_Run(HEATING_MOTOR, dir, 30);
-//	while(1)
-//	{
-//		PhSensor_SingleScan(sensor);
-//		if(!PhSensor_SingleCheck(sensor) || *pStopFlag)
-//		{
-//			if(action)
-//				vTaskDelay(40);			
-//			DCMotor_Stop(HEATING_MOTOR);
-//			break;
-//		}
-//		vTaskDelay(5);
-//	}
-
 	if(action)
 	{
-		DCMotor_Run(HEATING_MOTOR, CW, 30);
-		vTaskDelay(1000);			
+		DCMotor_Run(HEATING_MOTOR, CW, pProjectMan->heatingUpSpeed);//30
+		
+		pProjectMan->timerExpireFlag[2] = 0;
+		xTimerChangePeriod( pProjectMan->xTimerUser[2], pProjectMan->heatingUpDelay, 0);
+		while(!pProjectMan->timerExpireFlag[2] && !*pStopFlag)
+			vTaskDelay(5);
+		if(*pStopFlag)
+		{
+			xTimerStop( pProjectMan->xTimerUser[2], 0 );
+		}
+		
 		DCMotor_Stop(HEATING_MOTOR);
 	}
 	else
@@ -696,12 +462,14 @@ void HeatingUp(uint8_t action, uint8_t *pStopFlag)
 		if(!PhSensor_SingleCheck(HEATING_SENSOR_R))
 			return;
 		
-		DCMotor_Run(HEATING_MOTOR, CCW, 30);
+		DCMotor_Run(HEATING_MOTOR, CCW, pProjectMan->heatingDownSpeed);//30
 		while(1)
 		{
 			PhSensor_SingleScan(HEATING_SENSOR_R);
 			if(!PhSensor_SingleCheck(HEATING_SENSOR_R) || *pStopFlag)
-			{	
+			{
+				vTaskDelay(pProjectMan->heatingDownDelay);
+				
 				DCMotor_Stop(HEATING_MOTOR);
 				break;
 			}
@@ -714,83 +482,278 @@ void HeatingUp(uint8_t action, uint8_t *pStopFlag)
 //stopFlag : 0,继续动作; !=0,主动退出动作
 void ResetOriginStatus(uint8_t *pStopFlag)
 {
-	Seperation(0, pStopFlag); //分离
-	HeatingUp(0, pStopFlag); //加热片回位
-	Disposition(0, pStopFlag); //错位回位
-	Cutoff(1, pStopFlag); //切断，同步回位点，因为切断回位时只用到1个传感器
-	Cutoff(0, pStopFlag); //切断回位
-	Clamp(0, pStopFlag); //夹紧松开
-	Seperation(1, pStopFlag); //分离闭合
+	pProjectMan->projectCurrentStatus = 10;
+	
+	//分离
+	pProjectMan->separationAction = 0;
+	vTaskResume( pProjectMan->separationTaskHandle );
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_SEPATATION, pdTRUE, pdFALSE, portMAX_DELAY);
+
+	//放下加热片
+	pProjectMan->heatingUpAction = 0;
+	vTaskResume( pProjectMan->heatingUpTaskHandle );
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_HEATINGUP, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	//错位回位
+	pProjectMan->dislocationAction = 0;
+	vTaskResume( pProjectMan->dislocationTaskHandle );
+
+	//切断
+	pProjectMan->cutoff1Action = 1;
+	pProjectMan->cutoff2Action = 1;
+	vTaskResume( pProjectMan->cutoff1TaskHandle );
+	vTaskResume( pProjectMan->cutoff2TaskHandle );
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF1, pdTRUE, pdFALSE, portMAX_DELAY);
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF2, pdTRUE, pdFALSE, portMAX_DELAY);
+
+	//切断回位
+	pProjectMan->cutoff1Action = 0;
+	pProjectMan->cutoff2Action = 0;
+	vTaskResume( pProjectMan->cutoff1TaskHandle );
+	vTaskResume( pProjectMan->cutoff2TaskHandle );
+
+	//夹紧松开
+	pProjectMan->clamp1Action = 0;
+	pProjectMan->clamp2Action = 0;
+	vTaskResume( pProjectMan->clamp1TaskHandle );
+	vTaskResume( pProjectMan->clamp2TaskHandle );
+	
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_DISLOCATION, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	//分离闭合
+	pProjectMan->separationAction = 1;
+	vTaskResume( pProjectMan->separationTaskHandle );
+	
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CLAMP1, pdTRUE, pdFALSE, portMAX_DELAY);
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CLAMP2, pdTRUE, pdFALSE, portMAX_DELAY);
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF1, pdTRUE, pdFALSE, portMAX_DELAY);
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF2, pdTRUE, pdFALSE, portMAX_DELAY);
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_SEPATATION, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	pProjectMan->projectCurrentStatus = 0;
 }
 
 //自动运行1个周期
 //stopFlag : 0,继续动作; !=0,主动退出动作
 void AutoRun(uint8_t *pStopFlag)
 {
-	//Clamp(1, pStopFlag); //夹紧
-	pProjectMan->clamp2Flag = 1;
-	Clamp1(1, pStopFlag); //夹紧1夹紧，夹紧2夹紧在另外一个线程
-	while(1)
-	{
-		if(pProjectMan->clamp2Flag)
-			vTaskDelay(5);
-		else
-			break;
-	}
-	
-	//HeatingCutoff(pStopFlag); //切断加热片加热
-	
-	Cutoff(1, pStopFlag); //切断
-//	pProjectMan->cutoff2Flag = 1;
-//	Cutoff1(1, pStopFlag); //切断1切断，切断2切断在另外一个线程
-//	while(1)
-//	{
-//		if(pProjectMan->cutoff2Flag)
-//			vTaskDelay(5);
-//		else
-//			break;
-//	}
-	
-	Seperation(0, pStopFlag); //分离
-	Disposition(1, pStopFlag); //错位
-	Cutoff(0, pStopFlag); //切断回位
-	Heating(pStopFlag); //熔接加热片加热
-	HeatingUp(1, pStopFlag); //加热片抬起
-	vTaskDelay(pProjectMan->fusingTime*1000); //延时
-	HeatingUp(0, pStopFlag); //加热片放下
-	Seperation(1, pStopFlag); //分离闭合
-	vTaskDelay(pProjectMan->jointTime*1000); //延时
-	Clamp(0, pStopFlag); //夹紧松开
-	DispositionDistance(0, 17000, pStopFlag); //错位回来一点
+	//熔接加热
+	pProjectMan->fusingTempControlFlag = 0;
+	pProjectMan->fusingRaisingTempControlFlag = 1;//加热到熔接温度点
 
-#if 0	
-	Clamp1(1, pStopFlag); //夹紧
-	HeatingCutoff2(pStopFlag); //切断加热片加热
-	Cutoff2(1, pStopFlag); //切断
+	//夹紧
+	pProjectMan->projectCurrentStatus = 1;
+	pProjectMan->clamp1Action = 1;
+	pProjectMan->clamp2Action = 1;
+	vTaskResume( pProjectMan->clamp1TaskHandle );
+	vTaskResume( pProjectMan->clamp2TaskHandle );
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CLAMP1, pdTRUE, pdFALSE, portMAX_DELAY);
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CLAMP2, pdTRUE, pdFALSE, portMAX_DELAY);
 	
-	vTaskDelay(5000);
-	//vTaskDelay(5000);
+	//切断加热片达到指定温度	
+	//切断，并延时一定时间自动回位
+	pProjectMan->projectCurrentStatus = 2;
+	pProjectMan->cutoff1Action = 2;
+	pProjectMan->cutoff2Action = 2;
+	vTaskResume( pProjectMan->cutoff1TaskHandle );
+	vTaskResume( pProjectMan->cutoff2TaskHandle );
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF1, pdTRUE, pdFALSE, portMAX_DELAY);
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF2, pdTRUE, pdFALSE, portMAX_DELAY);
 	
-	Seperation(0, pStopFlag); //分离
-	Cutoff2(0, pStopFlag); //切断
+	vTaskDelay(1000);
+	
+	//分离
+	pProjectMan->projectCurrentStatus = 3;
+	pProjectMan->separationAction = 0;
+	vTaskResume( pProjectMan->separationTaskHandle );
+	
+	//错位
+	pProjectMan->projectCurrentStatus = 4;
+	pProjectMan->dislocationAction = 1;
+	vTaskResume( pProjectMan->dislocationTaskHandle );
+	
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_SEPATATION, pdTRUE, pdFALSE, portMAX_DELAY);
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_DISLOCATION, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	//是否加热到指定温度
+	pProjectMan->projectCurrentStatus = 5;
+#if !TEMPERATURE_MASK
+	while(!pProjectMan->heatingUpFlag && !pProjectMan->projectStopFlag)
+		vTaskDelay(5);
 #endif
-
-#if 0	
-	Clamp2(1, pStopFlag); //夹紧
-	HeatingCutoff1(pStopFlag); //切断加热片加热
-	Cutoff1(1, pStopFlag); //切断
+	pProjectMan->fusingTempControlFlag = 0;
+	pProjectMan->fusingRaisingTempControlFlag = 0;//返回维持温度点
 	
-	vTaskDelay(5000);
-	vTaskDelay(5000);
+	//抬起加热片
+	pProjectMan->projectCurrentStatus = 6;
+	pProjectMan->heatingUpAction = 1;
+	vTaskResume( pProjectMan->heatingUpTaskHandle );
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_HEATINGUP, pdTRUE, pdFALSE, portMAX_DELAY);
 	
-	Seperation(0, pStopFlag); //分离
-	Cutoff1(0, pStopFlag); //切断回位
-#endif
+	//延时熔接时间
+	pProjectMan->timerExpireFlag[2] = 0;
+	xTimerChangePeriod( pProjectMan->xTimerUser[2], pProjectMan->fusingTime*1000, 0);
+	while(!pProjectMan->timerExpireFlag[2] && !pProjectMan->projectStopFlag)
+		vTaskDelay(5);
+	if(pProjectMan->projectStopFlag)
+		xTimerStop( pProjectMan->xTimerUser[2], 0 );
+	
+	//放下加热片
+	pProjectMan->heatingUpAction = 0;
+	vTaskResume( pProjectMan->heatingUpTaskHandle );
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_HEATINGUP, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	//分离闭合
+	pProjectMan->projectCurrentStatus = 7;
+	pProjectMan->separationAction = 1;
+	vTaskResume( pProjectMan->separationTaskHandle );
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_SEPATATION, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	//延时接合时间
+	pProjectMan->timerExpireFlag[2] = 0;
+	xTimerChangePeriod( pProjectMan->xTimerUser[2], pProjectMan->jointTime*1000, 0);
+	while(!pProjectMan->timerExpireFlag[2] && !pProjectMan->projectStopFlag)
+		vTaskDelay(5);
+	if(pProjectMan->projectStopFlag)
+		xTimerStop( pProjectMan->xTimerUser[2], 0 );
+	
+	//夹紧松开
+	pProjectMan->projectCurrentStatus = 8;
+	pProjectMan->clamp1Action = 0;
+	pProjectMan->clamp2Action = 0;
+	vTaskResume( pProjectMan->clamp1TaskHandle );
+	vTaskResume( pProjectMan->clamp2TaskHandle );
+	
+	//错位一点
+	pProjectMan->dislocationAction = 2;
+	vTaskResume( pProjectMan->dislocationTaskHandle );
+	
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CLAMP1, pdTRUE, pdFALSE, portMAX_DELAY);
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CLAMP2, pdTRUE, pdFALSE, portMAX_DELAY);
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_DISLOCATION, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	//提示取走连通管
+	xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+	SetTextValue(TIPS1PAGE_INDEX, TIPS_TIPS_EDIT, (uint8_t*)"1 请尽快取走连通管；\r\n2 并尽快用双手将管捏通！");
+	SetScreen(TIPS1PAGE_INDEX);
+	SetTextValue(TIPS1PAGE_INDEX, TIPS_TIPS_EDIT, (uint8_t*)"1 请尽快取走连通管；\r\n2 并尽快用双手将管捏通！");
+	pProjectMan->tipsBuzzeFlag = 1;
+	xSemaphoreGive(pProjectMan->lcdUartSem);
+	
+	//等待切断回位
+	pProjectMan->projectCurrentStatus = 9;
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF1, pdTRUE, pdFALSE, portMAX_DELAY);
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF2, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	//提示取走剩余的管
+	xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+	SetTextValue(TIPS1PAGE_INDEX, TIPS_TIPS_EDIT, (uint8_t*)"1 请尽快取走剩余的管；\r\n2 注意:在冷却前不要用手捏！");
+	SetScreen(TIPS1PAGE_INDEX);
+	SetTextValue(TIPS1PAGE_INDEX, TIPS_TIPS_EDIT, (uint8_t*)"1 请尽快取走剩余的管；\r\n2 注意:在冷却前不要用手捏！");
+	pProjectMan->tipsBuzzeFlag = 1;
+	xSemaphoreGive(pProjectMan->lcdUartSem);
+	
+	pProjectMan->projectCurrentStatus = 80;
+}
 
+void AutoRun_Cutoff1(uint8_t *pStopFlag)
+{
+	//夹紧
+	pProjectMan->clamp2Action = 1;
+	vTaskResume( pProjectMan->clamp2TaskHandle );
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CLAMP2, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	//切断，并延时一定时间再回位
+	pProjectMan->cutoff1Action = 2;
+	vTaskResume( pProjectMan->cutoff1TaskHandle );
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF1, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	//分离
+	pProjectMan->separationAction = 0;
+	vTaskResume( pProjectMan->separationTaskHandle );
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_SEPATATION, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	//等待降温延时完成，这时切断已经回位
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF1, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	//夹紧松开
+	pProjectMan->clamp2Action = 0;
+	vTaskResume( pProjectMan->clamp2TaskHandle );
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CLAMP2, pdTRUE, pdFALSE, portMAX_DELAY);
+}
+
+void AutoRun_Cutoff2(uint8_t *pStopFlag)
+{
+	//夹紧
+	pProjectMan->clamp1Action = 1;
+	vTaskResume( pProjectMan->clamp1TaskHandle );
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CLAMP1, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	//切断，并延时一定时间再回位
+	pProjectMan->cutoff2Action = 2;
+	vTaskResume( pProjectMan->cutoff2TaskHandle );
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF2, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	//分离
+	pProjectMan->separationAction = 0;
+	vTaskResume( pProjectMan->separationTaskHandle );
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_SEPATATION, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	//等待降温延时完成，这时切断已经回位
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF2, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	//夹紧松开
+	pProjectMan->clamp1Action = 0;
+	vTaskResume( pProjectMan->clamp1TaskHandle );
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CLAMP1, pdTRUE, pdFALSE, portMAX_DELAY);
 }
 
 void ProjectTask(void)
 {
+	uint32_t j;
+	
+//	while(!pProjectMan->lcdNotifyResetFlag)
+//		vTaskDelay(100);
+//	
+//	pProjectMan->lcdNotifyResetFlag = 0;
+	ResetDevice();//复位串口屏
+	ResetDevice();//复位串口屏
+	
+	for(j=0;j<336;j++);
+	//for(j=0;j<65536;j++);
+	//for(j=0;j<65536;j++);
+	
+	//发送握手命令
+	SetHandShake();//发送握手命令
+	SetHandShake();//发送握手命令，第一个握手命令会丢失
+	SetHandShake();//发送握手命令
+	
+	while(!pProjectMan->lcdNotifyResetFlag)
+		vTaskDelay(100);
+	
+	xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+	SetTextValue(LOGOPAGE_INDEX, LOGO_STATUS_EDIT, (uint8_t*)"系统预热中……");
+	SetScreen(LOGOPAGE_INDEX);
+	SetTextValue(LOGOPAGE_INDEX, LOGO_STATUS_EDIT, (uint8_t*)"系统预热中……");
+	SetScreen(LOGOPAGE_INDEX);
+	xSemaphoreGive(pProjectMan->lcdUartSem);	
+	
+	while(1)
+	{
+		if((adcTemp[0].temperature >= pProjectMan->cutoff1Temperature)
+			&& (adcTemp[1].temperature >= pProjectMan->cutoff2Temperature)
+			&& (adcTemp[2].temperature >= pProjectMan->fusingHoldingTemperature))
+		{
+			xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+			SetTextInt32(MAINPAGE_INDEX, MAIN_OUTPUT_EDIT, pProjectMan->totalOutput, 0, 0);
+			SetScreen(MAINPAGE_INDEX);
+			xSemaphoreGive(pProjectMan->lcdUartSem);	
+			break;
+		}
+		else
+			vTaskDelay(10);
+	}
+	
 	while(1)
 	{
 #if 1	
@@ -798,92 +761,128 @@ void ProjectTask(void)
 		{
 			switch(pProjectMan->projectStatus&0x7F)
 			{
-				case PROJECT_TEST_CLAMP1CW:
+				case PROJECT_MANUAL_CLAMP1CW:
 					Clamp1(1, &(pProjectMan->projectStopFlag));
-				
-					SetButtonValue(TESTPAGE_INDEX, TEST_CLAMP1CW_BUTTON, 0);
-					SetButtonValue(TESTPAGE_INDEX, TEST_CLAMP1CW_BUTTON, 0);
-					//GetControlValue(TESTPAGE_INDEX, TEST_CLAMP1CW_BUTTON);
-					
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(MANUALPAGE_INDEX, MANUAL_CLAMP1CW_BUTTON, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);				
 				break;
-				case PROJECT_TEST_CLAMP1CCW:
+				case PROJECT_MANUAL_CLAMP1CCW:
 					Clamp1(0, &(pProjectMan->projectStopFlag));
-					SetButtonValue(TESTPAGE_INDEX, TEST_CLAMP1CCW_BUTTON, 0);
-					SetButtonValue(TESTPAGE_INDEX, TEST_CLAMP1CCW_BUTTON, 0);
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(MANUALPAGE_INDEX, MANUAL_CLAMP1CCW_BUTTON, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
-				case PROJECT_TEST_CLAMP2CW:
+				case PROJECT_MANUAL_CLAMP2CW:
 					Clamp2(1, &(pProjectMan->projectStopFlag));
-					SetButtonValue(TESTPAGE_INDEX, TEST_CLAMP2CW_BUTTON, 0);
-					SetButtonValue(TESTPAGE_INDEX, TEST_CLAMP2CW_BUTTON, 0);
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(MANUALPAGE_INDEX, MANUAL_CLAMP2CW_BUTTON, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
-				case PROJECT_TEST_CLAMP2CCW:
+				case PROJECT_MANUAL_CLAMP2CCW:
 					Clamp2(0, &(pProjectMan->projectStopFlag));
-					SetButtonValue(TESTPAGE_INDEX, TEST_CLAMP2CCW_BUTTON, 0);
-					SetButtonValue(TESTPAGE_INDEX, TEST_CLAMP2CCW_BUTTON, 0);
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(MANUALPAGE_INDEX, MANUAL_CLAMP2CCW_BUTTON, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
-				case PROJECT_TEST_CUTOFF1CW:
+				case PROJECT_MANUAL_CUTOFF1CW:
 					Cutoff1(1, &(pProjectMan->projectStopFlag));
-					SetButtonValue(TESTPAGE_INDEX, TEST_CUTOFF1CW_BUTTON, 0);
-					SetButtonValue(TESTPAGE_INDEX, TEST_CUTOFF1CW_BUTTON, 0);
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(MANUALPAGE_INDEX, MANUAL_CUTOFF1CW_BUTTON, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
-				case PROJECT_TEST_CUTOFF1CCW:
+				case PROJECT_MANUAL_CUTOFF1CCW:
 					Cutoff1(0, &(pProjectMan->projectStopFlag));
-					SetButtonValue(TESTPAGE_INDEX, TEST_CUTOFF1CCW_BUTTON, 0);
-					SetButtonValue(TESTPAGE_INDEX, TEST_CUTOFF1CCW_BUTTON, 0);
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(MANUALPAGE_INDEX, MANUAL_CUTOFF1CCW_BUTTON, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
-				case PROJECT_TEST_CUTOFF2CW:
+				case PROJECT_MANUAL_CUTOFF2CW:
 					Cutoff2(1, &(pProjectMan->projectStopFlag));
-					SetButtonValue(TESTPAGE_INDEX, TEST_CUTOFF2CW_BUTTON, 0);
-					SetButtonValue(TESTPAGE_INDEX, TEST_CUTOFF2CW_BUTTON, 0);
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(MANUALPAGE_INDEX, MANUAL_CUTOFF2CW_BUTTON, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
-				case PROJECT_TEST_CUTOFF2CCW:
+				case PROJECT_MANUAL_CUTOFF2CCW:
 					Cutoff2(0, &(pProjectMan->projectStopFlag));
-					SetButtonValue(TESTPAGE_INDEX, TEST_CUTOFF2CCW_BUTTON, 0);
-					SetButtonValue(TESTPAGE_INDEX, TEST_CUTOFF2CCW_BUTTON, 0);
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(MANUALPAGE_INDEX, MANUAL_CUTOFF2CCW_BUTTON, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
-				case PROJECT_TEST_HEATINGUP:
+				case PROJECT_MANUAL_HEATINGUP:
 					HeatingUp(1, &(pProjectMan->projectStopFlag));
-					SetButtonValue(TESTPAGE_INDEX, TEST_HEATINGUP_BUTTON, 0);
-					SetButtonValue(TESTPAGE_INDEX, TEST_HEATINGUP_BUTTON, 0);
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(MANUALPAGE_INDEX, MANUAL_HEATINGUP_BUTTON, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
-				case PROJECT_TEST_HEATINGDOWN:
+				case PROJECT_MANUAL_HEATINGDOWN:
 					HeatingUp(0, &(pProjectMan->projectStopFlag));
-					SetButtonValue(TESTPAGE_INDEX, TEST_HEATINGDOWN_BUTTON, 0);
-					SetButtonValue(TESTPAGE_INDEX, TEST_HEATINGDOWN_BUTTON, 0);
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(MANUALPAGE_INDEX, MANUAL_HEATINGDOWN_BUTTON, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
-				case PROJECT_TEST_SEPATATIONCW:
-					Seperation(1, &(pProjectMan->projectStopFlag));
-					SetButtonValue(TESTPAGE_INDEX, TEST_SEPERATECW_BUTTON, 0);
-					SetButtonValue(TESTPAGE_INDEX, TEST_SEPERATECW_BUTTON, 0);
+				case PROJECT_MANUAL_SEPATATIONCW:
+					Separation(1, &(pProjectMan->projectStopFlag));
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(MANUALPAGE_INDEX, MANUAL_SEPARATECW_BUTTON, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
-				case PROJECT_TEST_SEPATATIONCCW:
-					Seperation(0, &(pProjectMan->projectStopFlag));
-					SetButtonValue(TESTPAGE_INDEX, TEST_SEPERATECCW_BUTTON, 0);
-					SetButtonValue(TESTPAGE_INDEX, TEST_SEPERATECCW_BUTTON, 0);
+				case PROJECT_MANUAL_SEPATATIONCCW:
+					Separation(0, &(pProjectMan->projectStopFlag));
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(MANUALPAGE_INDEX, MANUAL_SEPARATECCW_BUTTON, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
-				case PROJECT_TEST_DISPOSITIONCW:
-					Disposition(1, &(pProjectMan->projectStopFlag));
-					SetButtonValue(TESTPAGE_INDEX, TEST_DISPOSCW_BUTTON, 0);
-					SetButtonValue(TESTPAGE_INDEX, TEST_DISPOSCW_BUTTON, 0);
+				case PROJECT_MANUAL_DISLOCATIONCW:
+					Dislocation(1, &(pProjectMan->projectStopFlag));
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(MANUALPAGE_INDEX, MANUAL_DISLOCATECW_BUTTON, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
-				case PROJECT_TEST_DISPOSITIONCCW:
-					Disposition(0, &(pProjectMan->projectStopFlag));
-					SetButtonValue(TESTPAGE_INDEX, TEST_DISPOSCCW_BUTTON, 0);
-					SetButtonValue(TESTPAGE_INDEX, TEST_DISPOSCCW_BUTTON, 0);
+				case PROJECT_MANUAL_DISLOCATIONCCW:
+					Dislocation(0, &(pProjectMan->projectStopFlag));
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(MANUALPAGE_INDEX, MANUAL_DISLOCATECCW_BUTTON, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
-				case PROJECT_PARAMETER_RESET:
+				
+				case PROJECT_STATUS_CUTOFF1:
+					AutoRun_Cutoff1(&(pProjectMan->projectStopFlag));
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(STATUSPAGE_INDEX, STATUS_CUTOFF1_BUTTON, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);
+				break;
+				case PROJECT_STATUS_CUTOFF2:
+					AutoRun_Cutoff2(&(pProjectMan->projectStopFlag));
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(STATUSPAGE_INDEX, STATUS_CUTOFF2_BUTTON, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);
+				break;
+				
+				case PROJECT_STATUS_RESET:
 					ResetOriginStatus(&(pProjectMan->projectStopFlag));
-					SetButtonValue(PARAMETERPAGE_INDEX, PARAMETER_RESET_BUTTON, 0);
-					SetButtonValue(PARAMETERPAGE_INDEX, PARAMETER_RESET_BUTTON, 0);
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(STATUSPAGE_INDEX, STATUS_RESET_BUTTON, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
-				case PROJECT_PARAMETER_AUTO:
+				case PROJECT_STATUS_AUTO:
 					AutoRun(&(pProjectMan->projectStopFlag));
-					SetButtonValue(PARAMETERPAGE_INDEX, PARAMETER_AUTO_BUTTON, 0);
-					SetButtonValue(PARAMETERPAGE_INDEX, PARAMETER_AUTO_BUTTON, 0);
+					pProjectMan->totalOutput++;
+					if(pProjectMan->totalOutput > 0xFFFFFFFF)
+						pProjectMan->totalOutput = 0;
+					
+					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+					SetButtonValue(STATUSPAGE_INDEX, STATUS_AUTO_BUTTON, 0);
+					SetTextInt32(MAINPAGE_INDEX, MAIN_OUTPUT_EDIT, pProjectMan->totalOutput, 0, 0);
+					xSemaphoreGive(pProjectMan->lcdUartSem);
+					
+					AT24CXX_Write(TOTALOUTPUT_BASEADDR, (uint8_t*)&pProjectMan->totalOutput, 4);
 				break;
 			}
+			xSemaphoreTake(pProjectMan->projectStatusSem, portMAX_DELAY);
 			pProjectMan->projectStatus = 0;
 			pProjectMan->projectStopFlag = 0;
+			xSemaphoreGive(pProjectMan->projectStatusSem);
 		}
 		else
 			vTaskDelay(10);

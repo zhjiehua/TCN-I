@@ -15,14 +15,19 @@ extern "C" {
 /************************************************************************/
 #define LOGOPAGE_INDEX					0
 #define MAINPAGE_INDEX					1
-#define MANUALPAGE_INDEX				2
-#define PARAMETERPAGE_INDEX				3
-#define INPUTPAGE_INDEX					4
-#define TEMPERATUREPAGE_INDEX			5
-#define TESTPAGE_INDEX					6
+#define SETUPPAGE_INDEX					2
+#define MANUALPAGE_INDEX				3
+#define STATUSPAGE_INDEX				4
+#define TEMPPARAPAGE_INDEX				5
+#define TIMEPARAPAGE_INDEX				6
+#define MOTORPARAPAGE_INDEX				7
+#define INPUTPAGE_INDEX					8
+#define MANUALRAWPAGE_INDEX				9
+#define ABOUTPAGE_INDEX					10
 	
-#define TIPSPAGE_INDEX					7
-	
+#define TIPSPAGE_INDEX					11
+#define TIPS1PAGE_INDEX					12
+
 /************************************************************************/
 /* LOGO页面控件ID                                                         */
 /************************************************************************/
@@ -41,9 +46,24 @@ extern "C" {
 #define MAIN_STATUS7_BUTTON				7
 #define MAIN_STATUS8_BUTTON				8
 #define MAIN_STATUS9_BUTTON				9
+#define MAIN_STATUS10_BUTTON			10
 #define MAIN_OUTPUT_EDIT				20
 #define MAIN_CLEAR_BUTTON				30
-#define MAIN_MANUAL_BUTTON				31
+#define MAIN_SETUP_BUTTON				31
+
+/************************************************************************/
+/* 设置页面控件ID                                                         */
+/************************************************************************/
+#define SETUP_MANUAL_BUTTON				1
+#define SETUP_STATUS_BUTTON				2
+#define SETUP_TEMPPARA_BUTTON			3
+#define SETUP_TIMEPARA_BUTTON			4
+#define SETUP_MOTORPARA_BUTTON			5
+#define SETUP_INPUT_BUTTON				6
+#define SETUP_MANUALRAW_BUTTON			7
+#define SETUP_ABOUT_BUTTON				8
+
+#define SETUP_BACK_BUTTON				50
 
 /************************************************************************/
 /* 手动页面控件ID                                                       */
@@ -56,40 +76,76 @@ extern "C" {
 #define MANUAL_CUTOFF1CCW_BUTTON		6
 #define MANUAL_CUTOFF2CW_BUTTON			7
 #define MANUAL_CUTOFF2CCW_BUTTON		8
-#define MANUAL_SAPERATECW_BUTTON		9
-#define MANUAL_SAPERATECCW_BUTTON		10
+#define MANUAL_SEPARATECW_BUTTON		9
+#define MANUAL_SEPARATECCW_BUTTON		10
 #define MANUAL_DISLOCATECW_BUTTON		11
 #define MANUAL_DISLOCATECCW_BUTTON		12
-#define MANUAL_HEATUP_BUTTON			13
-#define MANUAL_HEATDOWN_BUTTON			14
+#define MANUAL_HEATINGUP_BUTTON			13
+#define MANUAL_HEATINGDOWN_BUTTON		14
 #define MANUAL_HEATON_BUTTON			15
-#define MANUAL_CUTOFF1HEATON_BUTTON		16
-#define MANUAL_CUTOFF2HEATON_BUTTON		17
-
-#define MANUAL_INPUT_BUTTON				40
-#define MANUAL_PARAMETER_BUTTON			41
-#define MANUAL_TEMPERATURE_BUTTON		42
-#define MANUAL_TEST_BUTTON				43
 
 #define MANUAL_BACK_BUTTON				50
-#define MANUAL_FORWARD_BUTTON			51
 
 /************************************************************************/
-/* 参数页面控件ID                                                   */
+/* 状态页面控件ID                                                       */
 /************************************************************************/
-#define PARAMETER_CUTOFFTEMP_EDIT		1
-#define PARAMETER_CUTOFFTIME_EDIT		2
-#define PARAMETER_FUSINGTEMP_EDIT		3
-#define PARAMETER_FUSINGTIME_EDIT		4
-#define PARAMETER_JOINTTIME_EDIT		5
-#define PARAMETER_CUTOFF1TEMPSTA_EDIT	6
-#define PARAMETER_CUTOFF2TEMPSTA_EDIT	7
-#define PARAMETER_FUSINGTEMPSTA_EDIT	8
-#define PARAMETER_AUTO_BUTTON			9
-#define PARAMETER_RESET_BUTTON			10
+#define STATUS_TEMPCUTOFF1_EDIT			1
+#define STATUS_TEMPCUTOFF2_EDIT			2
+#define STATUS_TEMPFUSING_EDIT			3
+#define STATUS_CUTOFF1_BUTTON			10
+#define STATUS_CUTOFF2_BUTTON			11
+#define STATUS_AUTO_BUTTON				12
+#define STATUS_RESET_BUTTON				13
 
-#define PARAMETER_BACK_BUTTON			50
-#define PARAMETER_FORWARD_BUTTON		51
+#define STATUS_BACK_BUTTON				50
+
+/************************************************************************/
+/* 温度参数页面控件ID                                                   */
+/************************************************************************/
+#define TEMPPARA_CUTOFF1KP_EDIT			1
+#define TEMPPARA_CUTOFF1KI_EDIT			2
+#define TEMPPARA_CUTOFF1KD_EDIT			3
+#define TEMPPARA_CUTOFF2KP_EDIT			4
+#define TEMPPARA_CUTOFF2KI_EDIT			5
+#define TEMPPARA_CUTOFF2KD_EDIT			6
+#define TEMPPARA_CUTOFF1TEMP_EDIT		7
+#define TEMPPARA_CUTOFF2TEMP_EDIT		8
+#define TEMPPARA_FUSINGTEMP_EDIT		9
+#define TEMPPARA_FUSINGHOLDINGTEMP_EDIT	10
+#define TEMPPARA_CUTOFF1TEMPCRL_BUTTON	11
+#define TEMPPARA_CUTOFF2TEMPCRL_BUTTON	12
+#define TEMPPARA_FUSINGTEMPCRL_BUTTON	13
+
+#define TEMPPARA_BACK_BUTTON			50
+
+/************************************************************************/
+/* 时间参数页面控件ID                                                   */
+/************************************************************************/
+#define TIMEPARA_CLAMP1DELAY_EDIT		1
+#define TIMEPARA_CLAMP2DELAY_EDIT		2
+#define TIMEPARA_CUTOFF1DELAY_EDIT		3
+#define TIMEPARA_CUTOFF2DELAY_EDIT		4
+#define TIMEPARA_CUTOFFRETURN_EDIT		5
+#define TIMEPARA_CUTOFF_EDIT			6
+#define TIMEPARA_FUSING_EDIT			7
+#define TIMEPARA_JOINT_EDIT				8
+#define TIMEPARA_HEATINGUPDELAY_EDIT	9
+#define TIMEPARA_HEATINGDOWNDELAY_EDIT	10
+
+#define TIMEPARA_BACK_BUTTON			50
+
+/************************************************************************/
+/* 电机参数页面控件ID                                                   */
+/************************************************************************/
+#define MOTORPARA_DISLOCATERETURN_EDIT	1
+#define MOTORPARA_DISLOCATESPEED_EDIT	2
+#define MOTORPARA_HEATINGUPSPEED_EDIT	3
+#define MOTORPARA_HEATINGDOWNSPEED_EDIT	4
+#define MOTORPARA_CUROFF1HEATVOL_EDIT	5
+#define MOTORPARA_CUROFF2HEATVOL_EDIT	6
+#define MOTORPARA_FUSINGHEATVOL_EDIT	7
+
+#define MOTORPARA_BACK_BUTTON			50
 
 /************************************************************************/
 /* 输入点页面控件ID                                                       */
@@ -112,66 +168,80 @@ extern "C" {
 #define INPUT_AUTOSTART_BUTTON			16
 
 #define INPUT_BACK_BUTTON				50
-#define INPUT_FORWARD_BUTTON			51
 
 /************************************************************************/
-/* 温度页面控件ID                                                       */
+/* 手动(无限位点)页面控件ID                                             */
 /************************************************************************/
-#define TEMPERATURE_CURVE_GRAPH			1
+#define MANUALRAW_CLAMP1CW_BUTTON		1
+#define MANUALRAW_CLAMP1CCW_BUTTON		2
+#define MANUALRAW_CLAMP2CW_BUTTON		3
+#define MANUALRAW_CLAMP2CCW_BUTTON		4
+#define MANUALRAW_CUTOFF1CW_BUTTON		5
+#define MANUALRAW_CUTOFF1CCW_BUTTON		6
+#define MANUALRAW_CUTOFF2CW_BUTTON		7
+#define MANUALRAW_CUTOFF2CCW_BUTTON		8
+#define MANUALRAW_SAPERATECW_BUTTON		9
+#define MANUALRAW_SAPERATECCW_BUTTON	10
+#define MANUALRAW_DISLOCATECW_BUTTON	11
+#define MANUALRAW_DISLOCATECCW_BUTTON	12
+#define MANUALRAW_HEATUP_BUTTON			13
+#define MANUALRAW_HEATDOWN_BUTTON		14
+#define MANUALRAW_HEATON_BUTTON			15
+#define MANUALRAW_CUTOFF1HEATON_BUTTON	16
+#define MANUALRAW_CUTOFF2HEATON_BUTTON	17
 
-#define TEMPERATURE_BACK_BUTTON			50
-#define TEMPERATURE_FORWARD_BUTTON		51
+#define MANUALRAW_BACK_BUTTON			50
 
 /************************************************************************/
-/* 测试页面控件ID                                                       */
+/* 关于页面控件ID                                                       */
 /************************************************************************/
-#define TEST_CLAMP1CW_BUTTON			1
-#define TEST_CLAMP1CCW_BUTTON			2
-#define TEST_CLAMP2CW_BUTTON			3
-#define TEST_CLAMP2CCW_BUTTON			4
-#define TEST_CUTOFF1CW_BUTTON			5
-#define TEST_CUTOFF1CCW_BUTTON			6
-#define TEST_CUTOFF2CW_BUTTON			7
-#define TEST_CUTOFF2CCW_BUTTON			8
-#define TEST_SEPERATECW_BUTTON			9
-#define TEST_SEPERATECCW_BUTTON			10
-#define TEST_DISPOSCW_BUTTON			11
-#define TEST_DISPOSCCW_BUTTON			12
-#define TEST_HEATINGUP_BUTTON			13
-#define TEST_HEATINGDOWN_BUTTON			14
+#define ABOUT_VERSION_EDIT				1
 
-#define TEST_BACK_BUTTON				50
-#define TEST_FORWARD_BUTTON				51
+#define ABOUT_BACK_BUTTON				50
 
 /************************************************************************/
 /* 提示页面控件ID                                                      */
 /************************************************************************/
 #define TIPS_TIPS_EDIT					1
 #define TIPS_OK_BUTTON					2
+#define TIPS_CANCEL_BUTTON				3
 
 /************************************************************************/
 /* 软件版本                                                             */
 /************************************************************************/
 #define PANEL_VERSION					"9.1.7"
-#define VERSION							"0.1.0"
+#define VERSION							"1.0.0"
 
 /*
  * 函数声明
  */
-void mainPageButtonProcess(uint16 control_id, uint8  state);
+void logoPageButtonProcess(uint16 control_id, uint8 state);
+ 
+void mainPageButtonProcess(uint16 control_id, uint8 state);
 
-void manualPageButtonProcess(uint16 control_id, uint8  state);
+void setupPageButtonProcess(uint16 control_id, uint8 state);
 
-void parameterPageButtonProcess(uint16 control_id, uint8  state);
-void parameterPageEditProcess(uint16 control_id, uint8 *str);
+void manualPageButtonProcess(uint16 control_id, uint8 state);
 
-void inputPageButtonProcess(uint16 control_id, uint8  state);
+void statusPageButtonProcess(uint16 control_id, uint8 state);
+void statusPageEditProcess(uint16 control_id, uint8 *str);
 
-void temperaturePageButtonProcess(uint16 control_id, uint8  state);
+void tempparaPageEditProcess(uint16 control_id, uint8 *str);
+void tempparaPageButtonProcess(uint16 control_id, uint8 state);
 
-void testPageButtonProcess(uint16 control_id, uint8  state);
+void timeparaPageEditProcess(uint16 control_id, uint8 *str);
+void timeparaPageButtonProcess(uint16 control_id, uint8 state);
 
-void tipsPageButtonProcess(uint16 control_id, uint8  state);
+void motorparaPageEditProcess(uint16 control_id, uint8 *str);
+void motorparaPageButtonProcess(uint16 control_id, uint8 state);
+
+void inputPageButtonProcess(uint16 control_id, uint8 state);
+
+void manualrawPageButtonProcess(uint16 control_id, uint8 state);
+
+void aboutPageButtonProcess(uint16 control_id, uint8 state);
+
+void tips1PageButtonProcess(uint16 control_id, uint8 state);
 
 #ifdef __cplusplus
 }

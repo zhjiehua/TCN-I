@@ -78,8 +78,6 @@ typedef struct
 	uint32_t fallingEdgeSingle; //上升沿，在查询方式用
 	uint32_t rasingEdgeSingle; //上升沿，在查询方式用
 	
-	uint32_t curCount[PHSENSOR_COUNT];    //当前第几个信号
-	uint32_t desCount[PHSENSOR_COUNT]; 	 //计算第几个信号后停止电机，0表示不停
 	CheckEdge_TypeDef checkEdge[PHSENSOR_COUNT];   //检测边沿类型
 }PhSensor_TypeDef;
 

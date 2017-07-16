@@ -37,6 +37,9 @@
 ..\obj\managerment.o: ..\FreeRTOS\Source\include\task.h
 ..\obj\managerment.o: ..\FreeRTOS\Source\include\list.h
 ..\obj\managerment.o: ..\FreeRTOS\Source\include\timers.h
+..\obj\managerment.o: ..\FreeRTOS\Source\include\queue.h
+..\obj\managerment.o: ..\FreeRTOS\Source\include\semphr.h
+..\obj\managerment.o: ..\FreeRTOS\Source\include\event_groups.h
 ..\obj\managerment.o: ..\Logic\../HARDWARE/DCMotor/dcmotor.h
 ..\obj\managerment.o: ..\Logic\../HARDWARE/DCMotor/../HardwareCommon.h
 ..\obj\managerment.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h
@@ -45,6 +48,7 @@
 ..\obj\managerment.o: ..\Logic\../HARDWARE/Beep/beep.h
 ..\obj\managerment.o: ..\Logic\../HARDWARE/24CXX/24cxx.h
 ..\obj\managerment.o: ..\Logic\../HARDWARE/24CXX/myiic.h
+..\obj\managerment.o: ..\Logic\../HARDWARE/WDG/wdg.h
 ..\obj\managerment.o: ..\HARDWARE\NTCResistor/NTCResistor.h
 ..\obj\managerment.o: ..\HARDWARE\LED/led.h
 ..\obj\managerment.o: ..\HARDWARE\RelayMOS/RelayMOS.h

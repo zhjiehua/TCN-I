@@ -166,15 +166,9 @@ void ProcessMessage( PCTRL_MSG msg, uint16 size )
 		break;
 	case NOTIFY_ONLINE:
 		cDebug("NOTIFY_ONLINE\n");
-		//pProjectMan->runningType = RUNNING_HOME;
+		
+		pProjectMan->lcdNotifyResetFlag = 1;
 		//SetScreen(MAINPAGE_INDEX);
-
-		//创建线程
-		//os_create_task(TASK_HOME);	//创建回原点任务，如果直接执行创建任务，会出现死机
-//        xTaskCreate( (TaskFunction_t)HomeTask, "HomeTask", home_TASK_STACKDEP, NULL, home_TASK_PRIORITY, NULL );
-    
-		//createTask(TASK_HOME);
-
 		break;
 	default:
 		break;
@@ -256,27 +250,45 @@ void NotifyButton(uint16 screen_id, uint16 control_id, uint8 state)
 	//TODO: 添加用户代码
 	switch(screen_id)
 	{
+		case LOGOPAGE_INDEX:
+			logoPageButtonProcess(control_id, state);
+		break;
 		case MAINPAGE_INDEX:
 			mainPageButtonProcess(control_id, state);
+		break;
+		case SETUPPAGE_INDEX:
+			setupPageButtonProcess(control_id, state);
 		break;
 		case MANUALPAGE_INDEX:
 			manualPageButtonProcess(control_id, state);
 		break;
-		case PARAMETERPAGE_INDEX:
-			parameterPageButtonProcess(control_id, state);
+		case STATUSPAGE_INDEX:
+			statusPageButtonProcess(control_id, state);
+		break;
+		case TEMPPARAPAGE_INDEX:
+			tempparaPageButtonProcess(control_id, state);
+		break;
+		case TIMEPARAPAGE_INDEX:
+			timeparaPageButtonProcess(control_id, state);
+		break;
+		case MOTORPARAPAGE_INDEX:
+			motorparaPageButtonProcess(control_id, state);
 		break;
 		case INPUTPAGE_INDEX:
 			inputPageButtonProcess(control_id, state);
 		break;
-		case TEMPERATUREPAGE_INDEX:
-			temperaturePageButtonProcess(control_id, state);
-			break;
-		case TESTPAGE_INDEX:
-			testPageButtonProcess(control_id, state);
-			break;
+		case MANUALRAWPAGE_INDEX:
+			manualrawPageButtonProcess(control_id, state);
+		break;
+		case ABOUTPAGE_INDEX:
+			aboutPageButtonProcess(control_id, state);
+		break;
 		case TIPSPAGE_INDEX:
-			//tipsPageButtonProcess(control_id, state);
-			break;
+			//tips1PageButtonProcess(control_id, state);
+		break;
+		case TIPS1PAGE_INDEX:
+			tips1PageButtonProcess(control_id, state);
+		break;
 		default:
 			cDebug("cmd_process NotifyButton error!\n");
 		break;
@@ -295,8 +307,14 @@ void NotifyText(uint16 screen_id, uint16 control_id, uint8 *str)
 	//TODO: 添加用户代码
 	switch(screen_id)
 	{
-		case PARAMETERPAGE_INDEX:
-			parameterPageEditProcess(control_id, str);
+		case TEMPPARAPAGE_INDEX:
+			tempparaPageEditProcess(control_id, str);
+		break;
+		case TIMEPARAPAGE_INDEX:
+			timeparaPageEditProcess(control_id, str);
+		break;
+		case MOTORPARAPAGE_INDEX:
+			motorparaPageEditProcess(control_id, str);
 		break;
 		default:
 			cDebug("cmd_process NotifyText error!\n");

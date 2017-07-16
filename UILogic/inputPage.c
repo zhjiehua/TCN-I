@@ -11,8 +11,7 @@ void inputPageButtonProcess(uint16 control_id, uint8 state)
 	switch(control_id)
 	{
 		case INPUT_BACK_BUTTON:
-		break;
-		case INPUT_FORWARD_BUTTON:
+			pProjectMan->inInputPageFlag = 0;
 		break;
 		default:
 			cDebug("inputPage BUTTON error!\n");

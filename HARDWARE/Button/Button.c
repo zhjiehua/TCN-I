@@ -2,6 +2,16 @@
 #include "usart.h"
 #include "stm32f10x_exti.h"
 #include "PhotoelectricSensor/PhSensor.h"
+#include "../Logic/managerment.h"
+#include "../DCMotor/DCMotor.h"
+#include "../StepMotor/StepMotor.h"
+#include "../RelayMOS/RelayMOS.h"
+#include "../WDG/WDG.h"
+
+/* Scheduler includes. */
+#include "FreeRTOS.h"
+#include "task.h"
+
 //////////////////////////////////////////////////////////////////////////////////	 
 //本程序只供学习使用，未经作者许可，不得用于其它任何用途
 //ALIENTEK战舰STM32开发板
@@ -34,13 +44,13 @@ void Button_Init(void)
     
     // NVIC 配置
     NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0 ;//抢占优先级3
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1 ;//抢占优先级3
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//子优先级3
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			//IRQ通道使能
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器
     
     NVIC_InitStructure.NVIC_IRQChannel = EXTI1_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;		//子优先级3
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;		//子优先级3
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器
     
     NVIC_InitStructure.NVIC_IRQChannel = EXTI2_IRQn;
@@ -65,15 +75,96 @@ void Button_Init(void)
 
 void EXTI0_IRQHandler(void)
 {
+	uint8_t i;
+	uint32_t oldBasePri = portSET_INTERRUPT_MASK_FROM_ISR();
+	
     button[0].flag = 1;
-        
+
+	//挂起所有任务
+//	vTaskSuspend(pProjectMan->projectTaskHandle);
+//	vTaskSuspend(pProjectMan->uiTaskHandle);
+//	vTaskSuspend(pProjectMan->heatingUpTaskHandle);
+//	vTaskSuspend(pProjectMan->dislocationTaskHandle);
+//	vTaskSuspend(pProjectMan->separationTaskHandle);
+//	vTaskSuspend(pProjectMan->cutoff2TaskHandle);
+//	vTaskSuspend(pProjectMan->cutoff1TaskHandle);
+//	vTaskSuspend(pProjectMan->clamp2TaskHandle);
+//	vTaskSuspend(pProjectMan->clamp1TaskHandle);
+	
+	//急停，停止所有电机和加热片等输出
+	for(i=0;i<DCMOTOR_COUNT;i++)
+	{
+		DCMotor_Stop((DCMotorEnum_TypeDef)i);
+	}
+	for(i=0;i<STEPMOTOR_COUNT;i++)
+	{
+		StepMotor_Stop(i);
+	}
+	RELAY = 0;
+
+	//提示重新上电
+	SetTextValue(TIPSPAGE_INDEX, TIPS_TIPS_EDIT, (uint8_t*)"1 请松开急停按钮；\r\n2 请重新上电！");
+	SetScreen(TIPSPAGE_INDEX);
+	
+	while(1)
+	{
+		IWDG_Feed();//喂狗
+	}
+	
     EXTI_ClearITPendingBit(EXTI_Line0);
+	portCLEAR_INTERRUPT_MASK_FROM_ISR(oldBasePri);
 }
 
 void EXTI1_IRQHandler(void)
 {
+	static uint8_t flag = 1;
+	BaseType_t xHigherPriorityTaskWoken;
+	
     button[1].flag = 1;
     
+	if(flag)
+	{
+		//复位
+		xSemaphoreTakeFromISR(pProjectMan->projectStatusSem, &xHigherPriorityTaskWoken);
+		if(!(pProjectMan->projectStatus & PROJECT_RUNNING))
+		{
+			pProjectMan->projectStopFlag = 0;
+			pProjectMan->projectStatus = PROJECT_STATUS_RESET;
+			pProjectMan->projectStatus |= PROJECT_RUNNING;
+			xSemaphoreGiveFromISR(pProjectMan->projectStatusSem, &xHigherPriorityTaskWoken);
+			
+			flag = 0;
+			DCMotor_Stop(STARTLAMP_MOTOR);
+		}
+		else
+		{
+			xSemaphoreGiveFromISR(pProjectMan->projectStatusSem, &xHigherPriorityTaskWoken);
+		}
+	}
+	else
+	{
+		//自动
+		xSemaphoreTakeFromISR(pProjectMan->projectStatusSem, &xHigherPriorityTaskWoken);
+		if(!(pProjectMan->projectStatus & PROJECT_RUNNING))
+		{
+			pProjectMan->projectStopFlag = 0;
+			pProjectMan->projectStatus = PROJECT_STATUS_AUTO;
+			pProjectMan->projectStatus |= PROJECT_RUNNING;
+			xSemaphoreGiveFromISR(pProjectMan->projectStatusSem, &xHigherPriorityTaskWoken);
+			
+			flag = 1;
+			DCMotor_Run(STARTLAMP_MOTOR, CW, 100);
+		}
+		else
+		{
+			xSemaphoreGiveFromISR(pProjectMan->projectStatusSem, &xHigherPriorityTaskWoken);
+		}
+	}
+	
+	xSemaphoreTakeFromISR(pProjectMan->lcdUartSem, &xHigherPriorityTaskWoken);
+	SetScreen(MAINPAGE_INDEX);
+	xSemaphoreGiveFromISR(pProjectMan->lcdUartSem, &xHigherPriorityTaskWoken);
+	
     EXTI_ClearITPendingBit(EXTI_Line1);
 }
 

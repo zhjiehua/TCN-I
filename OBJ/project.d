@@ -37,6 +37,9 @@
 ..\obj\project.o: ..\FreeRTOS\Source\include\task.h
 ..\obj\project.o: ..\FreeRTOS\Source\include\list.h
 ..\obj\project.o: ..\FreeRTOS\Source\include\timers.h
+..\obj\project.o: ..\FreeRTOS\Source\include\queue.h
+..\obj\project.o: ..\FreeRTOS\Source\include\semphr.h
+..\obj\project.o: ..\FreeRTOS\Source\include\event_groups.h
 ..\obj\project.o: ..\Logic\../HARDWARE/DCMotor/DCMotor.h
 ..\obj\project.o: ..\Logic\../HARDWARE/DCMotor/../HardwareCommon.h
 ..\obj\project.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h
@@ -44,5 +47,7 @@
 ..\obj\project.o: ..\Logic\../HARDWARE/StepMotor/StepMotor.h
 ..\obj\project.o: ..\Logic\../HARDWARE/Beep/beep.h
 ..\obj\project.o: ..\Logic\../HARDWARE/NTCResistor/NTCResistor.h
-..\obj\project.o: ..\HARDWARE\LED\../RelayMOS/RelayMOS.h
-..\obj\project.o: ..\HARDWARE\LED/led.h
+..\obj\project.o: ..\Logic\../HARDWARE/RelayMOS/RelayMOS.h
+..\obj\project.o: ..\Logic\../HARDWARE/24CXX/24cxx.h
+..\obj\project.o: ..\Logic\../HARDWARE/24CXX/myiic.h
+..\obj\project.o: ..\Logic\../HARDWARE/LED/led.h
