@@ -384,8 +384,11 @@ void manualPageButtonProcess(uint16 control_id, uint8  state)
 				pProjectMan->projectStopFlag = 1;
 			}
 		}
-		break;		
+		break;
+		case MANUAL_SETUP_BUTTON:
+		break;
 		case MANUAL_BACK_BUTTON:
+			SetTextInt32(MAINPAGE_INDEX, MAIN_OUTPUT_EDIT, pProjectMan->totalOutput, 0, 0);
 		break;
 		default:
 			cDebug("manualPage BUTTON error!\n");

@@ -7,6 +7,7 @@
 #include "../StepMotor/StepMotor.h"
 #include "../RelayMOS/RelayMOS.h"
 #include "../WDG/WDG.h"
+#include "../HARDWARE/24CXX/24cxx.h"
 
 /* Scheduler includes. */
 #include "FreeRTOS.h"
@@ -99,17 +100,28 @@ void EXTI0_IRQHandler(void)
 	for(i=0;i<STEPMOTOR_COUNT;i++)
 	{
 		StepMotor_Stop(i);
+		TIM_Cmd(StepMotorPin[i].TIMx, DISABLE);
 	}
 	RELAY = 0;
 
-	//提示重新上电
-	SetTextValue(TIPSPAGE_INDEX, TIPS_TIPS_EDIT, (uint8_t*)"1 请松开急停按钮；\r\n2 请重新上电！");
-	SetScreen(TIPSPAGE_INDEX);
+	pProjectMan->systemEmergencyButtonPressFlag = 1;
 	
-	while(1)
-	{
-		IWDG_Feed();//喂狗
-	}
+//	//提示重新上电
+//	SetTextValue(TIPSPAGE_INDEX, TIPS_TIPS_EDIT, (uint8_t*)"1 请松开急停按钮；\r\n2 请重新上电！");
+//	SetScreen(TIPSPAGE_INDEX);
+//	
+//	IWDG_Feed();//喂狗	
+//	pProjectMan->systemEmergencyFlag = 1;
+//	AT24CXX_Write(EMERGENCYFLAG_BASEADDR, (uint8_t*)(&(pProjectMan->systemEmergencyFlag)), 1);
+//	IWDG_Feed();//喂狗	
+//	
+//	while(1)
+//	{
+//		//提示重新上电
+//		SetTextValue(TIPSPAGE_INDEX, TIPS_TIPS_EDIT, (uint8_t*)"1 请松开急停按钮；\r\n2 请重新上电！");
+//		SetScreen(TIPSPAGE_INDEX);
+//		IWDG_Feed();//喂狗	
+//	}
 	
     EXTI_ClearITPendingBit(EXTI_Line0);
 	portCLEAR_INTERRUPT_MASK_FROM_ISR(oldBasePri);
@@ -117,53 +129,23 @@ void EXTI0_IRQHandler(void)
 
 void EXTI1_IRQHandler(void)
 {
-	static uint8_t flag = 1;
-	BaseType_t xHigherPriorityTaskWoken;
-	
     button[1].flag = 1;
-    
-	if(flag)
-	{
-		//复位
-		xSemaphoreTakeFromISR(pProjectMan->projectStatusSem, &xHigherPriorityTaskWoken);
-		if(!(pProjectMan->projectStatus & PROJECT_RUNNING))
-		{
-			pProjectMan->projectStopFlag = 0;
-			pProjectMan->projectStatus = PROJECT_STATUS_RESET;
-			pProjectMan->projectStatus |= PROJECT_RUNNING;
-			xSemaphoreGiveFromISR(pProjectMan->projectStatusSem, &xHigherPriorityTaskWoken);
-			
-			flag = 0;
-			DCMotor_Stop(STARTLAMP_MOTOR);
-		}
-		else
-		{
-			xSemaphoreGiveFromISR(pProjectMan->projectStatusSem, &xHigherPriorityTaskWoken);
-		}
-	}
-	else
-	{
-		//自动
-		xSemaphoreTakeFromISR(pProjectMan->projectStatusSem, &xHigherPriorityTaskWoken);
-		if(!(pProjectMan->projectStatus & PROJECT_RUNNING))
-		{
-			pProjectMan->projectStopFlag = 0;
-			pProjectMan->projectStatus = PROJECT_STATUS_AUTO;
-			pProjectMan->projectStatus |= PROJECT_RUNNING;
-			xSemaphoreGiveFromISR(pProjectMan->projectStatusSem, &xHigherPriorityTaskWoken);
-			
-			flag = 1;
-			DCMotor_Run(STARTLAMP_MOTOR, CW, 100);
-		}
-		else
-		{
-			xSemaphoreGiveFromISR(pProjectMan->projectStatusSem, &xHigherPriorityTaskWoken);
-		}
-	}
 	
-	xSemaphoreTakeFromISR(pProjectMan->lcdUartSem, &xHigherPriorityTaskWoken);
-	SetScreen(MAINPAGE_INDEX);
-	xSemaphoreGiveFromISR(pProjectMan->lcdUartSem, &xHigherPriorityTaskWoken);
+	pProjectMan->tipsBuzzeFlag = 0;//关蜂鸣器
+	
+	if(!(pProjectMan->projectStatus&PROJECT_RUNNING) && pProjectMan->systemPowerUpFlag)
+	{
+		if(pProjectMan->autoButtonFlag)
+		{
+			pProjectMan->autoNResetFlag = 1;//复位
+			//pProjectMan->autoButtonFlag = 0;
+		}
+		else
+		{
+			pProjectMan->autoNResetFlag = 2;//自动
+			//pProjectMan->autoButtonFlag = 1;
+		}
+	}
 	
     EXTI_ClearITPendingBit(EXTI_Line1);
 }

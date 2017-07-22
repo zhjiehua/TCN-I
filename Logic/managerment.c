@@ -34,7 +34,7 @@ ProjectMan_TypeDef *pProjectMan = &ProjectMan;
 /************************************************************************/
 uint8 cmd_buffer[CMD_MAX_SIZE];
 	
-#define EEPROM_DEFAULT 0x11223344
+#define EEPROM_DEFAULT 0x11223345
 
 //定时器回调函数
 void vTimerCallback( TimerHandle_t xTimer )
@@ -125,12 +125,12 @@ void initUI(void)
 		
 		pProjectMan->clamp1Delay = 80;
 		pProjectMan->clamp2Delay = 80;
-		pProjectMan->cutoff1Delay = 450;
+		pProjectMan->cutoff1Delay = 150;
 		pProjectMan->cutoff2Delay = 280;
-		pProjectMan->cutoffReturnDelay = 5;
-		pProjectMan->cutoffTime = 20;
-		pProjectMan->fusingTime = 4;
-		pProjectMan->jointTime = 4;
+		pProjectMan->cutoffReturnDelay = 4000;
+		pProjectMan->cutoffTime = 30000;
+		pProjectMan->fusingTime = 4000;
+		pProjectMan->jointTime = 4000;
 		pProjectMan->heatingUpDelay = 400;
 		pProjectMan->heatingUpDelay = 100;
 		
@@ -143,6 +143,8 @@ void initUI(void)
 		pProjectMan->fusingHeatingVoltage = 24;
 		
 		pProjectMan->totalOutput = 0;
+		
+		pProjectMan->systemEmergencyFlag = 0;
 		
 		//保存数据
 		AT24CXX_Write(CUTOFF1KP_BASEADDR, (uint8_t*)&pProjectMan->cutoff1PID.Proportion, 4);
@@ -176,6 +178,8 @@ void initUI(void)
 		AT24CXX_Write(FUSINGHEATINGVOL_BASEADDR, (uint8_t*)&pProjectMan->fusingHeatingVoltage, 1);
 		
 		AT24CXX_Write(TOTALOUTPUT_BASEADDR, (uint8_t*)&pProjectMan->totalOutput, 4);
+		
+		AT24CXX_Write(EMERGENCYFLAG_BASEADDR, (uint8_t*)&pProjectMan->systemEmergencyFlag, 1);
 		
 		dat = EEPROM_DEFAULT;
 		AT24CXX_Write(POWERONTEST_BASEADDR, (uint8_t*)&dat, sizeof(uint32_t));
@@ -227,6 +231,8 @@ void initUI(void)
 		AT24CXX_Read(FUSINGHEATINGVOL_BASEADDR, (uint8_t*)&pProjectMan->fusingHeatingVoltage, 1);
 		
 		AT24CXX_Read(TOTALOUTPUT_BASEADDR, (uint8_t*)&pProjectMan->totalOutput, 4);
+		
+		AT24CXX_Read(EMERGENCYFLAG_BASEADDR, (uint8_t*)&pProjectMan->systemEmergencyFlag, 1);
 	}
 #endif
 	
@@ -327,6 +333,11 @@ void reflashMainPageButton(void)
 		}
 		
 		xSemaphoreGive(pProjectMan->lcdUartSem);		
+	}
+	
+	if(pProjectMan->tipsBuzzeFlag == 2)
+	{
+		SetBuzzer(20);
 	}
 //	
 //	//除能主界面的状态按钮
@@ -518,7 +529,66 @@ void UITask(void)
 			HeatingPID();
 #endif
 		
+		//处理启动/复位按钮消息
+		if(pProjectMan->autoNResetFlag == 1)
+		{
+			//复位
+			if(!(pProjectMan->projectStatus & PROJECT_RUNNING))
+			{
+				xSemaphoreTake(pProjectMan->projectStatusSem, portMAX_DELAY);
+				pProjectMan->projectStopFlag = 0;
+				pProjectMan->projectStatus = PROJECT_STATUS_RESET;
+				pProjectMan->projectStatus |= PROJECT_RUNNING;
+				xSemaphoreGive(pProjectMan->projectStatusSem);
+				
+				DCMotor_Stop(STARTLAMP_MOTOR);
+				
+				xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+				SetTextInt32(MAINPAGE_INDEX, MAIN_OUTPUT_EDIT, pProjectMan->totalOutput, 0, 0);
+				SetScreen(MAINPAGE_INDEX);
+				xSemaphoreGive(pProjectMan->lcdUartSem);
+			}
+		}
+		else if(pProjectMan->autoNResetFlag == 2)
+		{
+			//自动
+			if(!(pProjectMan->projectStatus & PROJECT_RUNNING))
+			{
+				xSemaphoreTake(pProjectMan->projectStatusSem, portMAX_DELAY);
+				pProjectMan->projectStopFlag = 0;
+				pProjectMan->projectStatus = PROJECT_STATUS_AUTO;
+				pProjectMan->projectStatus |= PROJECT_RUNNING;
+				xSemaphoreGive(pProjectMan->projectStatusSem);
+
+				DCMotor_Run(STARTLAMP_MOTOR, CW, 100);
+				
+				xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+				SetTextInt32(MAINPAGE_INDEX, MAIN_OUTPUT_EDIT, pProjectMan->totalOutput, 0, 0);
+				SetScreen(MAINPAGE_INDEX);
+				xSemaphoreGive(pProjectMan->lcdUartSem);
+			}
+		}
+
         vTaskDelay(10);
+		
+		//急停按钮按下
+		if(pProjectMan->systemEmergencyButtonPressFlag)
+		{
+			//提示重新上电
+			xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+			SetTextValue(TIPSPAGE_INDEX, TIPS_TIPS_EDIT, (uint8_t*)"1 请松开急停按钮；\r\n2 请重新上电！");
+			SetScreen(TIPSPAGE_INDEX);
+			xSemaphoreGive(pProjectMan->lcdUartSem);
+			
+			IWDG_Feed();//喂狗
+			pProjectMan->systemEmergencyFlag = 1;
+			AT24CXX_Write(EMERGENCYFLAG_BASEADDR, (uint8_t*)(&(pProjectMan->systemEmergencyFlag)), 1);
+			
+			while(1)
+			{
+				IWDG_Feed();//喂狗	
+			}
+		}
     }
 }
 
@@ -573,7 +643,7 @@ void Cutoff1Task(void * const pvParameters)
 			xEventGroupSetBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF1);
 			
 			pProjectMan->timerExpireFlag[0] = 0;
-			xTimerChangePeriod( pProjectMan->xTimerUser[0], pProjectMan->cutoffTime*1000, 0);
+			xTimerChangePeriod( pProjectMan->xTimerUser[0], pProjectMan->cutoffTime, 0);
 			while(!pProjectMan->timerExpireFlag[0] && !pProjectMan->projectStopFlag)
 				vTaskDelay(5);
 			if(pProjectMan->projectStopFlag)
@@ -616,7 +686,7 @@ void Cutoff2Task(void * const pvParameters)
 			xEventGroupSetBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF2);
 			
 			pProjectMan->timerExpireFlag[1] = 0;
-			xTimerChangePeriod( pProjectMan->xTimerUser[1], pProjectMan->cutoffTime*1000, 0);
+			xTimerChangePeriod( pProjectMan->xTimerUser[1], pProjectMan->cutoffTime, 0);
 			while(!pProjectMan->timerExpireFlag[1] && !pProjectMan->projectStopFlag)
 			{
 				vTaskDelay(5);

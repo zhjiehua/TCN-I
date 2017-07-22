@@ -48,8 +48,8 @@ extern "C" {
 #define MAIN_STATUS9_BUTTON				9
 #define MAIN_STATUS10_BUTTON			10
 #define MAIN_OUTPUT_EDIT				20
-#define MAIN_CLEAR_BUTTON				30
-#define MAIN_SETUP_BUTTON				31
+
+#define MAIN_MANUAL_BUTTON				30
 
 /************************************************************************/
 /* 设置页面控件ID                                                         */
@@ -83,6 +83,8 @@ extern "C" {
 #define MANUAL_HEATINGUP_BUTTON			13
 #define MANUAL_HEATINGDOWN_BUTTON		14
 #define MANUAL_HEATON_BUTTON			15
+
+#define MANUAL_SETUP_BUTTON				16
 
 #define MANUAL_BACK_BUTTON				50
 
@@ -196,6 +198,9 @@ extern "C" {
 /* 关于页面控件ID                                                       */
 /************************************************************************/
 #define ABOUT_VERSION_EDIT				1
+#define ABOUT_CLEAROUTPUT_BUTTON		2
+#define ABOUT_SAVEASDEFAULT_BUTTON		3
+#define ABOUT_RESTOREDEFAULT_BUTTON		4
 
 #define ABOUT_BACK_BUTTON				50
 

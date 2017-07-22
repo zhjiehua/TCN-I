@@ -48,3 +48,5 @@
 ..\obj\button.o: ..\HARDWARE\Button\../StepMotor/StepMotor.h
 ..\obj\button.o: ..\HARDWARE\Button\../RelayMOS/RelayMOS.h
 ..\obj\button.o: ..\HARDWARE\Button\../WDG/WDG.h
+..\obj\button.o: ..\USER\../HARDWARE/24CXX/24cxx.h
+..\obj\button.o: ..\USER\../HARDWARE/24CXX/myiic.h

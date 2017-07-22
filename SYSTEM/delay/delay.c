@@ -141,7 +141,8 @@ void delay_us(u32 nus)
 			if(tnow<told)tcnt+=told-tnow;		//这里注意一下SYSTICK是一个递减的计数器就可以了.
 			else tcnt+=reload-tnow+told;	    
 			told=tnow;
-			if(tcnt>=ticks)break;				//时间超过/等于要延迟的时间,则退出.
+			if(tcnt>=ticks)
+				break;				//时间超过/等于要延迟的时间,则退出.
 		}  
 	};
 	delay_osschedunlock();						//恢复OS调度									    

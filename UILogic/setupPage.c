@@ -79,7 +79,6 @@ void setupPageButtonProcess(uint16 control_id, uint8  state)
 			SetTextValue(ABOUTPAGE_INDEX, ABOUT_VERSION_EDIT, (uint8_t *)VERSION);
 		break;
 		case SETUP_BACK_BUTTON:
-			SetTextInt32(MAINPAGE_INDEX, MAIN_OUTPUT_EDIT, pProjectMan->totalOutput, 0, 0);
 		break;
 		default:
 			cDebug("setupPage BUTTON error!\n");

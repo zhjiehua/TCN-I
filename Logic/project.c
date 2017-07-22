@@ -138,7 +138,7 @@ void Cutoff1(uint8_t action, uint8_t *pStopFlag)
 			//sensorFlag = !PhSensor_SingleCheck(sensor);
 			
 			pProjectMan->timerExpireFlag[0] = 0;
-			xTimerChangePeriod( pProjectMan->xTimerUser[0], pProjectMan->cutoffReturnDelay*1000, 0);//4000/portTICK_PERIOD_MS
+			xTimerChangePeriod( pProjectMan->xTimerUser[0], pProjectMan->cutoffReturnDelay, 0);//4000/portTICK_PERIOD_MS
 		
 			while(!*pStopFlag && !pProjectMan->timerExpireFlag[0])
 			{
@@ -200,7 +200,7 @@ void Cutoff2(uint8_t action, uint8_t *pStopFlag)
 			//sensorFlag = !PhSensor_SingleCheck(sensor);
 			
 			pProjectMan->timerExpireFlag[1] = 0;
-			xTimerChangePeriod( pProjectMan->xTimerUser[1], pProjectMan->cutoffReturnDelay*1000, 0);//4000/portTICK_PERIOD_MS
+			xTimerChangePeriod( pProjectMan->xTimerUser[1], pProjectMan->cutoffReturnDelay, 0);//4000/portTICK_PERIOD_MS
 		
 			while(!*pStopFlag && !pProjectMan->timerExpireFlag[1])
 			{
@@ -478,6 +478,32 @@ void HeatingUp(uint8_t action, uint8_t *pStopFlag)
 	}
 }
 
+//半复位，用于在急停状态下
+void HalfResetOriginStatus(void)
+{
+	uint32_t cutoffReturnDelay = pProjectMan->cutoffReturnDelay;
+	pProjectMan->cutoffReturnDelay = 500;
+	
+	//切断回位
+	pProjectMan->cutoff1Action = 0;
+	pProjectMan->cutoff2Action = 0;
+	vTaskResume( pProjectMan->cutoff1TaskHandle );
+	vTaskResume( pProjectMan->cutoff2TaskHandle );
+	
+	//夹紧松开
+	pProjectMan->clamp1Action = 0;
+	pProjectMan->clamp2Action = 0;
+	vTaskResume( pProjectMan->clamp1TaskHandle );
+	vTaskResume( pProjectMan->clamp2TaskHandle );
+	
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CLAMP1, pdTRUE, pdFALSE, portMAX_DELAY);
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CLAMP2, pdTRUE, pdFALSE, portMAX_DELAY);
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF1, pdTRUE, pdFALSE, portMAX_DELAY);
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF2, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	pProjectMan->cutoffReturnDelay = cutoffReturnDelay;
+}
+
 //恢复为原始状态
 //stopFlag : 0,继续动作; !=0,主动退出动作
 void ResetOriginStatus(uint8_t *pStopFlag)
@@ -592,7 +618,7 @@ void AutoRun(uint8_t *pStopFlag)
 	
 	//延时熔接时间
 	pProjectMan->timerExpireFlag[2] = 0;
-	xTimerChangePeriod( pProjectMan->xTimerUser[2], pProjectMan->fusingTime*1000, 0);
+	xTimerChangePeriod( pProjectMan->xTimerUser[2], pProjectMan->fusingTime, 0);
 	while(!pProjectMan->timerExpireFlag[2] && !pProjectMan->projectStopFlag)
 		vTaskDelay(5);
 	if(pProjectMan->projectStopFlag)
@@ -611,7 +637,7 @@ void AutoRun(uint8_t *pStopFlag)
 	
 	//延时接合时间
 	pProjectMan->timerExpireFlag[2] = 0;
-	xTimerChangePeriod( pProjectMan->xTimerUser[2], pProjectMan->jointTime*1000, 0);
+	xTimerChangePeriod( pProjectMan->xTimerUser[2], pProjectMan->jointTime, 0);
 	while(!pProjectMan->timerExpireFlag[2] && !pProjectMan->projectStopFlag)
 		vTaskDelay(5);
 	if(pProjectMan->projectStopFlag)
@@ -668,6 +694,8 @@ void AutoRun_Cutoff1(uint8_t *pStopFlag)
 	vTaskResume( pProjectMan->cutoff1TaskHandle );
 	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF1, pdTRUE, pdFALSE, portMAX_DELAY);
 	
+	vTaskDelay(1000);
+	
 	//分离
 	pProjectMan->separationAction = 0;
 	vTaskResume( pProjectMan->separationTaskHandle );
@@ -694,6 +722,8 @@ void AutoRun_Cutoff2(uint8_t *pStopFlag)
 	vTaskResume( pProjectMan->cutoff2TaskHandle );
 	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF2, pdTRUE, pdFALSE, portMAX_DELAY);
 	
+	vTaskDelay(1000);
+	
 	//分离
 	pProjectMan->separationAction = 0;
 	vTaskResume( pProjectMan->separationTaskHandle );
@@ -711,6 +741,7 @@ void AutoRun_Cutoff2(uint8_t *pStopFlag)
 void ProjectTask(void)
 {
 	uint32_t j;
+	static uint8_t systemPreheatingFlag = 0;
 	
 //	while(!pProjectMan->lcdNotifyResetFlag)
 //		vTaskDelay(100);
@@ -731,32 +762,105 @@ void ProjectTask(void)
 	while(!pProjectMan->lcdNotifyResetFlag)
 		vTaskDelay(100);
 	
-	xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
-	SetTextValue(LOGOPAGE_INDEX, LOGO_STATUS_EDIT, (uint8_t*)"系统预热中……");
-	SetScreen(LOGOPAGE_INDEX);
-	SetTextValue(LOGOPAGE_INDEX, LOGO_STATUS_EDIT, (uint8_t*)"系统预热中……");
-	SetScreen(LOGOPAGE_INDEX);
-	xSemaphoreGive(pProjectMan->lcdUartSem);	
-	
 	while(1)
 	{
-		if((adcTemp[0].temperature >= pProjectMan->cutoff1Temperature)
-			&& (adcTemp[1].temperature >= pProjectMan->cutoff2Temperature)
-			&& (adcTemp[2].temperature >= pProjectMan->fusingHoldingTemperature))
+		if(!GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_0))
 		{
-			xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
-			SetTextInt32(MAINPAGE_INDEX, MAIN_OUTPUT_EDIT, pProjectMan->totalOutput, 0, 0);
-			SetScreen(MAINPAGE_INDEX);
-			xSemaphoreGive(pProjectMan->lcdUartSem);	
-			break;
+			static uint8_t flag = 0;
+			if(!flag)
+			{
+				flag = 1;
+				xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+				SetTextValue(TIPSPAGE_INDEX, TIPS_TIPS_EDIT, (uint8_t*)"请松开急停旋钮！");
+				SetScreen(TIPSPAGE_INDEX);
+				xSemaphoreGive(pProjectMan->lcdUartSem);
+			}
 		}
 		else
-			vTaskDelay(10);
+			break;
+		
+		vTaskDelay(10);
 	}
+	
+	//如果上次关机前有按急停，则松开夹紧和切断回位
+	if(pProjectMan->systemEmergencyFlag)
+	{
+		xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+		SetTextValue(TIPS1PAGE_INDEX, TIPS_TIPS_EDIT, (uint8_t*)"1 请将设备上的管清理走；\r\n2 清理完后请手动复位！");
+		SetScreen(TIPS1PAGE_INDEX);
+		xSemaphoreGive(pProjectMan->lcdUartSem);
+
+		HalfResetOriginStatus();
+		
+		pProjectMan->tipsBuzzeFlag = 2;//开蜂鸣器
+		
+		pProjectMan->systemEmergencyFlag = 0;
+		AT24CXX_Write(EMERGENCYFLAG_BASEADDR, (uint8_t*)&pProjectMan->systemEmergencyFlag, 1);
+		pProjectMan->autoButtonFlag = 1;
+		
+		//vTaskDelay(1000);
+	}
+	else
+	{
+		xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+		SetTextValue(LOGOPAGE_INDEX, LOGO_STATUS_EDIT, (uint8_t*)"系统复位中……");
+		SetScreen(LOGOPAGE_INDEX);
+		xSemaphoreGive(pProjectMan->lcdUartSem);
+		ResetOriginStatus(&pProjectMan->projectStopFlag);
+		pProjectMan->autoButtonFlag = 0;
+		
+		xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+		SetTextValue(LOGOPAGE_INDEX, LOGO_STATUS_EDIT, (uint8_t*)"系统预热中……");
+		SetScreen(LOGOPAGE_INDEX);
+		xSemaphoreGive(pProjectMan->lcdUartSem);
+	}
+	
+	pProjectMan->systemPowerUpFlag = 2;
+	
+//	while(1)
+//	{
+//		if((adcTemp[0].temperature >= pProjectMan->cutoff1Temperature)
+//			&& (adcTemp[1].temperature >= pProjectMan->cutoff2Temperature)
+//			&& (adcTemp[2].temperature >= pProjectMan->fusingHoldingTemperature))
+//		{
+//			xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+//			SetTextInt32(MAINPAGE_INDEX, MAIN_OUTPUT_EDIT, pProjectMan->totalOutput, 0, 0);
+//			SetScreen(MAINPAGE_INDEX);
+//			xSemaphoreGive(pProjectMan->lcdUartSem);	
+//			break;
+//		}
+//		else
+//			vTaskDelay(10);
+//	}
 	
 	while(1)
 	{
 #if 1	
+		if((pProjectMan->systemPowerUpFlag == 2) && (pProjectMan->tipsBuzzeFlag == 0))
+		{
+			if(!systemPreheatingFlag)
+			{
+				xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+				SetTextValue(LOGOPAGE_INDEX, LOGO_STATUS_EDIT, (uint8_t*)"系统预热中……");
+				SetScreen(LOGOPAGE_INDEX);
+				xSemaphoreGive(pProjectMan->lcdUartSem);
+				
+				systemPreheatingFlag = 1;
+			}
+			
+			if((adcTemp[0].temperature >= pProjectMan->cutoff1Temperature)
+				&& (adcTemp[1].temperature >= pProjectMan->cutoff2Temperature)
+				&& (adcTemp[2].temperature >= pProjectMan->fusingHoldingTemperature))
+			{
+				xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
+				SetTextInt32(MAINPAGE_INDEX, MAIN_OUTPUT_EDIT, pProjectMan->totalOutput, 0, 0);
+				SetScreen(MAINPAGE_INDEX);
+				xSemaphoreGive(pProjectMan->lcdUartSem);
+
+				pProjectMan->systemPowerUpFlag = 1;
+			}
+		}
+		
 		if(pProjectMan->projectStatus&PROJECT_RUNNING)
 		{
 			switch(pProjectMan->projectStatus&0x7F)
@@ -880,8 +984,13 @@ void ProjectTask(void)
 				break;
 			}
 			xSemaphoreTake(pProjectMan->projectStatusSem, portMAX_DELAY);
+			if((pProjectMan->projectStatus&0x7F) != PROJECT_STATUS_RESET)
+				pProjectMan->autoButtonFlag = 1;
+			else
+				pProjectMan->autoButtonFlag = 0;
 			pProjectMan->projectStatus = 0;
 			pProjectMan->projectStopFlag = 0;
+			pProjectMan->autoNResetFlag = 0;
 			xSemaphoreGive(pProjectMan->projectStatusSem);
 		}
 		else

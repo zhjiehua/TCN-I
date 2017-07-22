@@ -37,13 +37,13 @@ void mainPageButtonProcess(uint16 control_id, uint8 state)
 {
 	switch(control_id)
 	{
-		case MAIN_CLEAR_BUTTON:
-			//清零总产量
-			pProjectMan->totalOutput = 0;
-			SetTextInt32(MAINPAGE_INDEX, MAIN_OUTPUT_EDIT, 0, 0, 0);
-			AT24CXX_Write(TOTALOUTPUT_BASEADDR, (uint8_t*)&pProjectMan->totalOutput, 4);
-			break;
-		case MAIN_SETUP_BUTTON:
+//		case MAIN_CLEAR_BUTTON:
+//			//清零总产量
+//			pProjectMan->totalOutput = 0;
+//			SetTextInt32(MAINPAGE_INDEX, MAIN_OUTPUT_EDIT, 0, 0, 0);
+//			AT24CXX_Write(TOTALOUTPUT_BASEADDR, (uint8_t*)&pProjectMan->totalOutput, 4);
+//			break;
+		case MAIN_MANUAL_BUTTON:
 			break;
 		default:
 			cDebug("mainPage BUTTON error!\n");

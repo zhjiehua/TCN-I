@@ -60,7 +60,11 @@ extern "C" {
 #define CUTOFF2HEATINGVOL_BASEADDR	(CUTOFF1HEATINGVOL_BASEADDR+1)
 #define FUSINGHEATINGVOL_BASEADDR	(CUTOFF2HEATINGVOL_BASEADDR+1)
 
-#define TOTALOUTPUT_BASEADDR		(FUSINGHEATINGVOL_BASEADDR+4)
+#define TOTALOUTPUT_BASEADDR		(FUSINGHEATINGVOL_BASEADDR+1)
+
+#define EMERGENCYFLAG_BASEADDR		(TOTALOUTPUT_BASEADDR+4)
+
+#define RESTOREDEFAULT_BASEADDR		(EMERGENCYFLAG_BASEADDR+100)
 
 //定义电机对应功能
 #define CLAMP1_MOTOR		DCMOTOR1	//夹紧1
@@ -148,6 +152,13 @@ typedef struct
 	uint8_t projectCurrentStatus; //当前状态，用于LCD显示
 	uint8_t tipsOKButtonFlag;
 	uint8_t tipsBuzzeFlag;
+	
+	uint8_t autoButtonFlag; 
+	uint8_t autoNResetFlag; //1:复位；2:自动
+	uint8_t systemPowerUpFlag; //1：系统已经正常启动
+	
+	uint8_t systemEmergencyFlag; //系统上一次关电前是否有按急停
+	uint8_t systemEmergencyButtonPressFlag;
 	
 	SemaphoreHandle_t projectStatusSem;
 	EventGroupHandle_t projectEventGroup;

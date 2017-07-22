@@ -21,6 +21,7 @@ void DislocationDistance(uint8_t action, uint32_t distance, uint8_t *pStopFlag);
 void Heating(uint8_t *pStopFlag);
 void HeatingUp(uint8_t action, uint8_t *pStopFlag);
 
+void HalfResetOriginStatus(void);
 void ResetOriginStatus(uint8_t *pStopFlag);
 void AutoRun(uint8_t *pStopFlag);
 
