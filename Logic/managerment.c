@@ -118,8 +118,10 @@ void initUI(void)
 		pProjectMan->cutoff2PID.Proportion = 8.0;
 		pProjectMan->cutoff2PID.Integral = 0.0;
 		pProjectMan->cutoff2PID.Derivative = 0.0;
-		pProjectMan->cutoff1Temperature = 110.0;
-		pProjectMan->cutoff2Temperature = 105.0;
+		pProjectMan->cutoff1Temperature = 95.0; //110.0
+		pProjectMan->cutoff1HoldingTemperature = 83.0;
+		pProjectMan->cutoff2Temperature = 95.0; //105.0
+		pProjectMan->cutoff2HoldingTemperature = 83.0;
 		pProjectMan->fusingTemperature = 160.0;
 		pProjectMan->fusingHoldingTemperature = 120;
 		
@@ -154,7 +156,9 @@ void initUI(void)
 		AT24CXX_Write(CUTOFF2KI_BASEADDR, (uint8_t*)&pProjectMan->cutoff2PID.Integral, 4);
 		AT24CXX_Write(CUTOFF2KD_BASEADDR, (uint8_t*)&pProjectMan->cutoff2PID.Derivative, 4);
 		AT24CXX_Write(CUTOFF1TEMP_BASEADDR, (uint8_t*)&pProjectMan->cutoff1Temperature, 4);
+		AT24CXX_Write(CUTOFF1HOLDINGTEMP_BASEADDR, (uint8_t*)&pProjectMan->cutoff1HoldingTemperature, 4);
 		AT24CXX_Write(CUTOFF2TEMP_BASEADDR, (uint8_t*)&pProjectMan->cutoff2Temperature, 4);
+		AT24CXX_Write(CUTOFF2HOLDINGTEMP_BASEADDR, (uint8_t*)&pProjectMan->cutoff2HoldingTemperature, 4);
 		AT24CXX_Write(FUSINGTEMP_BASEADDR, (uint8_t*)&pProjectMan->fusingTemperature, 4);
 		AT24CXX_Write(FUSINGHOLDINGTEMP_BASEADDR, (uint8_t*)&pProjectMan->fusingHoldingTemperature, 4);
 		
@@ -207,7 +211,9 @@ void initUI(void)
 		AT24CXX_Read(CUTOFF2KI_BASEADDR, (uint8_t*)&pProjectMan->cutoff2PID.Integral, 4);
 		AT24CXX_Read(CUTOFF2KD_BASEADDR, (uint8_t*)&pProjectMan->cutoff2PID.Derivative, 4);
 		AT24CXX_Read(CUTOFF1TEMP_BASEADDR, (uint8_t*)&pProjectMan->cutoff1Temperature, 4);
+		AT24CXX_Read(CUTOFF1HOLDINGTEMP_BASEADDR, (uint8_t*)&pProjectMan->cutoff1HoldingTemperature, 4);
 		AT24CXX_Read(CUTOFF2TEMP_BASEADDR, (uint8_t*)&pProjectMan->cutoff2Temperature, 4);
+		AT24CXX_Read(CUTOFF2HOLDINGTEMP_BASEADDR, (uint8_t*)&pProjectMan->cutoff2HoldingTemperature, 4);
 		AT24CXX_Read(FUSINGTEMP_BASEADDR, (uint8_t*)&pProjectMan->fusingTemperature, 4);
 		AT24CXX_Read(FUSINGHOLDINGTEMP_BASEADDR, (uint8_t*)&pProjectMan->fusingHoldingTemperature, 4);
 		
@@ -352,9 +358,9 @@ void Cutoff1PID(void)
 	uint8_t pwmPercent;
 	int32_t pidOut;
 	
-	if(adcTemp[0].temperature < pProjectMan->cutoff1Temperature)
+	if(adcTemp[0].temperature < pProjectMan->cutoff1HoldingTemperature)
 	{
-		if(pProjectMan->cutoff1Temperature - adcTemp[0].temperature > 10)
+		if(pProjectMan->cutoff1HoldingTemperature - adcTemp[0].temperature > 5)//10
 		{
 			pwmPercent = 100;
 		}
@@ -373,7 +379,7 @@ void Cutoff1PID(void)
 	}
 	else
 	{
-		if(adcTemp[0].temperature - pProjectMan->cutoff1Temperature > 5)
+		if(adcTemp[0].temperature - pProjectMan->cutoff1HoldingTemperature > 3)//5
 		{
 			pwmPercent = 0;
 		}
@@ -407,9 +413,9 @@ void Cutoff2PID(void)
 	uint8_t pwmPercent;
 	int32_t pidOut;
 	
-	if(adcTemp[1].temperature < pProjectMan->cutoff2Temperature)
+	if(adcTemp[1].temperature < pProjectMan->cutoff2HoldingTemperature)
 	{
-		if(pProjectMan->cutoff2Temperature - adcTemp[1].temperature > 10)
+		if(pProjectMan->cutoff2HoldingTemperature - adcTemp[1].temperature > 5)//10
 		{
 			pwmPercent = 100;
 		}
@@ -428,7 +434,7 @@ void Cutoff2PID(void)
 	}
 	else
 	{
-		if(adcTemp[1].temperature - pProjectMan->cutoff2Temperature > 5)
+		if(adcTemp[1].temperature - pProjectMan->cutoff2HoldingTemperature > 3)//5
 		{
 			pwmPercent = 0;
 		}
@@ -631,15 +637,27 @@ void Cutoff1Task(void * const pvParameters)
 		}
 		else if(action == 2)
 		{
-			float temp = pProjectMan->cutoff1Temperature;
-#if !TEMPERATURE_MASK
-			while(adcTemp[0].temperature < pProjectMan->cutoff1Temperature && !pProjectMan->projectStopFlag)//等待温度到
+			float temp = pProjectMan->cutoff1HoldingTemperature;//83
+			
+			pProjectMan->cutoff1HoldingTemperature = 0;//迅速降温
+			PID_UpdateSetPoint(&(pProjectMan->cutoff1PID), pProjectMan->cutoff1HoldingTemperature);
+			while(adcTemp[0].temperature > pProjectMan->cutoff1HoldingTemperature && !pProjectMan->projectStopFlag)
 				vTaskDelay(5);
-#endif
+			
+//#if !TEMPERATURE_MASK
+//			while(adcTemp[0].temperature < pProjectMan->cutoff1Temperature && !pProjectMan->projectStopFlag)//等待温度到
+//				vTaskDelay(5);
+//#endif
 			
 			Cutoff1(1, &(pProjectMan->projectStopFlag));
-			pProjectMan->cutoff1Temperature = 0;//迅速降温
 			
+			pProjectMan->cutoff1HoldingTemperature = pProjectMan->cutoff1Temperature;//95  迅速升温
+			PID_UpdateSetPoint(&(pProjectMan->cutoff1PID), pProjectMan->cutoff1HoldingTemperature);
+			while(adcTemp[0].temperature < pProjectMan->cutoff1Temperature && !pProjectMan->projectStopFlag)
+				vTaskDelay(5);
+			
+			pProjectMan->cutoff1HoldingTemperature = 0;//迅速降温
+			PID_UpdateSetPoint(&(pProjectMan->cutoff1PID), pProjectMan->cutoff1HoldingTemperature);
 			xEventGroupSetBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF1);
 			
 			pProjectMan->timerExpireFlag[0] = 0;
@@ -650,8 +668,9 @@ void Cutoff1Task(void * const pvParameters)
 				xTimerStop( pProjectMan->xTimerUser[0], 0 );
 			
 			Cutoff1(0, &(pProjectMan->projectStopFlag));
-			pProjectMan->cutoff1Temperature = temp;//重新加热
-
+			
+			pProjectMan->cutoff1HoldingTemperature = temp;//重新加热，保持维持温度
+			PID_UpdateSetPoint(&(pProjectMan->cutoff1PID), pProjectMan->cutoff1HoldingTemperature);
 			xEventGroupSetBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF1);
 		}
 	}
@@ -676,13 +695,26 @@ void Cutoff2Task(void * const pvParameters)
 		}
 		else if(action == 2)
 		{
-			float temp = pProjectMan->cutoff2Temperature;
-#if !TEMPERATURE_MASK
-			while(adcTemp[1].temperature < pProjectMan->cutoff2Temperature && !pProjectMan->projectStopFlag)//等待温度到
+			float temp = pProjectMan->cutoff2Temperature;//83
+			
+			pProjectMan->cutoff2HoldingTemperature = 0;//迅速降温
+			PID_UpdateSetPoint(&(pProjectMan->cutoff2PID), pProjectMan->cutoff2HoldingTemperature);
+			while(adcTemp[1].temperature > pProjectMan->cutoff2HoldingTemperature && !pProjectMan->projectStopFlag)
 				vTaskDelay(5);
-#endif			
+						
+//#if !TEMPERATURE_MASK
+//			while(adcTemp[1].temperature < pProjectMan->cutoff2Temperature && !pProjectMan->projectStopFlag)//等待温度到
+//				vTaskDelay(5);
+//#endif			
 			Cutoff2(1, &(pProjectMan->projectStopFlag));
-			pProjectMan->cutoff2Temperature = 0;//迅速降温
+			
+			pProjectMan->cutoff2HoldingTemperature = pProjectMan->cutoff2Temperature;//95，迅速升温
+			PID_UpdateSetPoint(&(pProjectMan->cutoff2PID), pProjectMan->cutoff2HoldingTemperature);
+			while(adcTemp[1].temperature < pProjectMan->cutoff2Temperature && !pProjectMan->projectStopFlag)
+				vTaskDelay(5);
+			
+			pProjectMan->cutoff2HoldingTemperature = 0;//迅速降温
+			PID_UpdateSetPoint(&(pProjectMan->cutoff2PID), pProjectMan->cutoff2HoldingTemperature);
 			xEventGroupSetBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF2);
 			
 			pProjectMan->timerExpireFlag[1] = 0;
@@ -695,8 +727,9 @@ void Cutoff2Task(void * const pvParameters)
 				xTimerStop( pProjectMan->xTimerUser[1], 0 );
 			
 			Cutoff2(0, &(pProjectMan->projectStopFlag));
-			pProjectMan->cutoff2Temperature = temp;//重新加热
 			
+			pProjectMan->cutoff2HoldingTemperature = temp;//重新加热
+			PID_UpdateSetPoint(&(pProjectMan->cutoff2PID), pProjectMan->cutoff2HoldingTemperature);	
 			xEventGroupSetBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF2);
 		}
 	}

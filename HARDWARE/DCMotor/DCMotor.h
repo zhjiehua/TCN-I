@@ -71,6 +71,4 @@ void DCMotor_Run(DCMotorEnum_TypeDef num, Direction_TypeDef dir, uint8_t speed);
 
 void DCMotor_Init(void);
 
-void DCMotorTestTask(void);
-
 #endif

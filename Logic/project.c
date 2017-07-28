@@ -563,10 +563,6 @@ void ResetOriginStatus(uint8_t *pStopFlag)
 //stopFlag : 0,继续动作; !=0,主动退出动作
 void AutoRun(uint8_t *pStopFlag)
 {
-	//熔接加热
-	pProjectMan->fusingTempControlFlag = 0;
-	pProjectMan->fusingRaisingTempControlFlag = 1;//加热到熔接温度点
-
 	//夹紧
 	pProjectMan->projectCurrentStatus = 1;
 	pProjectMan->clamp1Action = 1;
@@ -585,6 +581,10 @@ void AutoRun(uint8_t *pStopFlag)
 	vTaskResume( pProjectMan->cutoff2TaskHandle );
 	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF1, pdTRUE, pdFALSE, portMAX_DELAY);
 	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_CUTOFF2, pdTRUE, pdFALSE, portMAX_DELAY);
+	
+	//熔接加热
+	pProjectMan->fusingTempControlFlag = 0;
+	pProjectMan->fusingRaisingTempControlFlag = 1;//加热到熔接温度点
 	
 	vTaskDelay(1000);
 	
@@ -607,8 +607,8 @@ void AutoRun(uint8_t *pStopFlag)
 	while(!pProjectMan->heatingUpFlag && !pProjectMan->projectStopFlag)
 		vTaskDelay(5);
 #endif
-	pProjectMan->fusingTempControlFlag = 0;
-	pProjectMan->fusingRaisingTempControlFlag = 0;//返回维持温度点
+//	pProjectMan->fusingTempControlFlag = 0;
+//	pProjectMan->fusingRaisingTempControlFlag = 0;//返回维持温度点
 	
 	//抬起加热片
 	pProjectMan->projectCurrentStatus = 6;
@@ -623,6 +623,9 @@ void AutoRun(uint8_t *pStopFlag)
 		vTaskDelay(5);
 	if(pProjectMan->projectStopFlag)
 		xTimerStop( pProjectMan->xTimerUser[2], 0 );
+
+	pProjectMan->fusingTempControlFlag = 0;
+	pProjectMan->fusingRaisingTempControlFlag = 0;//返回维持温度点
 	
 	//放下加热片
 	pProjectMan->heatingUpAction = 0;

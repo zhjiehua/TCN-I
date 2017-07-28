@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\OBJ\STM32_FreeRTOS.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OBJ\STM32_FreeRTOS.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Sat Jul 22 09:15:32 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Thu Jul 27 14:25:04 2017
 <BR><P>
 <H3>Maximum Stack Usage =        608 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -2830,6 +2830,7 @@ Global Symbols
 <LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ProjectTask
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[1aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;statusPageButtonProcess
+<LI><a href="#[1a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setupPageButtonProcess
 <LI><a href="#[1a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;manualPageButtonProcess
 <LI><a href="#[18d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvInitialiseMutex
 <LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTimerGenericCommand
@@ -2889,6 +2890,7 @@ Global Symbols
 <LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UITask
 <LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ProjectTask
 <LI><a href="#[1aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;statusPageButtonProcess
+<LI><a href="#[1a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setupPageButtonProcess
 <LI><a href="#[1a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;manualPageButtonProcess
 <LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSelectFromSet
 <LI><a href="#[178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvProcessReceivedCommands
@@ -3030,7 +3032,7 @@ Global Symbols
 
 <P><STRONG><a name="[1a5]"></a>NotifyButton</STRONG> (Thumb, 164 bytes, Stack size 16 bytes, cmd_process.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 184 + Unknown Stack Size
-<LI>Call Chain = NotifyButton &rArr; aboutPageButtonProcess &rArr; AT24CXX_Read &rArr; AT24CXX_ReadOneByte &rArr; IIC_Read_Byte &rArr; IIC_NAck &rArr; delay_us &rArr; delay_osschedunlock &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+<LI>Call Chain = NotifyButton &rArr; setupPageButtonProcess &rArr; xQueueGenericReceive &rArr; prvUnlockQueue &rArr; prvNotifyQueueSetContainer &rArr; prvCopyDataToQueue &rArr; xTaskPriorityDisinherit
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tips1PageButtonProcess
 <LI><a href="#[1ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timeparaPageButtonProcess
@@ -3762,7 +3764,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[8f]"></a>initUI</STRONG> (Thumb, 1450 bytes, Stack size 16 bytes, managerment.o(.text))
+<P><STRONG><a name="[8f]"></a>initUI</STRONG> (Thumb, 1496 bytes, Stack size 16 bytes, managerment.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152 + Unknown Stack Size
 <LI>Call Chain = initUI &rArr; AT24CXX_Read &rArr; AT24CXX_ReadOneByte &rArr; IIC_Read_Byte &rArr; IIC_NAck &rArr; delay_us &rArr; delay_osschedunlock &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
@@ -3792,7 +3794,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UITask
 </UL>
 
-<P><STRONG><a name="[22f]"></a>Cutoff1PID</STRONG> (Thumb, 270 bytes, Stack size 16 bytes, managerment.o(.text))
+<P><STRONG><a name="[22f]"></a>Cutoff1PID</STRONG> (Thumb, 290 bytes, Stack size 16 bytes, managerment.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = Cutoff1PID &rArr; DCMotor_Run &rArr; DCMotor_SetSpeed &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DCMotor_Run
@@ -3831,7 +3833,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UITask
 </UL>
 
-<P><STRONG><a name="[4a]"></a>UITask</STRONG> (Thumb, 536 bytes, Stack size 8 bytes, managerment.o(.text))
+<P><STRONG><a name="[4a]"></a>UITask</STRONG> (Thumb, 564 bytes, Stack size 8 bytes, managerment.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 608 + Unknown Stack Size
 <LI>Call Chain = UITask &rArr; ProcessMessage &rArr; NotifyText &rArr; tempparaPageEditProcess &rArr; StringToInt32 &rArr; __0sscanf &rArr; __vfscanf_char &rArr; __vfscanf &rArr; _scanf_real &rArr; _scanf_really_real &rArr; _fp_value &rArr; _btod_etento &rArr; _btod_emul &rArr; _e2e
 </UL>
@@ -3877,7 +3879,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text)
 </UL>
-<P><STRONG><a name="[4e]"></a>Cutoff1Task</STRONG> (Thumb, 338 bytes, Stack size 8 bytes, managerment.o(.text))
+<P><STRONG><a name="[4e]"></a>Cutoff1Task</STRONG> (Thumb, 426 bytes, Stack size 8 bytes, managerment.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 224 + Unknown Stack Size
 <LI>Call Chain = Cutoff1Task &rArr; Cutoff1 &rArr; xTimerGenericCommand &rArr; xQueueGenericSend &rArr; prvUnlockQueue &rArr; prvNotifyQueueSetContainer &rArr; prvCopyDataToQueue &rArr; xTaskPriorityDisinherit
 </UL>
@@ -3885,12 +3887,15 @@ Global Symbols
 <LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTimerGenericCommand
 <LI><a href="#[155]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskSuspend
 <LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xEventGroupSetBits
+<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cfrcmple
 <LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cfcmple
+<LI><a href="#[22b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2iz
+<LI><a href="#[22c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_UpdateSetPoint
 <LI><a href="#[236]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cutoff1
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text)
 </UL>
-<P><STRONG><a name="[4f]"></a>Cutoff2Task</STRONG> (Thumb, 278 bytes, Stack size 8 bytes, managerment.o(.text))
+<P><STRONG><a name="[4f]"></a>Cutoff2Task</STRONG> (Thumb, 472 bytes, Stack size 8 bytes, managerment.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 224 + Unknown Stack Size
 <LI>Call Chain = Cutoff2Task &rArr; Cutoff2 &rArr; xTimerGenericCommand &rArr; xQueueGenericSend &rArr; prvUnlockQueue &rArr; prvNotifyQueueSetContainer &rArr; prvCopyDataToQueue &rArr; xTaskPriorityDisinherit
 </UL>
@@ -3899,7 +3904,10 @@ Global Symbols
 <LI><a href="#[155]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskSuspend
 <LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xEventGroupSetBits
 <LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cutoff2
+<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cfrcmple
 <LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cfcmple
+<LI><a href="#[22b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2iz
+<LI><a href="#[22c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_UpdateSetPoint
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text)
 </UL>
@@ -4220,7 +4228,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[1a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NotifyButton
 </UL>
 
-<P><STRONG><a name="[1a2]"></a>tempparaPageEditProcess</STRONG> (Thumb, 530 bytes, Stack size 32 bytes, tempparapage.o(.text))
+<P><STRONG><a name="[1a2]"></a>tempparaPageEditProcess</STRONG> (Thumb, 606 bytes, Stack size 32 bytes, tempparapage.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 544 + Unknown Stack Size
 <LI>Call Chain = tempparaPageEditProcess &rArr; StringToInt32 &rArr; __0sscanf &rArr; __vfscanf_char &rArr; __vfscanf &rArr; _scanf_real &rArr; _scanf_really_real &rArr; _fp_value &rArr; _btod_etento &rArr; _btod_emul &rArr; _e2e
 </UL>
@@ -4292,12 +4300,14 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[1a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NotifyButton
 </UL>
 
-<P><STRONG><a name="[1a8]"></a>setupPageButtonProcess</STRONG> (Thumb, 948 bytes, Stack size 24 bytes, setuppage.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 160 + Unknown Stack Size
-<LI>Call Chain = setupPageButtonProcess &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
+<P><STRONG><a name="[1a8]"></a>setupPageButtonProcess</STRONG> (Thumb, 1050 bytes, Stack size 24 bytes, setuppage.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 168 + Unknown Stack Size
+<LI>Call Chain = setupPageButtonProcess &rArr; xQueueGenericReceive &rArr; prvUnlockQueue &rArr; prvNotifyQueueSetContainer &rArr; prvCopyDataToQueue &rArr; xTaskPriorityDisinherit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetTextInt32
+<BR>[Calls]<UL><LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericReceive
+<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetTextInt32
 <LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetButtonValue
+<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
 <LI><a href="#[1bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetTextValue
 <LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
 <LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2uiz
@@ -4314,6 +4324,8 @@ Global Symbols
 
 <P><STRONG><a name="[22c]"></a>PID_UpdateSetPoint</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, pid.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initUI
+<LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cutoff2Task
+<LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cutoff1Task
 <LI><a href="#[1a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tempparaPageEditProcess
 </UL>
 
@@ -5041,6 +5053,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_f2iz
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initUI
+<LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cutoff2Task
+<LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cutoff1Task
 <LI><a href="#[1a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tempparaPageEditProcess
 <LI><a href="#[231]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_Calc
 <LI><a href="#[232]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cutoff2PID
@@ -5130,6 +5144,8 @@ Global Symbols
 <P><STRONG><a name="[f5]"></a>__aeabi_cfrcmple</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, frleqf.o(x$fpl$frleqf))
 <BR><BR>[Called By]<UL><LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NTCResistorTask
 <LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ProjectTask
+<LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cutoff2Task
+<LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cutoff1Task
 <LI><a href="#[240]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Heating
 <LI><a href="#[233]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HeatingPID
 <LI><a href="#[232]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cutoff2PID

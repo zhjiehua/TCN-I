@@ -58,13 +58,23 @@ void tempparaPageEditProcess(uint16 control_id, uint8 *str)
 		break;
 		case TEMPPARA_CUTOFF1TEMP_EDIT:
 			pProjectMan->cutoff1Temperature = StringToInt32(str);
-			PID_UpdateSetPoint(&(pProjectMan->cutoff1PID), pProjectMan->cutoff1Temperature);
+			//PID_UpdateSetPoint(&(pProjectMan->cutoff1PID), pProjectMan->cutoff1Temperature);
 			AT24CXX_Write(CUTOFF1TEMP_BASEADDR, (uint8_t*)&pProjectMan->cutoff1Temperature, 4);
+		break;
+		case TEMPPARA_CUTOFF1HOLDINGTEMP_EDIT:
+			pProjectMan->cutoff1HoldingTemperature = StringToInt32(str);
+			PID_UpdateSetPoint(&(pProjectMan->cutoff1PID), pProjectMan->cutoff1HoldingTemperature);
+			AT24CXX_Write(CUTOFF1HOLDINGTEMP_BASEADDR, (uint8_t*)&pProjectMan->cutoff1HoldingTemperature, 4);
 		break;
 		case TEMPPARA_CUTOFF2TEMP_EDIT:
 			pProjectMan->cutoff2Temperature = StringToInt32(str);
-			PID_UpdateSetPoint(&(pProjectMan->cutoff2PID), pProjectMan->cutoff2Temperature);
+			//PID_UpdateSetPoint(&(pProjectMan->cutoff2PID), pProjectMan->cutoff2Temperature);
 			AT24CXX_Write(CUTOFF2TEMP_BASEADDR, (uint8_t*)&pProjectMan->cutoff2Temperature, 4);
+		break;
+		case TEMPPARA_CUTOFF2HOLDINGTEMP_EDIT:
+			pProjectMan->cutoff2HoldingTemperature = StringToInt32(str);
+			PID_UpdateSetPoint(&(pProjectMan->cutoff2PID), pProjectMan->cutoff2HoldingTemperature);
+			AT24CXX_Write(CUTOFF2HOLDINGTEMP_BASEADDR, (uint8_t*)&pProjectMan->cutoff2HoldingTemperature, 4);
 		break;
 		case TEMPPARA_FUSINGTEMP_EDIT:
 			pProjectMan->fusingTemperature = StringToInt32(str);

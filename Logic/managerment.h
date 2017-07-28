@@ -36,8 +36,10 @@ extern "C" {
 #define CUTOFF2KI_BASEADDR			(CUTOFF2KP_BASEADDR+4)
 #define CUTOFF2KD_BASEADDR			(CUTOFF2KI_BASEADDR+4)
 #define CUTOFF1TEMP_BASEADDR		(CUTOFF2KD_BASEADDR+4)
-#define CUTOFF2TEMP_BASEADDR		(CUTOFF1TEMP_BASEADDR+4)
-#define FUSINGTEMP_BASEADDR			(CUTOFF2TEMP_BASEADDR+4)
+#define CUTOFF1HOLDINGTEMP_BASEADDR	(CUTOFF1TEMP_BASEADDR+4)
+#define CUTOFF2TEMP_BASEADDR		(CUTOFF1HOLDINGTEMP_BASEADDR+4)
+#define CUTOFF2HOLDINGTEMP_BASEADDR	(CUTOFF2TEMP_BASEADDR+4)
+#define FUSINGTEMP_BASEADDR			(CUTOFF2HOLDINGTEMP_BASEADDR+4)
 #define FUSINGHOLDINGTEMP_BASEADDR	(FUSINGTEMP_BASEADDR+4)
 //时间参数页面
 #define CLAMP1DELAY_BASEADDR		(FUSINGHOLDINGTEMP_BASEADDR+4)
@@ -169,7 +171,9 @@ typedef struct
 	PID_TypeDef cutoff2PID;
 	
 	float cutoff1Temperature;  //切断1温度
+	float cutoff1HoldingTemperature; //切断1维持温度
 	float cutoff2Temperature;  //切断2温度
+	float cutoff2HoldingTemperature; //切断2维持温度
 	float fusingTemperature;  //熔接温度
 	float fusingHoldingTemperature; //熔接维持温度
 	uint8_t cutoff1TempControlFlag;

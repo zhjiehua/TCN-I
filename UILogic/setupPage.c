@@ -14,6 +14,7 @@ extern "C" {
 
 void setupPageButtonProcess(uint16 control_id, uint8  state)
 {
+	xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 	switch(control_id)
 	{
 		case SETUP_MANUAL_BUTTON:
@@ -36,7 +37,9 @@ void setupPageButtonProcess(uint16 control_id, uint8  state)
 			SetTextInt32(TEMPPARAPAGE_INDEX, TEMPPARA_CUTOFF2KD_EDIT, pProjectMan->cutoff2PID.Derivative*10, 0, 0);
 			
 			SetTextInt32(TEMPPARAPAGE_INDEX, TEMPPARA_CUTOFF1TEMP_EDIT, pProjectMan->cutoff1Temperature, 0, 0);
+			SetTextInt32(TEMPPARAPAGE_INDEX, TEMPPARA_CUTOFF1HOLDINGTEMP_EDIT, pProjectMan->cutoff1HoldingTemperature, 0, 0);
 			SetTextInt32(TEMPPARAPAGE_INDEX, TEMPPARA_CUTOFF2TEMP_EDIT, pProjectMan->cutoff2Temperature, 0, 0);
+			SetTextInt32(TEMPPARAPAGE_INDEX, TEMPPARA_CUTOFF2HOLDINGTEMP_EDIT, pProjectMan->cutoff2HoldingTemperature, 0, 0);
 			SetTextInt32(TEMPPARAPAGE_INDEX, TEMPPARA_FUSINGTEMP_EDIT, pProjectMan->fusingTemperature, 0, 0);
 			SetTextInt32(TEMPPARAPAGE_INDEX, TEMPPARA_FUSINGHOLDINGTEMP_EDIT, pProjectMan->fusingHoldingTemperature, 0, 0);
 			
@@ -84,6 +87,7 @@ void setupPageButtonProcess(uint16 control_id, uint8  state)
 			cDebug("setupPage BUTTON error!\n");
 		break;
 	}
+	xSemaphoreGive(pProjectMan->lcdUartSem);
 }
 
 #ifdef __cplusplus
