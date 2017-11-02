@@ -14,6 +14,7 @@
 #include "LED/led.h"
 #include "RelayMOS/RelayMOS.h"
 #include "../PID/PID.h"
+#include "../Logic/misc.h"
 
 /* Scheduler includes. */
 #include "FreeRTOS.h"
@@ -91,6 +92,11 @@ void initUI(void)
 	PID_Init(&(pProjectMan->cutoff1PID), 8.0, 0.0, 0.0);
 	PID_Init(&(pProjectMan->cutoff2PID), 8.0, 0.0, 0.0);
 	
+	GetChipID(pProjectMan->chipID);
+	pProjectMan->serial = pProjectMan->chipID[0]+pProjectMan->chipID[1]+pProjectMan->chipID[2];
+	srand(SysTick->VAL);
+	pProjectMan->randomCode = rand();
+	
 #if 1    
 	AT24CXX_Read(POWERONTEST_BASEADDR, (uint8_t*)(&dat), sizeof(uint32_t));//是否第一次开机，读3次
 	if(dat != EEPROM_DEFAULT)
@@ -144,8 +150,11 @@ void initUI(void)
 		
 		pProjectMan->totalOutput = 0;
 		
-		pProjectMan->systemEmergencyFlag = 0;
+		pProjectMan->usableTimes = 1;
 		
+		pProjectMan->systemEmergencyFlag = 0;
+
+#ifndef STM32SIM
 		//保存数据
 		AT24CXX_Write(CUTOFF1KP_BASEADDR, (uint8_t*)&pProjectMan->cutoff1PID.Proportion, 4);
 		AT24CXX_Write(CUTOFF1KI_BASEADDR, (uint8_t*)&pProjectMan->cutoff1PID.Integral, 4);
@@ -179,10 +188,13 @@ void initUI(void)
 		
 		AT24CXX_Write(TOTALOUTPUT_BASEADDR, (uint8_t*)&pProjectMan->totalOutput, 4);
 		
+		AT24CXX_Write(USABLETIMES_BASEADDR, (uint8_t*)&pProjectMan->usableTimes, 2);
+		
 		AT24CXX_Write(EMERGENCYFLAG_BASEADDR, (uint8_t*)&pProjectMan->systemEmergencyFlag, 1);
 		
 		dat = EEPROM_DEFAULT;
 		AT24CXX_Write(POWERONTEST_BASEADDR, (uint8_t*)&dat, sizeof(uint32_t));
+#endif
 
 		SetScreen(LOGOPAGE_INDEX);//跳转到LOGO页面
 	}
@@ -231,6 +243,8 @@ void initUI(void)
 		AT24CXX_Read(FUSINGHEATINGVOL_BASEADDR, (uint8_t*)&pProjectMan->fusingHeatingVoltage, 1);
 		
 		AT24CXX_Read(TOTALOUTPUT_BASEADDR, (uint8_t*)&pProjectMan->totalOutput, 4);
+		
+		AT24CXX_Read(USABLETIMES_BASEADDR, (uint8_t*)&pProjectMan->usableTimes, 2);
 		
 		AT24CXX_Read(EMERGENCYFLAG_BASEADDR, (uint8_t*)&pProjectMan->systemEmergencyFlag, 1);
 	}
@@ -563,8 +577,18 @@ void UITask(void)
 				DCMotor_Run(STARTLAMP_MOTOR, CW, 100);
 				
 				xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
-				SetTextInt32(MAINPAGE_INDEX, MAIN_OUTPUT_EDIT, pProjectMan->totalOutput, 0, 0);
-				SetScreen(MAINPAGE_INDEX);
+				if(pProjectMan->usableTimes > 0)
+				{
+					SetTextInt32(MAINPAGE_INDEX, MAIN_OUTPUT_EDIT, pProjectMan->totalOutput, 0, 0);
+					SetScreen(MAINPAGE_INDEX);
+				}
+				else
+				{
+					SetTextInt32(PERMITPAGE_INDEX, PERMIT_SERIAL_EDIT, pProjectMan->serial, 0, 0);
+					SetTextInt32(PERMITPAGE_INDEX, PERMIT_RANDOMCODE_EDIT, pProjectMan->randomCode, 0, 0);
+					SetTextInt32(PERMITPAGE_INDEX, PERMIT_USABLETIMES_EDIT, pProjectMan->usableTimes, 0, 0);
+					SetScreen(PERMITPAGE_INDEX);
+				}
 				xSemaphoreGive(pProjectMan->lcdUartSem);
 			}
 		}

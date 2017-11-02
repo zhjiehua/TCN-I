@@ -289,6 +289,9 @@ void NotifyButton(uint16 screen_id, uint16 control_id, uint8 state)
 		case TIPS1PAGE_INDEX:
 			tips1PageButtonProcess(control_id, state);
 		break;
+		case PERMITPAGE_INDEX:
+			permitPageButtonProcess(control_id, state);
+		break;
 		default:
 			cDebug("cmd_process NotifyButton error!\n");
 		break;
@@ -315,6 +318,9 @@ void NotifyText(uint16 screen_id, uint16 control_id, uint8 *str)
 		break;
 		case MOTORPARAPAGE_INDEX:
 			motorparaPageEditProcess(control_id, str);
+		break;
+		case PERMITPAGE_INDEX:
+			permitPageEditProcess(control_id, str);
 		break;
 		default:
 			cDebug("cmd_process NotifyText error!\n");

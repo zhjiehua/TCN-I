@@ -72,12 +72,14 @@ int main(void)
 	uart_init(115200);	//初始化串口波特率为115200
 	LED_Init();			//初始化LED
 	AT24CXX_Init();
+#ifndef STM32SIM
 	while(AT24CXX_Check())//检测不到24c64
 	{
 		cDebug("24C64 Check Failed!\n");
 		delay_ms(300);
 		LED1=!LED1;//DS0闪烁
 	}
+#endif
 	Beep_Init();
 	Button_Init();
 	PhSensor_Init();

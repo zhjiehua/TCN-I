@@ -21,6 +21,7 @@
 ..\obj\dcmotor.o: ..\SYSTEM\usart\usart.h
 ..\obj\dcmotor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\dcmotor.o: ..\USER\CPrintf.h
+..\obj\dcmotor.o: ..\SYSTEM\usart\usart.h
 ..\obj\dcmotor.o: ..\HARDWARE\StepMotor/StepMotor.h
 ..\obj\dcmotor.o: ..\HARDWARE\NTCResistor/NTCResistor.h
 ..\obj\dcmotor.o: ..\USER\../Logic/managerment.h

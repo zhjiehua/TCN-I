@@ -16,6 +16,8 @@
 ..\obj\button.o: ..\FWLIB\STM32F10x_FWLib\inc\misc.h
 ..\obj\button.o: ..\SYSTEM\usart\usart.h
 ..\obj\button.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\button.o: ..\USER\CPrintf.h
+..\obj\button.o: ..\SYSTEM\usart\usart.h
 ..\obj\button.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_exti.h
 ..\obj\button.o: ..\HARDWARE\PhotoelectricSensor/PhSensor.h
 ..\obj\button.o: ..\HARDWARE\HardwareCommon.h
@@ -29,7 +31,6 @@
 ..\obj\button.o: ..\USER\../Logic/../HMI/cmd_queue.h
 ..\obj\button.o: ..\USER\../Logic/../PID/PID.h
 ..\obj\button.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-..\obj\button.o: ..\USER\CPrintf.h
 ..\obj\button.o: ..\FreeRTOS\Source\include\FreeRTOS.h
 ..\obj\button.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 ..\obj\button.o: ..\USER\FreeRTOSConfig.h

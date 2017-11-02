@@ -16,6 +16,8 @@
 ..\obj\main.o: ..\SYSTEM\delay\delay.h
 ..\obj\main.o: ..\SYSTEM\usart\usart.h
 ..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\main.o: ..\USER\CPrintf.h
+..\obj\main.o: ..\SYSTEM\usart\usart.h
 ..\obj\main.o: ..\HARDWARE\LED/led.h
 ..\obj\main.o: ..\HARDWARE\Key/key.h
 ..\obj\main.o: ..\HARDWARE\Beep/beep.h
@@ -41,7 +43,6 @@
 ..\obj\main.o: ../Logic/../HMI/cmd_queue.h
 ..\obj\main.o: ../Logic/../PID/PID.h
 ..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-..\obj\main.o: ..\USER\CPrintf.h
 ..\obj\main.o: ..\FreeRTOS\Source\include\FreeRTOS.h
 ..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 ..\obj\main.o: ..\USER\FreeRTOSConfig.h

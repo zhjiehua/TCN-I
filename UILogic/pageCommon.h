@@ -28,6 +28,8 @@ extern "C" {
 #define TIPSPAGE_INDEX					11
 #define TIPS1PAGE_INDEX					12
 
+#define PERMITPAGE_INDEX				13
+
 /************************************************************************/
 /* LOGO页面控件ID                                                         */
 /************************************************************************/
@@ -62,6 +64,7 @@ extern "C" {
 #define SETUP_INPUT_BUTTON				6
 #define SETUP_MANUALRAW_BUTTON			7
 #define SETUP_ABOUT_BUTTON				8
+#define SETUP_PERMIT_BUTTON				9
 
 #define SETUP_BACK_BUTTON				50
 
@@ -201,6 +204,7 @@ extern "C" {
 #define ABOUT_CLEAROUTPUT_BUTTON		2
 #define ABOUT_SAVEASDEFAULT_BUTTON		3
 #define ABOUT_RESTOREDEFAULT_BUTTON		4
+#define ABOUT_CLEARUSABLETIMES_BUTTON	5
 
 #define ABOUT_BACK_BUTTON				50
 
@@ -210,6 +214,18 @@ extern "C" {
 #define TIPS_TIPS_EDIT					1
 #define TIPS_OK_BUTTON					2
 #define TIPS_CANCEL_BUTTON				3
+
+/************************************************************************/
+/* 许可页面控件ID                                                      */
+/************************************************************************/
+#define PERMIT_SERIAL_EDIT				1
+#define PERMIT_RANDOMCODE_BUTTON		2
+#define PERMIT_RANDOMCODE_EDIT			3
+#define PERMIT_ACTIVECODE_EDIT			4
+#define PERMIT_ACTIVE_BUTTON			5
+#define PERMIT_USABLETIMES_EDIT			6
+
+#define PERMIT_BACK_BUTTON				50
 
 /************************************************************************/
 /* 软件版本                                                             */
@@ -247,6 +263,9 @@ void manualrawPageButtonProcess(uint16 control_id, uint8 state);
 void aboutPageButtonProcess(uint16 control_id, uint8 state);
 
 void tips1PageButtonProcess(uint16 control_id, uint8 state);
+
+void permitPageButtonProcess(uint16 control_id, uint8 state);
+void permitPageEditProcess(uint16 control_id, uint8 *str);
 
 #ifdef __cplusplus
 }

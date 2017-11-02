@@ -16,6 +16,8 @@
 ..\obj\led.o: ..\FWLIB\STM32F10x_FWLib\inc\misc.h
 ..\obj\led.o: ..\SYSTEM\usart\usart.h
 ..\obj\led.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\led.o: ..\USER\CPrintf.h
+..\obj\led.o: ..\SYSTEM\usart\usart.h
 ..\obj\led.o: ..\FreeRTOS\Source\include\FreeRTOS.h
 ..\obj\led.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 ..\obj\led.o: ..\USER\FreeRTOSConfig.h

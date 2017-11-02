@@ -35,6 +35,10 @@ void aboutPageButtonProcess(uint16 control_id, uint8  state)
 				AT24CXX_Write(i, (uint8_t*)tempData, 10);
 			}
 		break;
+		case ABOUT_CLEARUSABLETIMES_BUTTON:
+			pProjectMan->usableTimes = 0;
+			AT24CXX_Write(USABLETIMES_BASEADDR, (uint8_t*)&pProjectMan->usableTimes, 2);
+		break;
 		default:
 			cDebug("aboutPage BUTTON error!\n");
 		break;

@@ -26,6 +26,7 @@
 ..\obj\managerment.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h
 ..\obj\managerment.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h
 ..\obj\managerment.o: ..\FWLIB\STM32F10x_FWLib\inc\misc.h
+..\obj\managerment.o: ..\USER\CPrintf.h
 ..\obj\managerment.o: ..\FreeRTOS\Source\include\FreeRTOS.h
 ..\obj\managerment.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 ..\obj\managerment.o: ..\USER\FreeRTOSConfig.h
@@ -52,3 +53,4 @@
 ..\obj\managerment.o: ..\HARDWARE\NTCResistor/NTCResistor.h
 ..\obj\managerment.o: ..\HARDWARE\LED/led.h
 ..\obj\managerment.o: ..\HARDWARE\RelayMOS/RelayMOS.h
+..\obj\managerment.o: ..\Logic\../Logic/misc.h

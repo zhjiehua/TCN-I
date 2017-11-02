@@ -43,6 +43,7 @@
 "..\obj\hmi_user_uart.o"
 "..\obj\managerment.o"
 "..\obj\project.o"
+"..\obj\misc_1.o"
 "..\obj\mainpage.o"
 "..\obj\manualpage.o"
 "..\obj\inputpage.o"
@@ -53,6 +54,7 @@
 "..\obj\manualrawpage.o"
 "..\obj\motorparapage.o"
 "..\obj\setuppage.o"
+"..\obj\permitpage.o"
 "..\obj\pid.o"
 --strict --scatter "..\OBJ\STM32_FreeRTOS.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols

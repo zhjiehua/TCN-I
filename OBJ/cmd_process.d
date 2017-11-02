@@ -20,6 +20,7 @@
 ..\obj\cmd_process.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h
 ..\obj\cmd_process.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h
 ..\obj\cmd_process.o: ..\FWLIB\STM32F10x_FWLib\inc\misc.h
+..\obj\cmd_process.o: ..\USER\CPrintf.h
 ..\obj\cmd_process.o: ..\HMI\../UILogic/pageCommon.h
 ..\obj\cmd_process.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\cmd_process.o: ..\HMI\../Logic/managerment.h

@@ -15,6 +15,8 @@
 ..\obj\hmi_user_uart.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h
 ..\obj\hmi_user_uart.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h
 ..\obj\hmi_user_uart.o: ..\FWLIB\STM32F10x_FWLib\inc\misc.h
+..\obj\hmi_user_uart.o: ..\USER\CPrintf.h
+..\obj\hmi_user_uart.o: ..\SYSTEM\usart\usart.h
 ..\obj\hmi_user_uart.o: ..\HMI\hmi_user_uart.h
 ..\obj\hmi_user_uart.o: ..\HMI\cmd_queue.h
 ..\obj\hmi_user_uart.o: ..\HMI\hmi_driver.h

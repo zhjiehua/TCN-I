@@ -64,7 +64,9 @@ extern "C" {
 
 #define EMERGENCYFLAG_BASEADDR		(TOTALOUTPUT_BASEADDR+4)
 
-#define RESTOREDEFAULT_BASEADDR		(EMERGENCYFLAG_BASEADDR+100)
+#define USABLETIMES_BASEADDR		(EMERGENCYFLAG_BASEADDR+50)//可用次数不能更新
+
+#define RESTOREDEFAULT_BASEADDR		(USABLETIMES_BASEADDR+100)
 
 //定义电机对应功能
 #define CLAMP1_MOTOR		DCMOTOR1	//夹紧1
@@ -225,6 +227,12 @@ typedef struct
 	uint8_t inInputPageFlag;
 	uint8_t inStatusPageFlag;
 	uint8_t lcdNotifyResetFlag;
+	
+	uint32_t chipID[3];
+	uint32_t serial;
+	uint32_t randomCode;
+	uint32_t activeCode;
+	uint16_t usableTimes;
 }ProjectMan_TypeDef;
 
 /************************************************************************/

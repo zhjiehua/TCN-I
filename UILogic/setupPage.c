@@ -78,6 +78,11 @@ void setupPageButtonProcess(uint16 control_id, uint8  state)
 		case SETUP_ABOUT_BUTTON:
 			SetTextValue(ABOUTPAGE_INDEX, ABOUT_VERSION_EDIT, (uint8_t *)VERSION);
 		break;
+		case SETUP_PERMIT_BUTTON:
+			SetTextInt32(PERMITPAGE_INDEX, PERMIT_SERIAL_EDIT, pProjectMan->serial, 0, 0);
+			SetTextInt32(PERMITPAGE_INDEX, PERMIT_RANDOMCODE_EDIT, pProjectMan->randomCode, 0, 0);
+			SetTextInt32(PERMITPAGE_INDEX, PERMIT_USABLETIMES_EDIT, pProjectMan->usableTimes, 0, 0);
+		break;
 		case SETUP_BACK_BUTTON:
 		break;
 		default:

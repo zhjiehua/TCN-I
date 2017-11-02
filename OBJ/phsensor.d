@@ -18,6 +18,8 @@
 ..\obj\phsensor.o: ..\SYSTEM\sys\sys.h
 ..\obj\phsensor.o: ..\SYSTEM\usart\usart.h
 ..\obj\phsensor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\phsensor.o: ..\USER\CPrintf.h
+..\obj\phsensor.o: ..\SYSTEM\usart\usart.h
 ..\obj\phsensor.o: ..\USER\../UILogic/pageCommon.h
 ..\obj\phsensor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\phsensor.o: ..\USER\../UILogic/../HMI/hmi_user_uart.h

@@ -15,6 +15,8 @@
 ..\obj\usart.o: ..\FWLIB\STM32F10x_FWLib\inc\misc.h
 ..\obj\usart.o: ..\SYSTEM\usart\usart.h
 ..\obj\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\usart.o: ..\USER\CPrintf.h
+..\obj\usart.o: ..\SYSTEM\usart\usart.h
 ..\obj\usart.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_dma.h
 ..\obj\usart.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_adc.h
 ..\obj\usart.o: ..\HARDWARE\HardwareCommon.h
@@ -33,7 +35,6 @@
 ..\obj\usart.o: ..\USER\../HMI/hmi_user_uart.h
 ..\obj\usart.o: ..\USER\../UILogic/pageCommon.h
 ..\obj\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-..\obj\usart.o: ..\USER\CPrintf.h
 ..\obj\usart.o: ..\FreeRTOS\Source\include\FreeRTOS.h
 ..\obj\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 ..\obj\usart.o: ..\USER\FreeRTOSConfig.h

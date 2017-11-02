@@ -26,6 +26,7 @@
 ..\obj\project.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_tim.h
 ..\obj\project.o: ..\FWLIB\STM32F10x_FWLib\inc\stm32f10x_usart.h
 ..\obj\project.o: ..\FWLIB\STM32F10x_FWLib\inc\misc.h
+..\obj\project.o: ..\USER\CPrintf.h
 ..\obj\project.o: ..\FreeRTOS\Source\include\FreeRTOS.h
 ..\obj\project.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 ..\obj\project.o: ..\USER\FreeRTOSConfig.h

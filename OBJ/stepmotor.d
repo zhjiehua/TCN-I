@@ -21,8 +21,9 @@
 ..\obj\stepmotor.o: ..\HARDWARE\LED/LED.h
 ..\obj\stepmotor.o: ..\SYSTEM\usart\usart.h
 ..\obj\stepmotor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-..\obj\stepmotor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\stepmotor.o: ..\USER\CPrintf.h
+..\obj\stepmotor.o: ..\SYSTEM\usart\usart.h
+..\obj\stepmotor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\stepmotor.o: ..\USER\../Logic/managerment.h
 ..\obj\stepmotor.o: ..\USER\../Logic/project.h
 ..\obj\stepmotor.o: ..\USER\../Logic/../UILogic/pageCommon.h

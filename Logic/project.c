@@ -762,6 +762,7 @@ void ProjectTask(void)
 	while(!pProjectMan->lcdNotifyResetFlag)
 		vTaskDelay(100);
 	
+#ifndef STM32SIM	
 	while(1)
 	{
 		if(!GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_0))
@@ -781,6 +782,7 @@ void ProjectTask(void)
 		
 		vTaskDelay(10);
 	}
+#endif
 	
 	//如果上次关机前有按急停，则松开夹紧和切断回位
 	if(pProjectMan->systemEmergencyFlag)
@@ -789,7 +791,7 @@ void ProjectTask(void)
 		SetTextValue(TIPS1PAGE_INDEX, TIPS_TIPS_EDIT, (uint8_t*)"1 请将设备上的管清理走；\r\n2 清理完后请手动复位！");
 		SetScreen(TIPS1PAGE_INDEX);
 		xSemaphoreGive(pProjectMan->lcdUartSem);
-
+		
 		HalfResetOriginStatus();
 		
 		pProjectMan->tipsBuzzeFlag = 2;//开蜂鸣器
@@ -806,7 +808,9 @@ void ProjectTask(void)
 		SetTextValue(LOGOPAGE_INDEX, LOGO_STATUS_EDIT, (uint8_t*)"系统复位中……");
 		SetScreen(LOGOPAGE_INDEX);
 		xSemaphoreGive(pProjectMan->lcdUartSem);
+#ifndef STM32SIM
 		ResetOriginStatus(&pProjectMan->projectStopFlag);
+#endif
 		pProjectMan->autoButtonFlag = 0;
 		
 		xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
@@ -848,13 +852,19 @@ void ProjectTask(void)
 				systemPreheatingFlag = 1;
 			}
 			
+#ifndef STM32SIM			
 			if((adcTemp[0].temperature >= pProjectMan->cutoff1Temperature)
 				&& (adcTemp[1].temperature >= pProjectMan->cutoff2Temperature)
 				&& (adcTemp[2].temperature >= pProjectMan->fusingHoldingTemperature))
+#endif
 			{
 				xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 				SetTextInt32(MAINPAGE_INDEX, MAIN_OUTPUT_EDIT, pProjectMan->totalOutput, 0, 0);
+#ifndef STM32SIM				
 				SetScreen(MAINPAGE_INDEX);
+#else
+				SetScreen(SETUPPAGE_INDEX);
+#endif
 				xSemaphoreGive(pProjectMan->lcdUartSem);
 
 				pProjectMan->systemPowerUpFlag = 1;
@@ -866,121 +876,163 @@ void ProjectTask(void)
 			switch(pProjectMan->projectStatus&0x7F)
 			{
 				case PROJECT_MANUAL_CLAMP1CW:
+#ifndef STM32SIM
 					Clamp1(1, &(pProjectMan->projectStopFlag));
+#endif
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(MANUALPAGE_INDEX, MANUAL_CLAMP1CW_BUTTON, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);				
 				break;
 				case PROJECT_MANUAL_CLAMP1CCW:
+#ifndef STM32SIM
 					Clamp1(0, &(pProjectMan->projectStopFlag));
+#endif
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(MANUALPAGE_INDEX, MANUAL_CLAMP1CCW_BUTTON, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
 				case PROJECT_MANUAL_CLAMP2CW:
+#ifndef STM32SIM
 					Clamp2(1, &(pProjectMan->projectStopFlag));
+#endif
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(MANUALPAGE_INDEX, MANUAL_CLAMP2CW_BUTTON, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
 				case PROJECT_MANUAL_CLAMP2CCW:
+#ifndef STM32SIM
 					Clamp2(0, &(pProjectMan->projectStopFlag));
+#endif
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(MANUALPAGE_INDEX, MANUAL_CLAMP2CCW_BUTTON, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
 				case PROJECT_MANUAL_CUTOFF1CW:
+#ifndef STM32SIM
 					Cutoff1(1, &(pProjectMan->projectStopFlag));
+#endif
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(MANUALPAGE_INDEX, MANUAL_CUTOFF1CW_BUTTON, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
 				case PROJECT_MANUAL_CUTOFF1CCW:
+#ifndef STM32SIM
 					Cutoff1(0, &(pProjectMan->projectStopFlag));
+#endif
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(MANUALPAGE_INDEX, MANUAL_CUTOFF1CCW_BUTTON, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
 				case PROJECT_MANUAL_CUTOFF2CW:
+#ifndef STM32SIM
 					Cutoff2(1, &(pProjectMan->projectStopFlag));
+#endif
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(MANUALPAGE_INDEX, MANUAL_CUTOFF2CW_BUTTON, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
 				case PROJECT_MANUAL_CUTOFF2CCW:
+#ifndef STM32SIM
 					Cutoff2(0, &(pProjectMan->projectStopFlag));
+#endif
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(MANUALPAGE_INDEX, MANUAL_CUTOFF2CCW_BUTTON, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
 				case PROJECT_MANUAL_HEATINGUP:
+#ifndef STM32SIM
 					HeatingUp(1, &(pProjectMan->projectStopFlag));
+#endif
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(MANUALPAGE_INDEX, MANUAL_HEATINGUP_BUTTON, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
 				case PROJECT_MANUAL_HEATINGDOWN:
+#ifndef STM32SIM
 					HeatingUp(0, &(pProjectMan->projectStopFlag));
+#endif
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(MANUALPAGE_INDEX, MANUAL_HEATINGDOWN_BUTTON, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
 				case PROJECT_MANUAL_SEPATATIONCW:
+#ifndef STM32SIM
 					Separation(1, &(pProjectMan->projectStopFlag));
+#endif
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(MANUALPAGE_INDEX, MANUAL_SEPARATECW_BUTTON, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
 				case PROJECT_MANUAL_SEPATATIONCCW:
+#ifndef STM32SIM
 					Separation(0, &(pProjectMan->projectStopFlag));
+#endif
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(MANUALPAGE_INDEX, MANUAL_SEPARATECCW_BUTTON, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
 				case PROJECT_MANUAL_DISLOCATIONCW:
+#ifndef STM32SIM
 					Dislocation(1, &(pProjectMan->projectStopFlag));
+#endif
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(MANUALPAGE_INDEX, MANUAL_DISLOCATECW_BUTTON, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
 				case PROJECT_MANUAL_DISLOCATIONCCW:
+#ifndef STM32SIM
 					Dislocation(0, &(pProjectMan->projectStopFlag));
+#endif
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(MANUALPAGE_INDEX, MANUAL_DISLOCATECCW_BUTTON, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
 				
 				case PROJECT_STATUS_CUTOFF1:
+#ifndef STM32SIM
 					AutoRun_Cutoff1(&(pProjectMan->projectStopFlag));
+#endif
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(STATUSPAGE_INDEX, STATUS_CUTOFF1_BUTTON, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
 				case PROJECT_STATUS_CUTOFF2:
+#ifndef STM32SIM
 					AutoRun_Cutoff2(&(pProjectMan->projectStopFlag));
+#endif
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(STATUSPAGE_INDEX, STATUS_CUTOFF2_BUTTON, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
 				
 				case PROJECT_STATUS_RESET:
+#ifndef STM32SIM
 					ResetOriginStatus(&(pProjectMan->projectStopFlag));
+#endif
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(STATUSPAGE_INDEX, STATUS_RESET_BUTTON, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);
 				break;
 				case PROJECT_STATUS_AUTO:
-					AutoRun(&(pProjectMan->projectStopFlag));
-					pProjectMan->totalOutput++;
-					if(pProjectMan->totalOutput > 0xFFFFFFFF)
-						pProjectMan->totalOutput = 0;
+					if(pProjectMan->usableTimes > 0)
+					{
+#ifndef STM32SIM
+						AutoRun(&(pProjectMan->projectStopFlag));
+#endif
+						pProjectMan->totalOutput++;
+						if(pProjectMan->totalOutput > 0xFFFFFFFF)
+							pProjectMan->totalOutput = 0;
+						
+//						pProjectMan->usableTimes--;
+//						AT24CXX_Write(USABLETIMES_BASEADDR, (uint8_t*)&pProjectMan->usableTimes, 2);
+
+						AT24CXX_Write(TOTALOUTPUT_BASEADDR, (uint8_t*)&pProjectMan->totalOutput, 4);
+					}
 					
 					xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
 					SetButtonValue(STATUSPAGE_INDEX, STATUS_AUTO_BUTTON, 0);
 					SetTextInt32(MAINPAGE_INDEX, MAIN_OUTPUT_EDIT, pProjectMan->totalOutput, 0, 0);
 					xSemaphoreGive(pProjectMan->lcdUartSem);
-					
-					AT24CXX_Write(TOTALOUTPUT_BASEADDR, (uint8_t*)&pProjectMan->totalOutput, 4);
 				break;
 			}
 			xSemaphoreTake(pProjectMan->projectStatusSem, portMAX_DELAY);
