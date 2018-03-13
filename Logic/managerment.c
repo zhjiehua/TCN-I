@@ -600,7 +600,8 @@ void UITask(void)
 		{
 			//提示重新上电
 			xSemaphoreTake(pProjectMan->lcdUartSem, portMAX_DELAY);
-			SetTextValue(TIPSPAGE_INDEX, TIPS_TIPS_EDIT, (uint8_t*)"1 请松开急停按钮；\r\n2 请重新上电！");
+			//SetTextValue(TIPSPAGE_INDEX, TIPS_TIPS_EDIT, (uint8_t*)"1 请松开急停按钮；\r\n2 请重新上电！");
+			SetTextValue(TIPSPAGE_INDEX, TIPS_TIPS_EDIT, (uint8_t*)"请松开急停按钮！");
 			SetScreen(TIPSPAGE_INDEX);
 			xSemaphoreGive(pProjectMan->lcdUartSem);
 			
@@ -610,7 +611,8 @@ void UITask(void)
 			
 			while(1)
 			{
-				IWDG_Feed();//喂狗	
+				if(!GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_0))
+					IWDG_Feed();//喂狗	
 			}
 		}
     }

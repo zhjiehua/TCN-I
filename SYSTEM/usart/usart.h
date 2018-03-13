@@ -36,11 +36,6 @@ void uart_init(u32 bound);
 
 void UartTask(void);
 
-#ifdef STM32SIM
-#define LCDUART 0	//UART1
-#else
-#define LCDUART	1	//UART4
-#endif
 #endif
 
 

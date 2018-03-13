@@ -165,6 +165,7 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 		Res =USART_ReceiveData(USART1);//(USART1->DR);	//读取接收到的数据
 
 		//USART_SendData(UART4, Res);
+		//USART_SendData(USART1, Res);
 		
 #if (LCDUART == 0)	//LCDUART		
 		queue_push(Res);

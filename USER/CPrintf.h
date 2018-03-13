@@ -6,6 +6,16 @@
 //如果需要在上位机模拟STM32芯片功能，需要添加这个宏，否则需要注释这个宏
 //#define STM32SIM
 
+//如果需要在上位机调试STM32芯片功能（只有板，无电机和传感器等），需要添加这个宏，否则需要注释这个宏
+#define STM32DEBUG
+
+#ifdef STM32SIM
+#define LCDUART 0	//UART1
+#else
+//#define LCDUART	1	//UART4
+#define LCDUART 0	//UART1
+#endif
+
 #if (LCDUART != 0)
 #define _CDebug
 #endif
