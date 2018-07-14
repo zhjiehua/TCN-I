@@ -9,7 +9,7 @@
 
 /*步进电机参数*/
 #define STEPMOTOR_ANGLEPERSTEP  1.8  //步进电机步距角  
-#define STEPMOTOR_FREDIV  128  //步进电机分频系数
+#define STEPMOTOR_FREDIV  64  //步进电机分频系数
 #define STEPMOTOR_PULSEPERROUND  ((360/STEPMOTOR_ANGLEPERSTEP)*STEPMOTOR_FREDIV)  //步进电机每转需要多少个脉冲
 
 //步进电机1r/s需要配置的定时器周期

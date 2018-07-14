@@ -80,49 +80,21 @@ void EXTI0_IRQHandler(void)
 	uint32_t oldBasePri = portSET_INTERRUPT_MASK_FROM_ISR();
 	
     button[0].flag = 1;
-
-	//挂起所有任务
-//	vTaskSuspend(pProjectMan->projectTaskHandle);
-//	vTaskSuspend(pProjectMan->uiTaskHandle);
-//	vTaskSuspend(pProjectMan->heatingUpTaskHandle);
-//	vTaskSuspend(pProjectMan->dislocationTaskHandle);
-//	vTaskSuspend(pProjectMan->separationTaskHandle);
-//	vTaskSuspend(pProjectMan->cutoff2TaskHandle);
-//	vTaskSuspend(pProjectMan->cutoff1TaskHandle);
-//	vTaskSuspend(pProjectMan->clamp2TaskHandle);
-//	vTaskSuspend(pProjectMan->clamp1TaskHandle);
 	
-	//急停，停止所有电机和加热片等输出
-	for(i=0;i<DCMOTOR_COUNT;i++)
-	{
-		DCMotor_Stop((DCMotorEnum_TypeDef)i);
-	}
-	for(i=0;i<STEPMOTOR_COUNT;i++)
-	{
-		StepMotor_Stop(i);
-		TIM_Cmd(StepMotorPin[i].TIMx, DISABLE);
-	}
-	RELAY = 0;
-
-	pProjectMan->systemEmergencyButtonPressFlag = 1;
-	
-//	//提示重新上电
-//	SetTextValue(TIPSPAGE_INDEX, TIPS_TIPS_EDIT, (uint8_t*)"1 请松开急停按钮；\r\n2 请重新上电！");
-//	SetScreen(TIPSPAGE_INDEX);
-//	
-//	IWDG_Feed();//喂狗	
-//	pProjectMan->systemEmergencyFlag = 1;
-//	AT24CXX_Write(EMERGENCYFLAG_BASEADDR, (uint8_t*)(&(pProjectMan->systemEmergencyFlag)), 1);
-//	IWDG_Feed();//喂狗	
-//	
-//	while(1)
+//	//急停，停止所有电机和加热片等输出
+//	for(i=0;i<DCMOTOR_COUNT;i++)
 //	{
-//		//提示重新上电
-//		SetTextValue(TIPSPAGE_INDEX, TIPS_TIPS_EDIT, (uint8_t*)"1 请松开急停按钮；\r\n2 请重新上电！");
-//		SetScreen(TIPSPAGE_INDEX);
-//		IWDG_Feed();//喂狗	
+//		DCMotor_Stop((DCMotorEnum_TypeDef)i);
 //	}
-	
+//	for(i=0;i<STEPMOTOR_COUNT;i++)
+//	{
+//		StepMotor_Stop(i);
+//		TIM_Cmd(StepMotorPin[i].TIMx, DISABLE);
+//	}
+//	RELAY = 0;
+
+//	pProjectMan->systemEmergencyButtonPressFlag = 1;
+//	
     EXTI_ClearITPendingBit(EXTI_Line0);
 	portCLEAR_INTERRUPT_MASK_FROM_ISR(oldBasePri);
 }

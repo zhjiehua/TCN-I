@@ -7,7 +7,7 @@
 #include "../HardwareCommon.h"
 #include "../PhotoelectricSensor/PhSensor.h"
 
-#define DCMOTOR_COUNT 12
+#define DCMOTOR_COUNT 14
 #define DCMOTOR_DEFAULT_PERIOD 5141
 
 #define PUMP_VACUUM DCMOTOR9   //Õæ¿Õ±Ã
@@ -34,6 +34,8 @@ typedef enum
 	DCMOTOR10,  //·ÏÒº±Ã
 	DCMOTOR11,
 	DCMOTOR12,
+	DCMOTOR13,
+	DCMOTOR14,
 }DCMotorEnum_TypeDef;
 
 typedef struct

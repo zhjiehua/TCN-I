@@ -51,6 +51,22 @@ const SpeedLevel_TypeDef speedLevel[] = {
 	{STEPMOTOR_FREQ(2.00), 2.00*SPEED_CONST},
 	{STEPMOTOR_FREQ(2.20), 2.20*SPEED_CONST},
 };
+//const SpeedLevel_TypeDef speedLevel[] = {
+//	{STEPMOTOR_FREQ(0.10), 0.10*SPEED_CONST},   //0
+//	{STEPMOTOR_FREQ(0.15), 0.15*SPEED_CONST},
+//	{STEPMOTOR_FREQ(0.20), 0.20*SPEED_CONST},
+//	{STEPMOTOR_FREQ(0.25), 0.25*SPEED_CONST},
+//	{STEPMOTOR_FREQ(0.40), 0.40*SPEED_CONST},
+//	{STEPMOTOR_FREQ(0.60), 0.60*SPEED_CONST},	//5
+//	{STEPMOTOR_FREQ(0.80), 0.80*SPEED_CONST},
+//	{STEPMOTOR_FREQ(1.00), 1.00*SPEED_CONST},
+//	{STEPMOTOR_FREQ(1.20), 1.20*SPEED_CONST},
+//	{STEPMOTOR_FREQ(1.40), 1.40*SPEED_CONST},
+//	{STEPMOTOR_FREQ(1.60), 1.60*SPEED_CONST},	//10
+//	{STEPMOTOR_FREQ(1.80), 1.80*SPEED_CONST},
+//	{STEPMOTOR_FREQ(2.00), 2.00*SPEED_CONST},
+//	{STEPMOTOR_FREQ(2.20), 2.20*SPEED_CONST},
+//};
 
 //设置步进电机方向
 void StepMotor_SetDir(uint8_t num, Direction_TypeDef dir)
@@ -167,7 +183,7 @@ void StepMotor_Init(void)
         //STEPMOTOR_DEFAULT_PERIOD
         TIM_TimeBaseStructure.TIM_Period = STEPMOTOR_DEFAULT_PERIOD; //设置在下一个更新事件装入活动的自动重装载寄存器周期的值,如72000000/900=80KHz
         TIM_TimeBaseStructure.TIM_Prescaler = 0; //设置用来作为TIMx时钟频率除数的预分频值 
-        TIM_TimeBaseStructure.TIM_ClockDivision = 0; //设置时钟分割:TDTS = Tck_tim
+        TIM_TimeBaseStructure.TIM_ClockDivision = 1; //设置时钟分割:TDTS = Tck_tim
         TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Down;  //TIM向上计数模式
         TIM_TimeBaseInit(StepMotorPin[i].TIMx, &TIM_TimeBaseStructure);
         
@@ -196,8 +212,8 @@ void StepMotor_Init(void)
                 break;
         }
         
-        GPIO_ResetBits(StepMotorPin[i].EN_GPIOx, StepMotorPin[i].EN_GPIO_Pin);  //使能步进驱动器
-        GPIO_ResetBits(StepMotorPin[i].DIR_GPIOx, StepMotorPin[i].DIR_GPIO_Pin);
+        GPIO_SetBits(StepMotorPin[i].EN_GPIOx, StepMotorPin[i].EN_GPIO_Pin);  //使能步进驱动器
+        GPIO_SetBits(StepMotorPin[i].DIR_GPIOx, StepMotorPin[i].DIR_GPIO_Pin);
         
         NVIC_InitStructure.NVIC_IRQChannel = StepMotorPin[i].NVIC_IRQChannel;
         NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=2 ;//抢占优先级3
@@ -321,7 +337,7 @@ void TIM5_IRQHandler(void)
 					stepMotor[0].status &= ~0x81; //停止电机，强制退出脉冲计数模式
 					
                     //停止定时器1
-					GPIO_ResetBits(StepMotorPin[0].EN_GPIOx, StepMotorPin[0].EN_GPIO_Pin);
+					//GPIO_ResetBits(StepMotorPin[0].EN_GPIOx, StepMotorPin[0].EN_GPIO_Pin);
                     TIM_Cmd(TIM5, DISABLE);
                     //cDebug("interrupt---stop the timer5\n");
                     break;	
@@ -361,7 +377,7 @@ void TIM5_IRQHandler(void)
 				stepMotor[0].speedStatus = SPEED_NONE;
 				
 				//停止定时器1
-				GPIO_ResetBits(StepMotorPin[0].EN_GPIOx, StepMotorPin[0].EN_GPIO_Pin);
+				//GPIO_ResetBits(StepMotorPin[0].EN_GPIOx, StepMotorPin[0].EN_GPIO_Pin);
 				TIM_Cmd(TIM5, DISABLE);
 			}
 		}

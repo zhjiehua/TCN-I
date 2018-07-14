@@ -164,8 +164,27 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 	{
 		Res =USART_ReceiveData(USART1);//(USART1->DR);	//读取接收到的数据
 
-		//USART_SendData(UART4, Res);
-		//USART_SendData(USART1, Res);
+//		//USART_SendData(UART4, Res);
+//		USART_SendData(USART1, Res);
+//		
+//		if(Res)
+//		{
+//			//GPIO_SetBits(GPIOD, GPIO_Pin_14);
+//			DCMotor_Run(CUTOFF1HEATDCMOTOR1, CW, 0);
+//			DCMotor_Run(CUTOFF1HEATDCMOTOR2, CW, 0);
+//			DCMotor_Run(CUTOFF2HEATDCMOTOR1, CW, 0);
+//			DCMotor_Run(CUTOFF2HEATDCMOTOR2, CW, 0);
+//			DCMotor_Run(FUSINGHEATDCMOTOR, CW, 0);
+//		}
+//		else
+//		{
+//			//GPIO_ResetBits(GPIOD, GPIO_Pin_14);
+//			DCMotor_Run(CUTOFF1HEATDCMOTOR1, CW, 100);
+//			DCMotor_Run(CUTOFF1HEATDCMOTOR2, CW, 100);
+//			DCMotor_Run(CUTOFF2HEATDCMOTOR1, CW, 100);
+//			DCMotor_Run(CUTOFF2HEATDCMOTOR2, CW, 100);
+//			DCMotor_Run(FUSINGHEATDCMOTOR, CW, 100);
+//		}
 		
 #if (LCDUART == 0)	//LCDUART		
 		queue_push(Res);

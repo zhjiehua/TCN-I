@@ -18,8 +18,8 @@ DCMotor_TypeDef *pDCMotor = dcMotor;
 const DCMotorPin_TypeDef DCMotorPin[] =
 {
     {GPIOD, GPIO_Pin_15, GPIO_Remap_TIM4, TIM4, TIM_Channel_4, GPIOB, GPIO_Pin_10},//"DCMotor1"
-    {GPIOD, GPIO_Pin_14, GPIO_Remap_TIM4, TIM4, TIM_Channel_3, GPIOB, GPIO_Pin_11},//"DCMotor2"
-    {GPIOD, GPIO_Pin_13, GPIO_Remap_TIM4, TIM4, TIM_Channel_2, GPIOB, GPIO_Pin_12},//"DCMotor3"
+    {GPIOD, GPIO_Pin_14, GPIO_Remap_TIM4, TIM4, TIM_Channel_3, GPIOB, GPIO_Pin_10},//"DCMotor2"
+    {GPIOD, GPIO_Pin_13, GPIO_Remap_TIM4, TIM4, TIM_Channel_2, GPIOB, GPIO_Pin_10},//"DCMotor3"
     {GPIOD, GPIO_Pin_12, GPIO_Remap_TIM4, TIM4, TIM_Channel_1, GPIOB, GPIO_Pin_13},//"DCMotor4"
     {GPIOE, GPIO_Pin_14, GPIO_FullRemap_TIM1, TIM1, TIM_Channel_4, GPIOE, GPIO_Pin_15},//"DCMotor5"
     {GPIOE, GPIO_Pin_13, GPIO_FullRemap_TIM1, TIM1, TIM_Channel_3, GPIOE, GPIO_Pin_12},//"DCMotor6"
@@ -29,6 +29,8 @@ const DCMotorPin_TypeDef DCMotorPin[] =
     {GPIOB, GPIO_Pin_0 , 0, TIM3, TIM_Channel_3, GPIOB, GPIO_Pin_2},//"DCMotor10"
     {GPIOA, GPIO_Pin_7 , 0, TIM3, TIM_Channel_2, GPIOC, GPIO_Pin_5},//"DCMotor11"
     {GPIOA, GPIO_Pin_6 , 0, TIM3, TIM_Channel_1, GPIOC, GPIO_Pin_4},//"DCMotor12"
+	{GPIOC, GPIO_Pin_7 , 0, TIM8, TIM_Channel_2, GPIOB, GPIO_Pin_10},//"DCMotor13"
+	{GPIOC, GPIO_Pin_6 , 0, TIM8, TIM_Channel_1, GPIOB, GPIO_Pin_10},//"DCMotor14"
 };
 
 //设置直流电机的速度
@@ -95,7 +97,7 @@ void DCMotor_Init(void)
 	TIM_OCInitTypeDef  TIM_OCInitStructure;
     
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3|RCC_APB1Periph_TIM4, ENABLE);	//使能定时器3时钟  
- 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1|RCC_APB2Periph_AFIO, ENABLE);  //使能GPIO外设和AFIO复用功能模块时钟
+ 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1|RCC_APB2Periph_TIM8|RCC_APB2Periph_AFIO, ENABLE);  //使能GPIO外设和AFIO复用功能模块时钟
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_GPIOB
                         |RCC_APB2Periph_GPIOC|RCC_APB2Periph_GPIOD
                         |RCC_APB2Periph_GPIOE, ENABLE);
@@ -190,4 +192,10 @@ void DCMotor_Init(void)
 
 //	pDCMotor->SetCMD(DCMOTOR12, ENABLE);//夹管阀先使能，到时调用pDCMotor->SetSpeed(DCMOTOR12, 0);开，调用pDCMotor->SetSpeed(DCMOTOR12, 100);关
 //	pDCMotor->SetSpeed(DCMOTOR12, 100);//关闭夹管阀
+	
+	DCMotor_Run(CUTOFF1HEATDCMOTOR1, CW, 100);
+	DCMotor_Run(CUTOFF1HEATDCMOTOR2, CW, 100);
+	DCMotor_Run(CUTOFF2HEATDCMOTOR1, CW, 100);
+	DCMotor_Run(CUTOFF2HEATDCMOTOR2, CW, 100);
+	DCMotor_Run(FUSINGHEATDCMOTOR, CW, 100);
 }

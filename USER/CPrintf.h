@@ -12,8 +12,8 @@
 #ifdef STM32SIM
 #define LCDUART 0	//UART1
 #else
-//#define LCDUART	1	//UART4
-#define LCDUART 0	//UART1
+#define LCDUART	1	//UART4
+//#define LCDUART 0	//UART1
 #endif
 
 #if (LCDUART != 0)
