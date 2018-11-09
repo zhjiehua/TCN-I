@@ -17,10 +17,15 @@ DCMotor_TypeDef *pDCMotor = dcMotor;
 //直流电机的频率最好是在13kHz~15kHz之间，这里设置为14kHz
 const DCMotorPin_TypeDef DCMotorPin[] =
 {
-    {GPIOD, GPIO_Pin_15, GPIO_Remap_TIM4, TIM4, TIM_Channel_4, GPIOB, GPIO_Pin_10},//"DCMotor1"
-    {GPIOD, GPIO_Pin_14, GPIO_Remap_TIM4, TIM4, TIM_Channel_3, GPIOB, GPIO_Pin_10},//"DCMotor2"
-    {GPIOD, GPIO_Pin_13, GPIO_Remap_TIM4, TIM4, TIM_Channel_2, GPIOB, GPIO_Pin_10},//"DCMotor3"
-    {GPIOD, GPIO_Pin_12, GPIO_Remap_TIM4, TIM4, TIM_Channel_1, GPIOB, GPIO_Pin_13},//"DCMotor4"
+	{GPIOD, GPIO_Pin_12, GPIO_Remap_TIM4, TIM4, TIM_Channel_1, GPIOB, GPIO_Pin_10},//
+	{GPIOD, GPIO_Pin_12, GPIO_Remap_TIM4, TIM4, TIM_Channel_1, GPIOB, GPIO_Pin_10},
+	{GPIOD, GPIO_Pin_12, GPIO_Remap_TIM4, TIM4, TIM_Channel_1, GPIOB, GPIO_Pin_10},
+	{GPIOD, GPIO_Pin_12, GPIO_Remap_TIM4, TIM4, TIM_Channel_1, GPIOB, GPIO_Pin_10},
+    //{GPIOD, GPIO_Pin_15, GPIO_Remap_TIM4, TIM4, TIM_Channel_4, GPIOB, GPIO_Pin_10},//"DCMotor1"
+    //{GPIOD, GPIO_Pin_14, GPIO_Remap_TIM4, TIM4, TIM_Channel_3, GPIOB, GPIO_Pin_10},//"DCMotor2"
+    //{GPIOD, GPIO_Pin_13, GPIO_Remap_TIM4, TIM4, TIM_Channel_2, GPIOB, GPIO_Pin_10},//"DCMotor3"
+    //{GPIOD, GPIO_Pin_12, GPIO_Remap_TIM4, TIM4, TIM_Channel_1, GPIOB, GPIO_Pin_13},//"DCMotor4"
+	
     {GPIOE, GPIO_Pin_14, GPIO_FullRemap_TIM1, TIM1, TIM_Channel_4, GPIOE, GPIO_Pin_15},//"DCMotor5"
     {GPIOE, GPIO_Pin_13, GPIO_FullRemap_TIM1, TIM1, TIM_Channel_3, GPIOE, GPIO_Pin_12},//"DCMotor6"
     {GPIOE, GPIO_Pin_11, GPIO_FullRemap_TIM1, TIM1, TIM_Channel_2, GPIOE, GPIO_Pin_10},//"DCMotor7"
@@ -29,8 +34,11 @@ const DCMotorPin_TypeDef DCMotorPin[] =
     {GPIOB, GPIO_Pin_0 , 0, TIM3, TIM_Channel_3, GPIOB, GPIO_Pin_2},//"DCMotor10"
     {GPIOA, GPIO_Pin_7 , 0, TIM3, TIM_Channel_2, GPIOC, GPIO_Pin_5},//"DCMotor11"
     {GPIOA, GPIO_Pin_6 , 0, TIM3, TIM_Channel_1, GPIOC, GPIO_Pin_4},//"DCMotor12"
-	{GPIOC, GPIO_Pin_7 , 0, TIM8, TIM_Channel_2, GPIOB, GPIO_Pin_10},//"DCMotor13"
-	{GPIOC, GPIO_Pin_6 , 0, TIM8, TIM_Channel_1, GPIOB, GPIO_Pin_10},//"DCMotor14"
+	
+	{GPIOD, GPIO_Pin_12, GPIO_Remap_TIM4, TIM4, TIM_Channel_1, GPIOB, GPIO_Pin_10},
+	{GPIOD, GPIO_Pin_12, GPIO_Remap_TIM4, TIM4, TIM_Channel_1, GPIOB, GPIO_Pin_10},
+	//{GPIOC, GPIO_Pin_7 , 0, TIM8, TIM_Channel_2, GPIOB, GPIO_Pin_10},//"DCMotor13"
+	//{GPIOC, GPIO_Pin_6 , 0, TIM8, TIM_Channel_1, GPIOB, GPIO_Pin_10},//"DCMotor14"
 };
 
 //设置直流电机的速度
@@ -117,6 +125,9 @@ void DCMotor_Init(void)
         GPIO_Init(DCMotorPin[i].DIR_GPIOx, &GPIO_InitStructure);//初始化GPIO
         GPIO_SetBits(DCMotorPin[i].DIR_GPIOx, DCMotorPin[i].DIR_GPIO_Pin);//初始化时输出高电平
         
+		if(DCMotorPin[i].TIMx == TIM4 || DCMotorPin[i].TIMx == TIM8)
+			TIM_TimeBaseStructure.TIM_Period = 60000;
+		else
         TIM_TimeBaseStructure.TIM_Period = DCMOTOR_DEFAULT_PERIOD; //设置在下一个更新事件装入活动的自动重装载寄存器周期的值,72000000/900=80KHz
         TIM_TimeBaseStructure.TIM_Prescaler = 0; //设置用来作为TIMx时钟频率除数的预分频值 
         TIM_TimeBaseStructure.TIM_ClockDivision = 0; //设置时钟分割:TDTS = Tck_tim

@@ -212,7 +212,7 @@ void StepMotor_Init(void)
                 break;
         }
         
-        GPIO_SetBits(StepMotorPin[i].EN_GPIOx, StepMotorPin[i].EN_GPIO_Pin);  //使能步进驱动器
+        GPIO_ResetBits(StepMotorPin[i].EN_GPIOx, StepMotorPin[i].EN_GPIO_Pin);  //使能步进驱动器
         GPIO_SetBits(StepMotorPin[i].DIR_GPIOx, StepMotorPin[i].DIR_GPIO_Pin);
         
         NVIC_InitStructure.NVIC_IRQChannel = StepMotorPin[i].NVIC_IRQChannel;
@@ -337,7 +337,7 @@ void TIM5_IRQHandler(void)
 					stepMotor[0].status &= ~0x81; //停止电机，强制退出脉冲计数模式
 					
                     //停止定时器1
-					//GPIO_ResetBits(StepMotorPin[0].EN_GPIOx, StepMotorPin[0].EN_GPIO_Pin);
+					GPIO_ResetBits(StepMotorPin[0].EN_GPIOx, StepMotorPin[0].EN_GPIO_Pin);
                     TIM_Cmd(TIM5, DISABLE);
                     //cDebug("interrupt---stop the timer5\n");
                     break;	
@@ -377,7 +377,7 @@ void TIM5_IRQHandler(void)
 				stepMotor[0].speedStatus = SPEED_NONE;
 				
 				//停止定时器1
-				//GPIO_ResetBits(StepMotorPin[0].EN_GPIOx, StepMotorPin[0].EN_GPIO_Pin);
+				GPIO_ResetBits(StepMotorPin[0].EN_GPIOx, StepMotorPin[0].EN_GPIO_Pin);
 				TIM_Cmd(TIM5, DISABLE);
 			}
 		}

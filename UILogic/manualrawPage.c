@@ -146,20 +146,34 @@ void manualrawPageButtonProcess(uint16 control_id, uint8 state)
 		break;	
 		case MANUALRAW_HEATON_BUTTON: //熔接加热
 		{
-			RELAY = state;
+			//RELAY = state;
+			if(state)
+			{
+				//DCMotor_Run(FUSINGHEATDCMOTOR, CW, pProjectMan->fusingHeatingVoltage*100/24);
+				FUSINGHEATMOS = 0;
+			}
+			else
+			{
+				//DCMotor_Stop(FUSINGHEATDCMOTOR);
+				FUSINGHEATMOS = 1;
+			}
 		}
 		break;
 		case MANUALRAW_CUTOFF1HEATON_BUTTON: //切断1加热
 		{
 			if(state)
 			{
-				DCMotor_Run(CUTOFF1HEATDCMOTOR1, CW, pProjectMan->cutoff1HeatingVoltage*100/24);
-				DCMotor_Run(CUTOFF1HEATDCMOTOR2, CW, pProjectMan->cutoff1HeatingVoltage*100/24);
+//				DCMotor_Run(CUTOFF1HEATDCMOTOR1, CW, pProjectMan->cutoff1HeatingVoltage*100/24);
+//				DCMotor_Run(CUTOFF1HEATDCMOTOR2, CW, pProjectMan->cutoff1HeatingVoltage*100/24);
+				CUTOFF1HEATMOS1 = 0;
+				CUTOFF1HEATMOS2 = 0;
 			}
 			else
 			{
-				DCMotor_Stop(CUTOFF1HEATDCMOTOR1);
-				DCMotor_Stop(CUTOFF1HEATDCMOTOR2);
+//				DCMotor_Stop(CUTOFF1HEATDCMOTOR1);
+//				DCMotor_Stop(CUTOFF1HEATDCMOTOR2);
+				CUTOFF1HEATMOS1 = 1;
+				CUTOFF1HEATMOS2 = 1;
 			}				
 		}
 		break;
@@ -167,13 +181,17 @@ void manualrawPageButtonProcess(uint16 control_id, uint8 state)
 		{
 			if(state)
 			{
-				DCMotor_Run(CUTOFF2HEATDCMOTOR1, CW, pProjectMan->cutoff2HeatingVoltage*100/24);
-				DCMotor_Run(CUTOFF2HEATDCMOTOR2, CW, pProjectMan->cutoff2HeatingVoltage*100/24);
+//				DCMotor_Run(CUTOFF2HEATDCMOTOR1, CW, pProjectMan->cutoff2HeatingVoltage*100/24);
+//				DCMotor_Run(CUTOFF2HEATDCMOTOR2, CW, pProjectMan->cutoff2HeatingVoltage*100/24);
+				CUTOFF2HEATMOS1 = 0;
+				CUTOFF2HEATMOS2 = 0;
 			}
 			else
 			{
-				DCMotor_Stop(CUTOFF2HEATDCMOTOR1);
-				DCMotor_Stop(CUTOFF2HEATDCMOTOR2);
+//				DCMotor_Stop(CUTOFF2HEATDCMOTOR1);
+//				DCMotor_Stop(CUTOFF2HEATDCMOTOR2);
+				CUTOFF2HEATMOS1 = 1;
+				CUTOFF2HEATMOS2 = 1;
 			}
 		}			
 		break;

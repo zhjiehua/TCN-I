@@ -419,8 +419,10 @@ void Cutoff1PID(void)
 #endif
 		
 	
-	DCMotor_Run(CUTOFF1HEATDCMOTOR1, CW, pwmPercent);
-	DCMotor_Run(CUTOFF1HEATDCMOTOR2, CW, pwmPercent);
+//	DCMotor_Run(CUTOFF1HEATDCMOTOR1, CW, pwmPercent);
+//	DCMotor_Run(CUTOFF1HEATDCMOTOR2, CW, pwmPercent);
+	CUTOFF1HEATMOS1 = !pwmPercent;
+	CUTOFF1HEATMOS2 = !pwmPercent;
 	//cDebug("DCMotor Percent = %d\r\n", percent);
 }
 
@@ -481,8 +483,10 @@ void Cutoff2PID(void)
 	else pwmPercent = 0;
 #endif
 	
-	DCMotor_Run(CUTOFF2HEATDCMOTOR1, CW, pwmPercent);
-	DCMotor_Run(CUTOFF2HEATDCMOTOR2, CW, pwmPercent);
+//	DCMotor_Run(CUTOFF2HEATDCMOTOR1, CW, pwmPercent);
+//	DCMotor_Run(CUTOFF2HEATDCMOTOR2, CW, pwmPercent);
+	CUTOFF2HEATMOS1 = !pwmPercent;
+	CUTOFF2HEATMOS2 = !pwmPercent;
 }
 
 void HeatingPID(void)
@@ -492,12 +496,14 @@ void HeatingPID(void)
 		if(adcTemp[2].temperature >= pProjectMan->fusingHoldingTemperature+5)
 		{
 			//RELAY = 0;
-			DCMotor_Run(FUSINGHEATDCMOTOR, CW, 100);
+			//DCMotor_Run(FUSINGHEATDCMOTOR, CW, 100);
+			FUSINGHEATMOS = 1;
 		}
 		else if(adcTemp[2].temperature <= (pProjectMan->fusingHoldingTemperature-5))
 		{
 			//RELAY = 1;
-			DCMotor_Run(FUSINGHEATDCMOTOR, CW, 0);
+			//DCMotor_Run(FUSINGHEATDCMOTOR, CW, 0);
+			FUSINGHEATMOS = 0;
 		}
 	}
 	else
@@ -505,13 +511,17 @@ void HeatingPID(void)
 		if(adcTemp[2].temperature >= pProjectMan->fusingTemperature)
 		{
 			//RELAY = 0;
-			DCMotor_Run(FUSINGHEATDCMOTOR, CW, 100);
+			//DCMotor_Run(FUSINGHEATDCMOTOR, CW, 100);
+			FUSINGHEATMOS = 1;
+			
 			pProjectMan->heatingUpFlag = 1;
 		}
 		else
 		{
 			//RELAY = 1;
-			DCMotor_Run(FUSINGHEATDCMOTOR, CW, 0);
+			//DCMotor_Run(FUSINGHEATDCMOTOR, CW, 0);
+			FUSINGHEATMOS = 0;
+			
 			pProjectMan->heatingUpFlag = 0;
 		}
 	}

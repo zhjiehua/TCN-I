@@ -378,7 +378,7 @@ void Dislocation(uint8_t action, uint8_t *pStopFlag)
 		return;
 	
 	StepMotor_SetDir(DISPOS_MOTOR, dir);
-	StepMotor_SetSpeed(DISPOS_MOTOR, 9);
+	StepMotor_SetSpeed(DISPOS_MOTOR, pProjectMan->dislocateSpeed);
 	StepMotor_SetCMD(DISPOS_MOTOR, ENABLE);
 	while(1)
 	{
@@ -405,7 +405,7 @@ void DislocationDistance(uint8_t action, uint32_t distance, uint8_t *pStopFlag)
 		dir = CW;
 	
 	StepMotor_SetDir(DISPOS_MOTOR, dir);
-	StepMotor_SetSpeed(DISPOS_MOTOR, 9);
+	StepMotor_SetSpeed(DISPOS_MOTOR, pProjectMan->dislocateSpeed);
 	StepMotor_SetPluse(DISPOS_MOTOR, distance);
 	StepMotor_SetCMD(DISPOS_MOTOR, ENABLE);
 	while(1)
@@ -424,14 +424,16 @@ void Heating(uint8_t *pStopFlag)
 	//熔接加热
 	pProjectMan->fusingTempControlFlag = 0;
 	pProjectMan->fusingRaisingTempControlFlag = 1;
-	RELAY = 1;
+	//RELAY = 1;
+	DCMotor_Run(FUSINGHEATDCMOTOR, CW, pProjectMan->fusingHeatingVoltage*100/24);
 	while(1)
 	{
 		if(adcTemp[2].temperature >= pProjectMan->fusingTemperature || *pStopFlag)
 			break;
 		vTaskDelay(5);
 	}
-	RELAY = 0;
+	//RELAY = 0;
+	DCMotor_Stop(FUSINGHEATDCMOTOR);
 	pProjectMan->fusingRaisingTempControlFlag = 0;
 	pProjectMan->fusingTempControlFlag = 1;//退出温度控制，准备降温
 }
@@ -592,13 +594,12 @@ void AutoRun(uint8_t *pStopFlag)
 	pProjectMan->projectCurrentStatus = 3;
 	pProjectMan->separationAction = 0;
 	vTaskResume( pProjectMan->separationTaskHandle );
+	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_SEPATATION, pdTRUE, pdFALSE, portMAX_DELAY);
 	
 	//错位
 	pProjectMan->projectCurrentStatus = 4;
 	pProjectMan->dislocationAction = 1;
 	vTaskResume( pProjectMan->dislocationTaskHandle );
-	
-	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_SEPATATION, pdTRUE, pdFALSE, portMAX_DELAY);
 	xEventGroupWaitBits(pProjectMan->projectEventGroup, 1UL<<PROJECT_EVENTPOS_DISLOCATION, pdTRUE, pdFALSE, portMAX_DELAY);
 	
 	//是否加热到指定温度

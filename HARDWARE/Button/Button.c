@@ -76,7 +76,7 @@ void Button_Init(void)
 
 void EXTI0_IRQHandler(void)
 {
-	uint8_t i;
+//	uint8_t i;
 	uint32_t oldBasePri = portSET_INTERRUPT_MASK_FROM_ISR();
 	
     button[0].flag = 1;

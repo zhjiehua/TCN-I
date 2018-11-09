@@ -26,4 +26,26 @@ void RelayMOS_Init(void)
     GPIO_Init(GPIOB, &GPIO_InitStructure);	 //根据参数初始化GPIOB.8
 
     GPIO_ResetBits(GPIOB,GPIO_Pin_12);//输出0,Relay
+	
+	
+	//=======================================================
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC|RCC_APB2Periph_GPIOD, ENABLE);
+	
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6|GPIO_Pin_7;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOC, &GPIO_InitStructure);
+	//GPIO_SetBits(GPIOC,GPIO_Pin_6|GPIO_Pin_7);
+	
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15|GPIO_Pin_14|GPIO_Pin_13;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOD, &GPIO_InitStructure);
+	//GPIO_SetBits(GPIOD,GPIO_Pin_15|GPIO_Pin_14|GPIO_Pin_13);
+	
+	CUTOFF1HEATMOS1 = 1;
+	CUTOFF1HEATMOS2 = 1;
+	CUTOFF2HEATMOS1 = 1;
+	CUTOFF2HEATMOS2 = 1;
+	FUSINGHEATMOS = 1;
 }
